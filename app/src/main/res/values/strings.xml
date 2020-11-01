@@ -6,6 +6,10 @@
     <string name="heads">HEADS</string>
     <string name="selectionHeads">%1$s selected Heads!</string>
     <string name="selectionTails">%1$s selected Tails!</string>
+    <string name="noChildHeadsSelection">You selected Heads!</string>
+    <string name="noChildTailsSelection">You selected Tails!</string>
+    <string name="victory">Congrats, you got it right!</string>
+    <string name="defeat">Aw, better luck next time!</string>
     <string name="historyButtonString">History</string>
     <string name="coinImageDescription">coin image</string>
 </resources>

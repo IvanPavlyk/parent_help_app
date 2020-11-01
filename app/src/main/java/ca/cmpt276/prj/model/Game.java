@@ -79,6 +79,19 @@ public class Game {
         return win;
     }
 
+    public boolean nullChildFlip(Child nullChild){
+        CoinSide outcome;
+        Random random = new Random();
+        boolean result = random.nextBoolean();
+        if(result) outcome = CoinSide.HEAD;
+        else outcome = CoinSide.TAIL;
+
+        // Nothing to record since not a real child
+        if(nullChild.getPick() == outcome){
+            return true;
+        } else { return false; }
+    }
+
     // Getters
     public ArrayList<Child> getChildrenList() {
         return childrenList;
