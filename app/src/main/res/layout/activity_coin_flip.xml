@@ -14,50 +14,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/blank_coin" />
+        app:srcCompat="@drawable/blank_coin"
+        android:contentDescription="@string/coinImageDescription" />
 
     <Button
         android:id="@+id/headsButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/darker_gray"
+        android:state_selected="true"
         android:text="@string/heads"
-        android:textSize="30sp"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/childName"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectInstructionsText" />
 
     <Button
         android:id="@+id/tailsButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="70dp"
+        android:background="@android:color/darker_gray"
+        android:state_selected="true"
         android:text="@string/tails"
-        android:textSize="30sp"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/childName" />
+        app:layout_constraintStart_toEndOf="@+id/childName"
+        app:layout_constraintTop_toBottomOf="@+id/selectInstructionsText" />
 
     <TextView
         android:id="@+id/childName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="8dp"
         android:text="@string/exampleChildString"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
     <TextView
         android:id="@+id/resultText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/childName"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -71,4 +75,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/childName" />
+
+    <TextView
+        android:id="@+id/selectionDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headsButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

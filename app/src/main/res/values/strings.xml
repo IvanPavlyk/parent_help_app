@@ -4,4 +4,8 @@
     <string name="exampleChildString">EXAMPLE_CHILD:</string>
     <string name="tails">TAILS</string>
     <string name="heads">HEADS</string>
+    <string name="selectionHeads">%1$s selected Heads!</string>
+    <string name="selectionTails">%1$s selected Tails!</string>
+    <string name="historyButtonString">History</string>
+    <string name="coinImageDescription">coin image</string>
 </resources>
