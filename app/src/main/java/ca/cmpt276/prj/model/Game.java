@@ -1,5 +1,7 @@
 package ca.cmpt276.prj.model;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.Random;
 
