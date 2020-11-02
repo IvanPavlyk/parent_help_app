@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,6 @@ public class ManageChildrenActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_manage_children);
         game = Game.getInstance();
-        //childrenList = game.getChildrenList();
         loadListChildren();
         populateListInGame(game);
         populateListView();
@@ -51,9 +51,11 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 childrenList.add(new Child(addChildEditText.getText().toString(), CoinSide.HEAD));
                 populateListInGame(game);
                 populateListView();
+                saveListChildren();
             }
         });
     }
+
 
     private void populateListView() {
         ArrayAdapter<Child> adapter = new MyListAdapter();
@@ -92,6 +94,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
         return new Intent(context, ManageChildrenActivity.class);
     }
 
+
     private class MyListAdapter extends ArrayAdapter<Child>{
         public MyListAdapter(){
             super(ManageChildrenActivity.this, R.layout.item_view, childrenList);
@@ -99,16 +102,45 @@ public class ManageChildrenActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
             View itemView = convertView;
-            if(itemView == null){
+            ChildHolder holder = null;
+            if(itemView == null || itemView.getTag() == null){
                 itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
+                holder = new ChildHolder();
+                holder.childName = (TextView) itemView.findViewById(R.id.textNameOfChild);
+                holder.removeChild = (Button) itemView.findViewById(R.id.buttonDeleteChild);
+                itemView.setTag(holder);
             }
+            else{
+                holder = (ChildHolder) itemView.getTag();
+            }
+
+
+            holder.removeChild.setOnClickListener(new View.OnClickListener() {
+                private int pos = position;
+                @Override
+                public void onClick(View view) {
+                    childrenList.remove(pos);
+                    populateListInGame(game);
+                    populateListView();
+                    saveListChildren();
+                }
+            });
             Child currentChild = childrenList.get(position);
             TextView textView = (TextView) itemView.findViewById(R.id.textNameOfChild);
             textView.setText("" + currentChild.getName());
             return itemView;
         }
+
     }
+
+    static class ChildHolder{
+        TextView childName;
+        Button removeChild;
+    }
+
+
+
 
 }
