@@ -15,6 +15,8 @@ public class Child {
         return name;
     }
 
+    public void setName(String name) { this.name = name;}
+
     public CoinSide getPick() {
         return pick;
     }
