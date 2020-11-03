@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Timer;
+import ca.cmpt276.prj.model.Timeout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,9 +25,12 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, Timer.class);
+                Intent i = new Intent(MainActivity.this, Timeout.class);
                 startActivity(i);
             }
         });
     }
+
+
+
 }
