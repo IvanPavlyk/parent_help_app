@@ -12,4 +12,8 @@
     <string name="defeat">Aw, better luck next time!</string>
     <string name="historyButtonString">History</string>
     <string name="coinImageDescription">coin image</string>
+    <string name="historyTitleString">HISTORY</string>
+    <string name="image_of_flip_result">image of flip result</string>
+    <string name="headString">HEADS</string>
+    <string name="tailsString">TAILS</string>
 </resources>

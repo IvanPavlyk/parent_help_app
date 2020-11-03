@@ -4,6 +4,7 @@ package ca.cmpt276.prj.ui;
     Coin Flip activity, child calls heads or tails
     and the coin flips, displaying result of flip
  */
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
@@ -14,6 +15,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,7 +37,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     private static final String EMPTY_STRING = "";
     private MediaPlayer coinSound;
 
-    public Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context){
         return new Intent(context, CoinFlipActivity.class);
     }
 
@@ -53,6 +55,24 @@ public class CoinFlipActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.coin_flip_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            case R.id.action_history:
+                Intent intent = FlipHistoryActivity.makeIntent(CoinFlipActivity.this);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initializeResources(){

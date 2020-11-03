@@ -91,6 +91,8 @@ public class Game {
         return childrenList;
     }
 
+    public ArrayList<Flip> getFlipsRecord() { return flipsRecord; }
+
     public Child getWinner() {
         return winner;
     }
