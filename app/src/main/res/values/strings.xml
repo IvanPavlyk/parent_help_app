@@ -6,4 +6,9 @@
     <string name="add_a_child">Add a child</string>
     <string name="remove">Remove</string>
     <string name="nameofthechild">NameOfTheChild</string>
+    <string name="name_to_add">Name to add</string>
+    <string name="flip_a_coin_button_text">Flip a Coin</string>
+    <string name="timeout_timer_button_text">Timeout Timer</string>
+    <string name="help_button_text">Help</string>
+    <string name="manage_children_header_text">Manage Children</string>
 </resources>

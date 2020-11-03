@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pumpkin_image"
     tools:context=".ui.ManageChildrenActivity">
 
     <ListView
@@ -11,6 +12,7 @@
         android:layout_width="386dp"
         android:layout_height="452dp"
         android:layout_marginTop="8dp"
+        android:dividerHeight="5.0sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHeader" />
@@ -19,20 +21,25 @@
         android:id="@+id/buttonAddChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/custom_header_manage"
         android:drawableStart="@drawable/ic_baseline_add_24"
         android:text="@string/add"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewChildren" />
 
     <EditText
         android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="215dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints=""
+        android:background="@drawable/custom_input"
         android:ems="10"
-        android:hint="Name to add"
+        android:gravity="center"
+        android:hint="@string/name_to_add"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/buttonAddChild"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,10 +47,14 @@
 
     <TextView
         android:id="@+id/textViewHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="272dp"
+        android:layout_height="53dp"
         android:layout_marginTop="16dp"
-        android:text="Manage Children"
+        android:background="@drawable/custom_header_manage"
+        android:gravity="center"
+        android:text="@string/manage_children_header_text"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
