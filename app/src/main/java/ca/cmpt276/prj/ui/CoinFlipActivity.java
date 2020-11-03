@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -19,24 +22,29 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Game;
 
 public class CoinFlipActivity extends AppCompatActivity {
     private ImageView coin;
     private Game game = Game.getInstance();
-    private Child child;
-    private Button heads = findViewById(R.id.headsButton);
-    private Button tails = findViewById(R.id.tailsButton);
+    private String childName;
+    private boolean pickedHeads;
+    private Button heads;
+    private Button tails;
+    private static final String EMPTY_STRING = "";
+    private MediaPlayer coinSound;
 
+    public Intent makeIntent(Context context){
+        return new Intent(context, CoinFlipActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        coin = findViewById(R.id.coinImage);
+        initializeResources();
         checkForChild();
         setupButtons();
     }
@@ -47,11 +55,21 @@ public class CoinFlipActivity extends AppCompatActivity {
         return true;
     }
 
+    private void initializeResources(){
+        coin = findViewById(R.id.coinImage);
+        heads = findViewById(R.id.headsButton);
+        tails = findViewById(R.id.tailsButton);
+        coinSound = MediaPlayer.create(this, R.raw.coin_sound);
+
+
+    }
+
     private void checkForChild(){
         if(game.getChildrenList().size() == 0){
-            // make a new child, don't add to childrenlist
-            child = new Child(null, null);
-        } else { child = game.getChild(0); }
+            childName = EMPTY_STRING;
+        } else { childName = game.getChild(0).getName(); }
+        TextView childNameText = findViewById(R.id.childName);
+        childNameText.setText(childName);
     }
 
     private void setupButtons(){
@@ -73,41 +91,45 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private void selectHeads(){
         TextView selection = findViewById(R.id.selectionDetails);
-        if(child.getName() == null){
+        if(childName.equals(EMPTY_STRING)){
             selection.setText(getString(R.string.noChildHeadsSelection));
         } else {
-            selection.setText(getString(R.string.selectionHeads, child.getName()));
+            selection.setText(getString(R.string.selectionHeads, childName));
+            game.getChild(0).setPick(CoinSide.HEAD);
         }
-        child.setPick(CoinSide.HEAD);
+        pickedHeads = true;
     }
 
     private void selectTails(){
         TextView selection = findViewById(R.id.selectionDetails);
-        if(child.getName() == null){
+        if(childName.equals(EMPTY_STRING)){
             selection.setText(getString(R.string.noChildTailsSelection));
         } else {
-            selection.setText(getString(R.string.selectionTails, child.getName()));
+            selection.setText(getString(R.string.selectionTails, childName));
+            game.getChild(0).setPick(CoinSide.TAIL);
         }
-        child.setPick(CoinSide.TAIL);
+        pickedHeads = false;
     }
 
     private void flipCoinAnimation(){
-        ObjectAnimator flipAnimation = ObjectAnimator.ofFloat(coin, "rotationX", 0f, 1800f);
-        long animationDuration = 3000;
+        ObjectAnimator flipAnimation = ObjectAnimator.ofFloat(coin, "rotationX", 0f, (5*360f));
+        long animationDuration = 1500;
         flipAnimation.setDuration(animationDuration);
         flipAnimation.addListener(new Animator.AnimatorListener(){
             @Override
             public void onAnimationStart(Animator animation) {
+                heads.setClickable(false);
+                tails.setClickable(false);
             }
-
             @Override
             public void onAnimationEnd(Animator animation) {
                 boolean result;
-                if(child.getName() == null){
-                    result = game.nullChildFlip(child);
+                if(childName.equals(EMPTY_STRING)){
+                    result = game.plainCoinFlip(pickedHeads);
                 } else {
                     result = game.flip();
                 }
+                showFlipResult(result);
                 setResultText(result);
             }
 
@@ -119,27 +141,44 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animator animation) {
             }
         });
+        coinSound.start();
         flipAnimation.start();
+    }
+
+    private void showFlipResult(boolean result){
+        if(result){
+            if(pickedHeads){
+                coin.setImageResource(R.drawable.heads_coin);
+            } else {
+                coin.setImageResource(R.drawable.tails_coin);
+            }
+        } else {
+            if(pickedHeads){
+                coin.setImageResource(R.drawable.tails_coin);
+            } else {
+                coin.setImageResource(R.drawable.heads_coin);
+            }
+        }
     }
 
     private void setResultText(boolean result){
         TextView resultText = findViewById(R.id.resultText);
-        CoinSide pick = child.getPick();
         if(result) {
             resultText.setText(getString(R.string.victory));
-            if(pick == CoinSide.HEAD){
+            if(pickedHeads){
                 heads.setBackgroundColor(Color.GREEN);
             } else {
                 tails.setBackgroundColor(Color.GREEN);
             }
         } else {
             resultText.setText(getString(R.string.defeat));
-            if(pick == CoinSide.HEAD){
+            if(pickedHeads){
                 heads.setBackgroundColor(Color.RED);
             } else {
                 tails.setBackgroundColor(Color.RED);
             }
         }
     }
+
 
 }
