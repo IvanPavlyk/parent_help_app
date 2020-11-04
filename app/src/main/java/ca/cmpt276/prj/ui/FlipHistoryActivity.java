@@ -33,7 +33,6 @@ public class FlipHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_history);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         flipHistory = game.getFlipsRecord();
-        exampleFlips();
         populateListView();
     }
 
@@ -44,13 +43,6 @@ public class FlipHistoryActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void exampleFlips(){
-        flipHistory.add(new Flip("NULL", "Emily", CoinSide.HEAD, true));
-        flipHistory.add(new Flip("NULL", "Emily", CoinSide.HEAD, false));
-        flipHistory.add(new Flip("NULL", "Emily", CoinSide.TAIL, true));
-        flipHistory.add(new Flip("NULL", "Emily", CoinSide.TAIL, false));
     }
 
     public static Intent makeIntent(Context context){

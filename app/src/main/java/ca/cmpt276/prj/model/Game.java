@@ -1,5 +1,7 @@
 package ca.cmpt276.prj.model;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -95,5 +97,12 @@ public class Game {
 
     public Child getWinner() {
         return winner;
+    }
+
+    public void setChildrenList(ArrayList<Child> list){
+        wipeChildrens();
+        for(Child child : list){
+            addChild(child);
+        }
     }
 }
