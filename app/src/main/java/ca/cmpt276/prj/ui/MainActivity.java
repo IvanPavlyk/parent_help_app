@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.Game;
@@ -62,4 +64,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
