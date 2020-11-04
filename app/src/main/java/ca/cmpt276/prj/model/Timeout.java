@@ -48,7 +48,6 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-        //Vibrator vibrator=(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
