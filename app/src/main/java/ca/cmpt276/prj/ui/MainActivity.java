@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        initFlipCoinButton();
+
         game = Game.getInstance();
         ArrayList<Child> listMain = new ArrayList<>();
         listMain = ManageChildrenActivity.loadListChildrenStatic(this, listMain);
@@ -47,5 +50,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Toast.makeText(this, "Number of children in game instance: " + game.getChildrenList().size(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void initFlipCoinButton(){
+        Button flipCoinBtn = findViewById(R.id.buttonFlipCoin);
+        flipCoinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = CoinFlipActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 }

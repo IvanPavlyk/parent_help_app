@@ -81,10 +81,19 @@ public class Game {
         return win;
     }
 
+    public boolean plainCoinFlip(boolean pickedHeads){
+        Random random = new Random();
+        boolean result = random.nextBoolean();
+        //result = true for heads, false for tails
+        return result == pickedHeads;
+    }
+
     // Getters
     public ArrayList<Child> getChildrenList() {
         return childrenList;
     }
+
+    public ArrayList<Flip> getFlipsRecord() { return flipsRecord; }
 
     public Child getWinner() {
         return winner;
