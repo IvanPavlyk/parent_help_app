@@ -1,16 +1,23 @@
 package ca.cmpt276.prj.model;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,7 +26,7 @@ import ca.cmpt276.prj.R;
 
 public class Timeout<timeout> extends AppCompatActivity implements View.OnClickListener {
 
-    private String[] duration = {"1", "2", "3","5","10"};
+    private String[] duration = {"1", "2", "3","5","10","custom"};
     private int minute;
 
     private static final int mes = 0;
@@ -30,11 +37,6 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
 
     private long curTime = 0;
     private boolean isPause = false;
-
-
-
-
-
 
 
     @Override
@@ -48,18 +50,16 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
             bar.setTitle("Timeout Timer");
         }
 
-
-
         findViewById(R.id.start).setOnClickListener(this);
         findViewById(R.id.pause).setOnClickListener(this);
         findViewById(R.id.cancel).setOnClickListener(this);
         timeShow = (TextView) findViewById(R.id.timer);
 
-        getTime();
-        timer.schedule(timerTask, 0, 1000);
-
         setupDurationSpinner();
     }
+
+
+
 
     private void getTime() {
         timerTask = new TimerTask() {
@@ -73,11 +73,51 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
                 Message message = new Message();
                 message.what = mes;
                 message.obj = curTime;
-                mHandler.sendMessage(message);
+                handler.sendMessage(message);
+                if(curTime==0){
+                    pushNotification();
+                }
             }
         };
         timer = new Timer();
     }
+
+    private void pushNotification() {
+        createNotificationChannel();
+        String CHANNEL_ID="CHANNEL_ID";
+        NotificationCompat.Builder builder=new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Practical Parent")
+                .setContentText("Time Up!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager!=null;
+        notificationManager.notify(0,builder.build());
+    }
+
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            CharSequence name="Channel Name";
+            String description="Channel Description";
+            int importance=NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel=new NotificationChannel("CHANNEL_ID",name,importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager=getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        EditText duration=(EditText)findViewById(R.id.inputTime);
+        String dur=duration.getText().toString();
+        minute=Integer.parseInt(dur);
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public static String timeConvert(long finishTime) {
         int totalTime = (int) (finishTime / 1000);//seconds
@@ -87,11 +127,11 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
             hour = totalTime / 3600;
             totalTime = totalTime - 3600 * hour;
         }
-        else if (totalTime>=60) {
+        if (totalTime>=60) {
             minute = totalTime / 60;
             totalTime = totalTime - 60 * minute;
         }
-        else if (totalTime>=0) {
+        if (totalTime>=0) {
             second = totalTime;
         }
         StringBuilder sb = new StringBuilder();
@@ -120,19 +160,6 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
         spinner.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                minute=Integer.parseInt(item)*60*1000;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
     }
 
 
@@ -152,6 +179,34 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start:
+                Spinner spinner = (Spinner) findViewById(R.id.duration);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
+                String s = spinner.getSelectedItem().toString();
+
+                if(s=="1"){
+                    minute=1*60*1000;
+                }
+                else if(s=="2"){
+                    minute=2*60*1000;
+                }
+                else if(s=="3"){
+                    minute=3*60*1000;
+                }
+                else if (s=="5"){
+                    minute=5*60*1000;
+                }
+                else if(s=="10"){
+                    minute=10*60*1000;
+                }
+                else{
+                    EditText duration=(EditText)findViewById(R.id.inputTime);
+                    String dur=duration.getText().toString();
+                    if(dur.equals("")){
+                        dur="0";
+                    }
+                    minute=Integer.parseInt(dur)*60*1000;
+                }
+
                 destroyTimer();
                 getTime();
                 isPause = false;
@@ -181,7 +236,7 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    Handler mHandler = new Handler() {
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -202,9 +257,9 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
         destroyTimer();
-        if (mHandler != null) {
-            mHandler.removeMessages(mes);
-            mHandler = null;
+        if (handler != null) {
+            handler.removeMessages(mes);
+            handler = null;
         }
     }
 }
