@@ -4,16 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity"
+    android:background="@drawable/the_background_cartoon">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/textViewMain"
+        android:layout_width="173dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_header"
+        android:gravity="center"
+        android:text="@string/main_menu"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/buttonManageChildren"
+        android:layout_width="203dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/menu_buttons"
+        android:text="@string/manage_children"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMain" />
 
+    <Button
+        android:id="@+id/buttonFlipCoin"
+        android:layout_width="203dp"
+        android:layout_height="73dp"
+        android:background="@drawable/menu_buttons"
+        android:layout_marginTop="32dp"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:text="@string/flip_a_coin_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonManageChildren" />
+
+    <Button
+        android:id="@+id/buttonTimeout"
+        android:layout_width="203dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="32dp"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:background="@drawable/menu_buttons"
+        android:textAllCaps="false"
+        android:text="@string/timeout_timer_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFlipCoin" />
+
+    <Button
+        android:id="@+id/buttonHelp"
+        android:layout_width="203dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="32dp"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:background="@drawable/menu_buttons"
+        android:textAllCaps="false"
+        android:text="@string/help_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTimeout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

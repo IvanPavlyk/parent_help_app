@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">cmpt276prj</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="manage_children">Manage Children</string>
+    <string name="add">Add</string>
+    <string name="add_a_child">Add a child</string>
+    <string name="remove">Remove</string>
+    <string name="nameofthechild">NameOfTheChild</string>
+    <string name="name_to_add">Name to add</string>
+    <string name="flip_a_coin_button_text">Flip a Coin</string>
+    <string name="timeout_timer_button_text">Timeout Timer</string>
+    <string name="help_button_text">Help</string>
+    <string name="manage_children_header_text">Manage Children</string>
+    <string name="selectionInstructionsTextString">Please choose between heads or tails!</string>
+    <string name="exampleChildString">EXAMPLE_CHILD:</string>
+    <string name="tails">TAILS</string>
+    <string name="heads">HEADS</string>
+    <string name="selectionHeads">%1$s selected Heads!</string>
+    <string name="selectionTails">%1$s selected Tails!</string>
+    <string name="noChildHeadsSelection">You selected Heads!</string>
+    <string name="noChildTailsSelection">You selected Tails!</string>
+    <string name="victory">Congrats, you got it right!</string>
+    <string name="defeat">Aw, better luck next time!</string>
+    <string name="historyButtonString">History</string>
+    <string name="coinImageDescription">coin image</string>
+    <string name="historyTitleString">HISTORY</string>
+    <string name="image_of_flip_result">image of flip result</string>
+    <string name="headString">HEADS</string>
+    <string name="tailsString">TAILS</string>
+
 </resources>

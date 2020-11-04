@@ -1,5 +1,7 @@
 package ca.cmpt276.prj.model;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -79,12 +81,28 @@ public class Game {
         return win;
     }
 
+    public boolean plainCoinFlip(boolean pickedHeads){
+        Random random = new Random();
+        boolean result = random.nextBoolean();
+        //result = true for heads, false for tails
+        return result == pickedHeads;
+    }
+
     // Getters
     public ArrayList<Child> getChildrenList() {
         return childrenList;
     }
 
+    public ArrayList<Flip> getFlipsRecord() { return flipsRecord; }
+
     public Child getWinner() {
         return winner;
+    }
+
+    public void setChildrenList(ArrayList<Child> list){
+        wipeChildrens();
+        for(Child child : list){
+            addChild(child);
+        }
     }
 }
