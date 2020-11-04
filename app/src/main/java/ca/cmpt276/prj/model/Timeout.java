@@ -3,16 +3,20 @@ package ca.cmpt276.prj.model;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -38,6 +42,7 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
     private long curTime = 0;
     private boolean isPause = false;
 
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +96,6 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
                 .setContentText("Time Up!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);
-
         NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager!=null;
         notificationManager.notify(0,builder.build());
@@ -214,17 +218,21 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.cancel:
+                mp.stop();
                 if (curTime == 0) {
                     break;
                 }
+
                 curTime = 0;
                 isPause = false;
                 timer.cancel();
                 break;
             case R.id.pause:
+                mp.stop();
                 if (curTime == 0) {
                     break;
                 }
+
                 if (!isPause) {
                     isPause = true;
                     timer.cancel();
@@ -244,6 +252,14 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
                     long sRecLen = (long) msg.obj;
                     timeShow.setText(timeConvert(sRecLen));
                     if (sRecLen <= 0) {
+                        Toast.makeText(Timeout.this,"done",Toast.LENGTH_SHORT).show();
+                        mp=MediaPlayer.create(Timeout.this,R.raw.sound);
+                        mp.start();
+                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                        }
+
                         timer.cancel();
                         curTime = 0;
                     }

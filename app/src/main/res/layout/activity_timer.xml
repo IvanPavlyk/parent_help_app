@@ -79,7 +79,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="numberDecimal" />
+                android:hint="Please input a whole number of minutes"
+                android:inputType="numberSigned" />
         </LinearLayout>
 
         <LinearLayout
