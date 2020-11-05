@@ -27,7 +27,7 @@ import java.util.TimerTask;
 
 import ca.cmpt276.prj.R;
 
-public class TimeoutActivity<timeout> extends AppCompatActivity implements View.OnClickListener {
+public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String[] duration = {"1", "2", "3","5","10","custom"};
     private int minute;
@@ -57,7 +57,7 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
         findViewById(R.id.start).setOnClickListener(this);
         findViewById(R.id.pause).setOnClickListener(this);
         findViewById(R.id.cancel).setOnClickListener(this);
-        timeShow = (TextView) findViewById(R.id.timer);
+        timeShow = findViewById(R.id.timer);
 
         setupDurationSpinner();
 
@@ -155,7 +155,7 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
     }
 
     private void setupDurationSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.duration);
+        Spinner spinner = findViewById(R.id.duration);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
         spinner.setAdapter(adapter);
 
@@ -174,12 +174,12 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
     }
 
 
-    //    start,cancel,pause,resume
+    // start,cancel,pause,resume
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start:
-                Spinner spinner = (Spinner) findViewById(R.id.duration);
+                Spinner spinner = findViewById(R.id.duration);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
 
@@ -200,7 +200,7 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
                         minute = 10 * 60 * 1000;
                         break;
                     default:
-                        EditText duration = (EditText) findViewById(R.id.inputTime);
+                        EditText duration = findViewById(R.id.inputTime);
                         String dur = duration.getText().toString();
                         if (dur.equals("")) {
                             dur = "0";
@@ -248,27 +248,25 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
         }
     }
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
-        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case mes:
-                    long sRecLen = (long) msg.obj;
-                    timeShow.setText(timeConvert(sRecLen));
-                    if (sRecLen <= 0) {
-                        mp.start();
-                        Toast.makeText(TimeoutActivity.this,"done",Toast.LENGTH_SHORT).show();
+            if (msg.what == mes) {
+                long sRecLen = (long) msg.obj;
+                timeShow.setText(timeConvert(sRecLen));
+                if (sRecLen <= 0) {
+                    mp.start();
+                    Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
 
-                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
-                        }
-
-                        timer.cancel();
-                        curTime = 0;
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
                     }
-                    break;
+
+                    timer.cancel();
+                    curTime = 0;
+                }
             }
         }
     };

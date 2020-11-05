@@ -1,10 +1,6 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +11,6 @@ import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,13 +18,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
@@ -43,14 +42,14 @@ public class ManageChildrenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();   //Hiding the top bar that says the app name
+        Objects.requireNonNull(getSupportActionBar()).hide();   //Hiding the top bar that says the app name
         setContentView(R.layout.activity_manage_children);
-        childrenList = new ArrayList<Child>();
+        childrenList = new ArrayList<>();
         game = Game.getInstance();
         loadListChildren(); //loading the saved list into the childrenList
         updateListOfChildrenInGame(game);
-        final EditText addChildEditText = (EditText) findViewById(R.id.editTextTextPersonName);
-        Button addChildButton = (Button) findViewById(R.id.buttonAddChild);
+        final EditText addChildEditText = findViewById(R.id.editTextTextPersonName);
+        Button addChildButton = findViewById(R.id.buttonAddChild);
         addChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +74,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
 
     private void populateListView() {
         ArrayAdapter<Child> adapter = new MyListAdapter();
-        ListView list = (ListView) findViewById(R.id.listViewChildren);
+        ListView list = findViewById(R.id.listViewChildren);
         list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -104,19 +103,19 @@ public class ManageChildrenActivity extends AppCompatActivity {
         Type type = new TypeToken<ArrayList<Child>>() {}.getType();
         childrenList = gson.fromJson(json, type);
         if(childrenList == null){
-            childrenList = new ArrayList<Child>();
+            childrenList = new ArrayList<>();
         }
     }
 
     //Static method that can be called from other activities to get the saved list
-    public static ArrayList<Child> loadListChildrenStatic(Context context, ArrayList<Child> list){
+    public static ArrayList<Child> loadListChildrenStatic(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("Children list", null);
         Type type = new TypeToken<ArrayList<Child>>() {}.getType();
-        list = gson.fromJson(json, type);
+        ArrayList<Child> list = gson.fromJson(json, type);
         if(list == null){
-            list = new ArrayList<Child>();
+            list = new ArrayList<>();
         }
         return list;
     }
@@ -130,16 +129,17 @@ public class ManageChildrenActivity extends AppCompatActivity {
             super(ManageChildrenActivity.this, R.layout.item_view, childrenList);
         }
 
+        @SuppressLint("CutPasteId")
         @NonNull
         @Override
         public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
             View itemView = convertView;
-            ChildHolder holder = null;
+            ChildHolder holder;
             if(itemView == null || itemView.getTag() == null){
                 itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
                 holder = new ChildHolder();
-                holder.childName = (TextView) itemView.findViewById(R.id.textNameOfChild);
-                holder.removeChild = (Button) itemView.findViewById(R.id.buttonDeleteChild);
+                holder.childName = itemView.findViewById(R.id.textNameOfChild);
+                holder.removeChild = itemView.findViewById(R.id.buttonDeleteChild);
                 itemView.setTag(holder);
             }
             else{
@@ -178,8 +178,8 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 }
             });
             Child currentChild = childrenList.get(position);
-            TextView textView = (TextView) itemView.findViewById(R.id.textNameOfChild);
-            textView.setText("" + currentChild.getName());
+            TextView textView = itemView.findViewById(R.id.textNameOfChild);
+            textView.setText(currentChild.getName());
             textView.setTextColor(Color.parseColor("#ffffff"));
             textView.setTextSize(25);
             textView.setGravity(Gravity.CENTER);

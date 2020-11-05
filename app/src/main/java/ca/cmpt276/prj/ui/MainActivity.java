@@ -1,16 +1,15 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
@@ -23,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide(); //Hiding the top bar saying the name of the app
+        Objects.requireNonNull(getSupportActionBar()).hide(); //Hiding the top bar saying the name of the app
         setContentView(R.layout.activity_main);
 
-        Button manageChildrenButton = (Button) findViewById(R.id.buttonManageChildren);
+        Button manageChildrenButton = findViewById(R.id.buttonManageChildren);
         manageChildrenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         iniTimeoutButton();
 
         game = Game.getInstance();
-        ArrayList<Child> listMain = new ArrayList<>();
-        listMain = ManageChildrenActivity.loadListChildrenStatic(this, listMain);
+        ArrayList<Child> listMain;
+        listMain = ManageChildrenActivity.loadListChildrenStatic(this);
         game.setChildrenList(listMain); //Setting the list of children to be the saved list from the Manage Children Activity
         //Toast for debugging purposes
         //TODO: remove toast before submitting the iteration
