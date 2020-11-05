@@ -1,4 +1,4 @@
-package ca.cmpt276.prj.model;
+package ca.cmpt276.prj.ui;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -28,7 +28,7 @@ import java.util.TimerTask;
 
 import ca.cmpt276.prj.R;
 
-public class Timeout<timeout> extends AppCompatActivity implements View.OnClickListener {
+public class TimeoutActivity<timeout> extends AppCompatActivity implements View.OnClickListener {
 
     private String[] duration = {"1", "2", "3","5","10","custom"};
     private int minute;
@@ -251,8 +251,8 @@ public class Timeout<timeout> extends AppCompatActivity implements View.OnClickL
                     long sRecLen = (long) msg.obj;
                     timeShow.setText(timeConvert(sRecLen));
                     if (sRecLen <= 0) {
-                        Toast.makeText(Timeout.this,"done",Toast.LENGTH_SHORT).show();
-                        mp=MediaPlayer.create(Timeout.this,R.raw.sound);
+                        Toast.makeText(TimeoutActivity.this,"done",Toast.LENGTH_SHORT).show();
+                        mp=MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
                         mp.start();
                         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
