@@ -27,5 +27,14 @@
     <string name="image_of_flip_result">image of flip result</string>
     <string name="headString">HEADS</string>
     <string name="tailsString">TAILS</string>
+    <string name="timeout_timer">Timeout Timer</string>
+    <string name="time_duration_mins">Time Duration (mins)</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="custom_duration_mins">Custom duration (mins)</string>
+    <string name="please_input_a_whole_number_of_minutes">Please input a whole number of minutes</string>
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="cancel">Cancel</string>
+    <string name="stop_alarm">Stop Alarm</string>
 
 </resources>

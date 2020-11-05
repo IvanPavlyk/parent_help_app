@@ -1,5 +1,6 @@
 package ca.cmpt276.prj.ui;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -10,7 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,7 +18,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -44,6 +43,7 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
 
     private MediaPlayer mp;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +60,9 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
         timeShow = (TextView) findViewById(R.id.timer);
 
         setupDurationSpinner();
+
+        mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
+
     }
 
 
@@ -170,6 +173,7 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
         }
     }
 
+
     //    start,cancel,pause,resume
     @Override
     public void onClick(View view) {
@@ -179,28 +183,30 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
 
-                if(s=="1"){
-                    minute=1*60*1000;
-                }
-                else if(s=="2"){
-                    minute=2*60*1000;
-                }
-                else if(s=="3"){
-                    minute=3*60*1000;
-                }
-                else if (s=="5"){
-                    minute=5*60*1000;
-                }
-                else if(s=="10"){
-                    minute=10*60*1000;
-                }
-                else{
-                    EditText duration=(EditText)findViewById(R.id.inputTime);
-                    String dur=duration.getText().toString();
-                    if(dur.equals("")){
-                        dur="0";
-                    }
-                    minute=Integer.parseInt(dur)*60*1000;
+                switch (s) {
+                    case "1":
+                        minute = 60 * 1000;
+                        break;
+                    case "2":
+                        minute = 2 * 60 * 1000;
+                        break;
+                    case "3":
+                        minute = 3 * 60 * 1000;
+                        break;
+                    case "5":
+                        minute = 5 * 60 * 1000;
+                        break;
+                    case "10":
+                        minute = 10 * 60 * 1000;
+                        break;
+                    default:
+                        EditText duration = (EditText) findViewById(R.id.inputTime);
+                        String dur = duration.getText().toString();
+                        if (dur.equals("")) {
+                            dur = "0";
+                        }
+                        minute = Integer.parseInt(dur) * 60 * 1000;
+                        break;
                 }
 
                 destroyTimer();
@@ -210,7 +216,9 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
 
                 break;
             case R.id.cancel:
-                mp.stop();
+                if(mp.isPlaying()){
+                    mp.pause();
+                }
                 if (curTime == 0) {
                     break;
                 }
@@ -220,7 +228,10 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
                 timer.cancel();
                 break;
             case R.id.pause:
-                mp.stop();
+                if(mp.isPlaying()){
+                    mp.pause();
+                }
+
                 if (curTime == 0) {
                     break;
                 }
@@ -231,12 +242,14 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
                 }
                 break;
 
+
             default:
                 break;
         }
     }
 
     Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -244,9 +257,9 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
                     long sRecLen = (long) msg.obj;
                     timeShow.setText(timeConvert(sRecLen));
                     if (sRecLen <= 0) {
-                        Toast.makeText(TimeoutActivity.this,"done",Toast.LENGTH_SHORT).show();
-                        mp=MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
                         mp.start();
+                        Toast.makeText(TimeoutActivity.this,"done",Toast.LENGTH_SHORT).show();
+
                         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));

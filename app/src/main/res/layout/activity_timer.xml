@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="15dp"
-            android:text="Timeout Timer"
+            android:text="@string/timeout_timer"
             android:textAlignment="textStart"
             android:textSize="36sp"
             android:textStyle="bold"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingStart="15dp"
-                android:text="Time Duration (mins)"
+                android:text="@string/time_duration_mins"
                 android:textSize="24sp"
                 tools:ignore="NestedWeights,RtlSymmetry" />
 
@@ -55,9 +55,8 @@
             <TextView
                 android:id="@+id/timer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:text="00:00:00"
+                android:layout_height="wrap_content"
+                android:text="@string/_00_00_00"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="50sp" />
@@ -72,15 +71,16 @@
                 android:id="@+id/timeCustom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Custom duration (mins)" />
+                android:text="@string/custom_duration_mins" />
 
             <EditText
                 android:id="@+id/inputTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Please input a whole number of minutes"
-                android:inputType="numberSigned" />
+                android:hint="@string/please_input_a_whole_number_of_minutes"
+                android:inputType="numberSigned"
+                android:autofillHints="" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,7 +94,7 @@
                 style="@android:style/Widget.Button.Inset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start" />
+                android:text="@string/start" />
 
 
             <Button
@@ -102,14 +102,14 @@
                 style="@android:style/Widget.DeviceDefault.Button.Inset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pause" />
+                android:text="@string/pause" />
 
             <Button
                 android:id="@+id/cancel"
                 style="@android:style/Widget.DeviceDefault.Button.Inset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
+                android:text="@string/cancel" />
 
         </LinearLayout>
 
