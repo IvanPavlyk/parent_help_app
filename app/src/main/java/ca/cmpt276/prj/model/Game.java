@@ -85,6 +85,14 @@ public class Game {
         return result == pickedHeads;
     }
 
+    public ArrayList<Flip> getFilteredRecord(String name) {
+        ArrayList<Flip> filteredRecord = new ArrayList<>();
+        for (Flip flip : flipsRecord) {
+            if (flip.getPickerName().equals(name)) filteredRecord.add(flip);
+        }
+        return filteredRecord;
+    }
+
     // Getters and Setters
     public ArrayList<Child> getChildrenList() {
         return childrenList;
