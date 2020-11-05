@@ -99,14 +99,14 @@
 
             <Button
                 android:id="@+id/pause"
-                style="@android:style/Widget.DeviceDefault.Button.Inset"
+                style="@android:style/Widget.Button.Inset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/pause" />
 
             <Button
                 android:id="@+id/cancel"
-                style="@android:style/Widget.DeviceDefault.Button.Inset"
+                style="@android:style/Widget.Button.Inset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cancel" />
