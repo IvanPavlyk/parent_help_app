@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         initFlipCoinButton();
 
+        iniTimeoutButton();
+
         game = Game.getInstance();
         ArrayList<Child> listMain = new ArrayList<>();
         listMain = ManageChildrenActivity.loadListChildrenStatic(this, listMain);
@@ -44,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
         //Toast for debugging purposes
         //TODO: remove toast before submitting the iteration
         Toast.makeText(this, "Number of children in game instance: " + game.getChildrenList().size(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void iniTimeoutButton() {
+        Button btn=findViewById(R.id.buttonTimeout);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, TimeoutActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     //For debugging purposes

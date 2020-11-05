@@ -113,13 +113,6 @@ public class TimeoutActivity<timeout> extends AppCompatActivity implements View.
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        EditText duration=(EditText)findViewById(R.id.inputTime);
-        String dur=duration.getText().toString();
-        minute=Integer.parseInt(dur);
-        return super.onOptionsItemSelected(item);
-    }
 
 
     public static String timeConvert(long finishTime) {
