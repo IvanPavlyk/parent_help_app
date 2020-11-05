@@ -1,8 +1,7 @@
 package ca.cmpt276.prj.model;
 
-import android.content.SharedPreferences;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 public class Game {
@@ -47,7 +46,7 @@ public class Game {
     public void wipeRecord() { flipsRecord = new ArrayList<>(); }
 
     private String time() {
-        return "NULL";
+        return Calendar.getInstance().getTime().toString();
     }
 
     public boolean flip() {
@@ -68,9 +67,7 @@ public class Game {
         if (currentPicker.getPick() == outcome) {
             winner = currentPicker;
             win = true;
-        } else {
-            win = false;
-        }
+        } else win = false;
 
         // Requeue the picker
         Child lastPicker = childrenList.remove(0);
@@ -84,11 +81,11 @@ public class Game {
     public boolean plainCoinFlip(boolean pickedHeads){
         Random random = new Random();
         boolean result = random.nextBoolean();
-        //result = true for heads, false for tails
+        // result = true for heads, false for tails
         return result == pickedHeads;
     }
 
-    // Getters
+    // Getters and Setters
     public ArrayList<Child> getChildrenList() {
         return childrenList;
     }

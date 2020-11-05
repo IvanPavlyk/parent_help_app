@@ -36,5 +36,6 @@
     <string name="pause">Pause</string>
     <string name="cancel">Cancel</string>
     <string name="stop_alarm">Stop Alarm</string>
+    <string name="reset">RESET</string>
 
 </resources>

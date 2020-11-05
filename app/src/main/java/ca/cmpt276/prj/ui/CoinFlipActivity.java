@@ -32,10 +32,10 @@ public class CoinFlipActivity extends AppCompatActivity {
     private Game game = Game.getInstance();
     private String childName;
     private boolean pickedHeads;
-    private Button heads;
-    private Button tails;
+    private Button heads, tails, reset;
     private static final String EMPTY_STRING = "";
     private MediaPlayer coinSound;
+    private int defaultColor = Color.GRAY;
 
     public static Intent makeIntent(Context context){
         return new Intent(context, CoinFlipActivity.class);
@@ -78,10 +78,12 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void initializeResources(){
         coin = findViewById(R.id.coinImage);
         heads = findViewById(R.id.headsButton);
+        heads.setBackgroundColor(defaultColor);
         tails = findViewById(R.id.tailsButton);
+        tails.setBackgroundColor(defaultColor);
+        reset = findViewById(R.id.resetButton);
+        reset.setBackgroundColor(defaultColor);
         coinSound = MediaPlayer.create(this, R.raw.coin_sound);
-
-
     }
 
     private void checkForChild(){
@@ -105,6 +107,20 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onClick(View v) {
                 selectTails();
                 flipCoinAnimation();
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView selection = findViewById(R.id.selectionDetails);
+                selection.setText(EMPTY_STRING);
+                TextView result = findViewById(R.id.resultText);
+                result.setText(EMPTY_STRING);
+                checkForChild();
+                coin.setImageResource(R.drawable.blank_coin);
+                heads.setBackgroundColor(defaultColor);
+                tails.setBackgroundColor(defaultColor);
+                setupButtons();
             }
         });
     }
