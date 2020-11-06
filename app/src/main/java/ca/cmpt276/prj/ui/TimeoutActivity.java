@@ -240,7 +240,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 if (curTime == 0) {
                     break;
                 }
-
+                timeShow.setText(timeConvert(0));
                 curTime = 0;
                 isPause = false;
                 timer.cancel();
