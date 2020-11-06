@@ -17,8 +17,6 @@
     <string name="heads">HEADS</string>
     <string name="selectionHeads">%1$s selected Heads!</string>
     <string name="selectionTails">%1$s selected Tails!</string>
-    <string name="noChildHeadsSelection">You selected Heads!</string>
-    <string name="noChildTailsSelection">You selected Tails!</string>
     <string name="victory">Congrats, you got it right!</string>
     <string name="defeat">Aw, better luck next time!</string>
     <string name="historyButtonString">History</string>
@@ -37,5 +35,9 @@
     <string name="cancel">Cancel</string>
     <string name="stop_alarm">Stop Alarm</string>
     <string name="reset">RESET</string>
-
+    <string name="flip">FLIP</string>
+    <string name="heads_result">It landed on heads!</string>
+    <string name="tails_result">It landed on tails!</string>
+    <string name="show_all_history">All History</string>
+    <string name="show_current_child_history">Current Child History</string>
 </resources>

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,15 +26,22 @@ import ca.cmpt276.prj.model.Game;
 
 public class FlipHistoryActivity extends AppCompatActivity {
     private Game game = Game.getInstance();
+    private boolean showAllHistory = true;
     private ArrayList<Flip> flipHistory;
+    private ArrayList<Flip> childHistory;
+    private ArrayList<Flip> listToDisplay;
+    private String currentChildName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flip_history);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        extractFromIntent();
         flipHistory = game.getFlipsRecord();
+        childHistory = game.getFilteredRecord(currentChildName);
         populateListView();
+        setupButtons();
     }
 
     @Override
@@ -45,11 +53,23 @@ public class FlipHistoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent makeIntent(Context context){
-        return new Intent(context, FlipHistoryActivity.class);
+    public static Intent makeIntent(Context context, String currentChild){
+        Intent intent = new Intent(context, FlipHistoryActivity.class);
+        intent.putExtra("currentChild", currentChild);
+        return intent;
+    }
+
+    private void extractFromIntent(){
+        Intent intent = getIntent();
+        currentChildName = intent.getStringExtra("currentChild");
     }
 
     private void populateListView(){
+        if(showAllHistory){
+            listToDisplay = flipHistory;
+        } else {
+            listToDisplay = childHistory;
+        }
         ArrayAdapter<Flip> adapter = new HistoryListAdapter();
         ListView historyList = findViewById(R.id.historyList);
         historyList.setAdapter(adapter);
@@ -57,7 +77,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private class HistoryListAdapter extends ArrayAdapter<Flip> {
         public HistoryListAdapter(){
-            super(FlipHistoryActivity.this, R.layout.history_item, flipHistory);
+            super(FlipHistoryActivity.this, R.layout.history_item, listToDisplay);
         }
 
         @NonNull
@@ -69,7 +89,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             }
 
             //find flip to work with
-            Flip currentFlip = flipHistory.get(position);
+            Flip currentFlip = listToDisplay.get(position);
 
             //fill the view
             ImageView img = itemView.findViewById(R.id.resultImage);
@@ -94,6 +114,27 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    private void setupButtons(){
+        Button showAll = findViewById(R.id.showAllHistory);
+        showAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAllHistory = true;
+                populateListView();
+            }
+        });
+        Button showCurrChild = findViewById(R.id.showCurrentChildHistory);
+        showCurrChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!currentChildName.equals("")) {
+                    showAllHistory = false;
+                    populateListView();
+                }
+            }
+        });
     }
 
 }

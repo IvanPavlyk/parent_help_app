@@ -78,11 +78,9 @@ public class Game {
         return win;
     }
 
-    public boolean plainCoinFlip(boolean pickedHeads){
+    public boolean plainCoinFlip(){
         Random random = new Random();
-        boolean result = random.nextBoolean();
-        // result = true for heads, false for tails
-        return result == pickedHeads;
+        return random.nextBoolean();
     }
 
     public ArrayList<Flip> getFilteredRecord(String name) {
