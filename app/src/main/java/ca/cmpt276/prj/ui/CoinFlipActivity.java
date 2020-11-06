@@ -31,11 +31,11 @@ public class CoinFlipActivity extends AppCompatActivity {
     private ImageView coin;
     private Game game = Game.getInstance();
     private String childName;
-    private boolean pickedHeads;
-    private Button heads, tails, reset;
+    private Button heads, tails, reset, flip;
     private static final String EMPTY_STRING = "";
     private MediaPlayer coinSound;
     private int defaultColor = Color.GRAY;
+    private CoinSide coinSelection;
 
     public static Intent makeIntent(Context context){
         return new Intent(context, CoinFlipActivity.class);
@@ -65,7 +65,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_history:
-                Intent intent = FlipHistoryActivity.makeIntent(CoinFlipActivity.this);
+                Intent intent = FlipHistoryActivity.makeIntent(CoinFlipActivity.this, childName);
                 startActivity(intent);
                 finish();
                 return true;
@@ -83,15 +83,21 @@ public class CoinFlipActivity extends AppCompatActivity {
         tails.setBackgroundColor(defaultColor);
         reset = findViewById(R.id.resetButton);
         reset.setBackgroundColor(defaultColor);
+        flip = findViewById(R.id.flipButton);
         coinSound = MediaPlayer.create(this, R.raw.coin_sound);
     }
 
     private void checkForChild(){
         if(game.getChildrenList().size() == 0){
             childName = EMPTY_STRING;
-        } else { childName = game.getChild(0).getName(); }
-        TextView childNameText = findViewById(R.id.childName);
-        childNameText.setText(childName);
+            hideButtons();
+        } else {
+            childName = game.getChild(0).getName();
+            flip.setVisibility(View.GONE);
+            TextView child = findViewById(R.id.childName);
+            child.setText(childName);
+        }
+
     }
 
     private void setupButtons(){
@@ -116,6 +122,8 @@ public class CoinFlipActivity extends AppCompatActivity {
                 selection.setText(EMPTY_STRING);
                 TextView result = findViewById(R.id.resultText);
                 result.setText(EMPTY_STRING);
+                TextView instructions = findViewById(R.id.selectInstructionsText);
+                instructions.setVisibility(View.VISIBLE);
                 checkForChild();
                 coin.setImageResource(R.drawable.blank_coin);
                 heads.setBackgroundColor(defaultColor);
@@ -123,28 +131,26 @@ public class CoinFlipActivity extends AppCompatActivity {
                 setupButtons();
             }
         });
+        flip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipCoinAnimation();
+            }
+        });
     }
 
     private void selectHeads(){
         TextView selection = findViewById(R.id.selectionDetails);
-        if(childName.equals(EMPTY_STRING)){
-            selection.setText(getString(R.string.noChildHeadsSelection));
-        } else {
-            selection.setText(getString(R.string.selectionHeads, childName));
-            game.getChild(0).setPick(CoinSide.HEAD);
-        }
-        pickedHeads = true;
+        selection.setText(getString(R.string.selectionHeads, childName));
+        game.getChild(0).setPick(CoinSide.HEAD);
+        coinSelection = CoinSide.HEAD;
     }
 
     private void selectTails(){
         TextView selection = findViewById(R.id.selectionDetails);
-        if(childName.equals(EMPTY_STRING)){
-            selection.setText(getString(R.string.noChildTailsSelection));
-        } else {
-            selection.setText(getString(R.string.selectionTails, childName));
-            game.getChild(0).setPick(CoinSide.TAIL);
-        }
-        pickedHeads = false;
+        selection.setText(getString(R.string.selectionTails, childName));
+        game.getChild(0).setPick(CoinSide.TAIL);
+        coinSelection = CoinSide.TAIL;
     }
 
     private void flipCoinAnimation(){
@@ -156,17 +162,21 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onAnimationStart(Animator animation) {
                 heads.setClickable(false);
                 tails.setClickable(false);
+                flip.setClickable(false);
+                TextView instructions = findViewById(R.id.selectInstructionsText);
+                instructions.setVisibility(View.GONE);
             }
             @Override
             public void onAnimationEnd(Animator animation) {
                 boolean result;
                 if(childName.equals(EMPTY_STRING)){
-                    result = game.plainCoinFlip(pickedHeads);
+                    result = game.plainCoinFlip();
+                    displayResultNoChildren(result);
                 } else {
                     result = game.flip();
+                    showFlipResult(result);
+                    setResultText(result);
                 }
-                showFlipResult(result);
-                setResultText(result);
             }
 
             @Override
@@ -183,13 +193,13 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private void showFlipResult(boolean result){
         if(result){
-            if(pickedHeads){
+            if(coinSelection == CoinSide.HEAD){
                 coin.setImageResource(R.drawable.heads_coin);
             } else {
                 coin.setImageResource(R.drawable.tails_coin);
             }
         } else {
-            if(pickedHeads){
+            if(coinSelection == CoinSide.HEAD){
                 coin.setImageResource(R.drawable.tails_coin);
             } else {
                 coin.setImageResource(R.drawable.heads_coin);
@@ -201,18 +211,36 @@ public class CoinFlipActivity extends AppCompatActivity {
         TextView resultText = findViewById(R.id.resultText);
         if(result) {
             resultText.setText(getString(R.string.victory));
-            if(pickedHeads){
+            if(coinSelection == CoinSide.HEAD){
                 heads.setBackgroundColor(Color.GREEN);
             } else {
                 tails.setBackgroundColor(Color.GREEN);
             }
         } else {
             resultText.setText(getString(R.string.defeat));
-            if(pickedHeads){
+            if(coinSelection == CoinSide.HEAD){
                 heads.setBackgroundColor(Color.RED);
             } else {
                 tails.setBackgroundColor(Color.RED);
             }
+        }
+    }
+
+    private void hideButtons(){
+        tails.setVisibility(View.GONE);
+        heads.setVisibility(View.GONE);
+        TextView selection = findViewById(R.id.selectInstructionsText);
+        selection.setVisibility(View.GONE);
+    }
+
+    private void displayResultNoChildren(Boolean result){
+        TextView resultText = findViewById(R.id.resultText);
+        if(result){
+            coin.setImageResource(R.drawable.heads_coin);
+            resultText.setText(R.string.heads_result);
+        } else {
+            coin.setImageResource(R.drawable.tails_coin);
+            resultText.setText(R.string.tails_result);
         }
     }
 

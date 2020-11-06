@@ -23,15 +23,15 @@
         android:id="@+id/resetButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="16dp"
         android:background="@android:color/darker_gray"
         android:state_selected="true"
         android:text="@string/reset"
         android:textColor="@android:color/white"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectionDetails"
         app:layout_constraintWidth_percent="0.35" />
 
     <Button
@@ -102,5 +102,19 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headsButton" />
+
+    <Button
+        android:id="@+id/flipButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
+        android:text="@string/flip"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/childName"
+        app:layout_constraintWidth_percent="0.35" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
