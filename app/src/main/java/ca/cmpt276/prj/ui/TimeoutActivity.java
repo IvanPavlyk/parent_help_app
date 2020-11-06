@@ -3,7 +3,9 @@ package ca.cmpt276.prj.ui;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -92,15 +94,25 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private void pushNotification() {
         createNotificationChannel();
         String CHANNEL_ID="CHANNEL_ID";
+
+        Intent intent = new Intent(this,TimeoutActivity.class);
+        PendingIntent activity = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_ONE_SHOT);
+
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setContentIntent(activity)
+                .setTicker("Time up")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Practical Parent")
-                .setContentText("Time Up!")
+                .setContentInfo("Time up")
+                .setContentText("Time Up! Please click stop/cancel to top alarm")
+                .setFullScreenIntent(activity,true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);
+
         NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager!=null;
         notificationManager.notify(0,builder.build());
+        //mp.stop();
     }
 
     private void createNotificationChannel() {
