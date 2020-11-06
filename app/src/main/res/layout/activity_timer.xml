@@ -60,6 +60,7 @@
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="50sp" />
+
         </LinearLayout>
 
         <LinearLayout

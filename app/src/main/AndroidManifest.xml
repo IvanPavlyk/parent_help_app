@@ -12,6 +12,7 @@
         tools:ignore="AllowBackup">
 
         <activity android:name=".ui.TimeoutActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".ui.MainActivity">
         </activity>
 

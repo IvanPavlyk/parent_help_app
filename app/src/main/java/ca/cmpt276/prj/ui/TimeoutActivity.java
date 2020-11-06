@@ -35,15 +35,15 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private int minute;
 
     private static final int mes = 0;
-    private TextView timeShow;
+    private static TextView timeShow;
 
-    private Timer timer;
-    private TimerTask timerTask;
+    private static Timer timer;
+    private static TimerTask timerTask;
 
-    private long curTime = 0;
+    private static long curTime = 0;
     private boolean isPause = false;
 
-    private MediaPlayer mp;
+    private static MediaPlayer mp;
 
 
     @Override
@@ -64,6 +64,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         setupDurationSpinner();
 
         mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
+        if(mp.isPlaying()){
+            mp.pause();
+        }
 
     }
 
@@ -191,6 +194,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start:
+                if(mp.isPlaying()){
+                    mp.pause();
+                }
                 Spinner spinner = findViewById(R.id.duration);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
@@ -287,10 +293,12 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        destroyTimer();
-        if (handler != null) {
-            handler.removeMessages(mes);
-            handler = null;
-        }
+
+
+//        destroyTimer();
+//        if (handler != null) {
+//            handler.removeMessages(mes);
+//            handler = null;
+//        }
     }
 }
