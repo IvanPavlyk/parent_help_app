@@ -17,6 +17,10 @@ public class Game {
         return game;
     }
 
+    public static void loadInstance(Game instance) {
+        if (instance != null) game = instance;
+    }
+
     private Game() {
         this.childrenList = new ArrayList<>();
         this.flipsRecord = new ArrayList<>();
