@@ -1,6 +1,7 @@
 package ca.cmpt276.prj.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,11 +9,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
+import ca.cmpt276.prj.model.Flip;
 import ca.cmpt276.prj.model.Game;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,10 +42,18 @@ public class MainActivity extends AppCompatActivity {
 
         iniTimeoutButton();
 
+        // Load instance on initialization
+        SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String instanceSave = sharedPreferences.getString("savedInstance", null);
+        Game loadedInstance = gson.fromJson(instanceSave, Game.class);
+        Game.loadInstance(loadedInstance);
         game = Game.getInstance();
+
         ArrayList<Child> listMain;
         listMain = ManageChildrenActivity.loadListChildrenStatic(this);
         game.setChildrenList(listMain); //Setting the list of children to be the saved list from the Manage Children Activity
+
         //Toast for debugging purposes
         //TODO: remove toast before submitting the iteration
         Toast.makeText(this, "Number of children in game instance: " + game.getChildrenList().size(), Toast.LENGTH_SHORT).show();
@@ -77,5 +89,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void saveInstance() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String instanceSave = gson.toJson(Game.getInstance());
+        editor.putString("savedInstance", instanceSave);
+        editor.apply();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        saveInstance();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveInstance();
+    }
 }
