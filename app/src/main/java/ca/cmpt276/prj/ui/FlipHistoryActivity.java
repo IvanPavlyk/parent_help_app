@@ -24,6 +24,10 @@ import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Flip;
 import ca.cmpt276.prj.model.Game;
 
+/**
+ * FlipHistoryActivity responsible for the screen that stores the history about
+ * all of the coin flips that were performed, saved between application runs
+ */
 public class FlipHistoryActivity extends AppCompatActivity {
     private Game game = Game.getInstance();
     private boolean showAllHistory = true;
@@ -135,6 +139,11 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
     }
 
 }

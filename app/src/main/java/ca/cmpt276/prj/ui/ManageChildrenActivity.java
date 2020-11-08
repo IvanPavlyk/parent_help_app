@@ -35,6 +35,10 @@ import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Game;
 
+/**
+ * ManageChildrenActivity responsible for the screen that shoes the list of children
+ * lets user to add/remove/edit children list, saved between application runs
+ */
 public class ManageChildrenActivity extends AppCompatActivity {
 
     private ArrayList<Child> childrenList;
@@ -46,31 +50,20 @@ public class ManageChildrenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_children);
         childrenList = new ArrayList<>();
         game = Game.getInstance();
-        loadListChildren(); //loading the saved list into the childrenList
-        updateListOfChildrenInGame(game);
+        populateListView();
         final EditText addChildEditText = findViewById(R.id.editTextTextPersonName);
         Button addChildButton = findViewById(R.id.buttonAddChild);
         addChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(addChildEditText.getText().toString().length() > 0) {
-                    childrenList.add(new Child(addChildEditText.getText().toString(), CoinSide.HEAD));
-                    updateListOfChildrenInGame(game);
+                    game.addChild(new Child(addChildEditText.getText().toString(), CoinSide.HEAD));
+                    populateListView();
                 }
             }
         });
-        //For debugging purposes
-        //TODO: remove the toast before submitting the iteration
-        Toast.makeText(this, "Number of children in game instance: " + game.getChildrenList().size(), Toast.LENGTH_SHORT).show();
     }
 
-    //Wiping the children in game instance and updating them every time we add a child or delete a child inside manage activity
-    private void updateListOfChildrenInGame(Game game){
-        game.wipeChildrens();
-        populateListInGame(game);
-        populateListView();
-        saveListChildren();
-    }
 
     private void populateListView() {
         ArrayAdapter<Child> adapter = new MyListAdapter();
@@ -79,54 +72,13 @@ public class ManageChildrenActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void populateListInGame(Game game) {
-        for(Child child : childrenList){
-            game.addChild(child);
-        }
-    }
-
-    //Saving the list to the shared preferences
-    private void saveListChildren(){
-        SharedPreferences sharedPreferences = this.getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(childrenList);
-        editor.putString("Children list", json);
-        editor.apply();
-    }
-
-    //Loading the list of children from the shared preferences
-    private void loadListChildren(){
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("Children list", null);
-        Type type = new TypeToken<ArrayList<Child>>() {}.getType();
-        childrenList = gson.fromJson(json, type);
-        if(childrenList == null){
-            childrenList = new ArrayList<>();
-        }
-    }
-
-    //Static method that can be called from other activities to get the saved list
-    public static ArrayList<Child> loadListChildrenStatic(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("Children list", null);
-        Type type = new TypeToken<ArrayList<Child>>() {}.getType();
-        ArrayList<Child> list = gson.fromJson(json, type);
-        if(list == null){
-            list = new ArrayList<>();
-        }
-        return list;
-    }
-
     public static Intent makeIntent(Context context){
         return new Intent(context, ManageChildrenActivity.class);
     }
 
     private class MyListAdapter extends ArrayAdapter<Child>{
         public MyListAdapter(){
-            super(ManageChildrenActivity.this, R.layout.item_view, childrenList);
+            super(ManageChildrenActivity.this, R.layout.item_view, game.getChildrenList());//childrenList);
         }
 
         @SuppressLint("CutPasteId")
@@ -151,8 +103,10 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 private int pos = position;
                 @Override
                 public void onClick(View view) {
-                    childrenList.remove(pos);
-                    updateListOfChildrenInGame(game);
+                    game.removeChild(game.getChild(pos));
+                    populateListView();
+                    //childrenList.remove(pos);
+                    //updateListOfChildrenInGame(game);
                 }
             });
 
@@ -170,14 +124,14 @@ public class ManageChildrenActivity extends AppCompatActivity {
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            childrenList.get(pos).setName(input.getText().toString());
-                            updateListOfChildrenInGame(game);
+                            game.getChild(pos).setName(input.getText().toString());
+                            populateListView();
                         }
                     });
                     builder.show();
                 }
             });
-            Child currentChild = childrenList.get(position);
+            Child currentChild = game.getChild(position);
             TextView textView = itemView.findViewById(R.id.textNameOfChild);
             textView.setText(currentChild.getName());
             textView.setTextColor(Color.parseColor("#ffffff"));
@@ -194,4 +148,9 @@ public class ManageChildrenActivity extends AppCompatActivity {
         Button removeChild;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
+    }
 }

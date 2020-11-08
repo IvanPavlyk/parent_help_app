@@ -1,9 +1,5 @@
 package ca.cmpt276.prj.ui;
 
-/*
-    Coin Flip activity, child calls heads or tails
-    and the coin flips, displaying result of flip
- */
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +23,10 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Game;
 
+/**
+ * Coin Flip activity, child calls heads or tails
+ * and the coin flips, displaying result of flip
+ */
 public class CoinFlipActivity extends AppCompatActivity {
     private ImageView coin;
     private Game game = Game.getInstance();
@@ -244,5 +244,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
+    }
 }

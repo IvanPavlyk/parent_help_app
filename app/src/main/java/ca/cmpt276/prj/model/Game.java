@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+/**
+ * Game singleton class used to handle all the logic connected to flip coin activity and manage children activity
+ */
 public class Game {
 
     private static Game game;
@@ -34,7 +37,7 @@ public class Game {
         for (int i=0; i<childrenList.size(); i++) {
             if (childrenList.get(i).getName().equals(child.getName())) {
                 return childrenList.remove(i);
-            }
+            }  
         }
         return null;
     }

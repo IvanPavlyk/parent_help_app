@@ -1,5 +1,9 @@
 package ca.cmpt276.prj.model;
 
+/**
+ * Flip class used to create objects that have time, pickerName, outcome and win attributes which
+ * are used to save the history of flips further
+ */
 public class Flip {
 
     private String time;

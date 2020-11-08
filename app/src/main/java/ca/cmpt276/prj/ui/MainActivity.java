@@ -1,5 +1,6 @@
 package ca.cmpt276.prj.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,10 @@ import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.Flip;
 import ca.cmpt276.prj.model.Game;
 
+/**
+ * MainActivity responsible for the first screen that loads up when the application starts running
+ * which is the main menu which navigates to all of the other activities
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Game game;
@@ -49,14 +54,6 @@ public class MainActivity extends AppCompatActivity {
         Game loadedInstance = gson.fromJson(instanceSave, Game.class);
         Game.loadInstance(loadedInstance);
         game = Game.getInstance();
-
-        ArrayList<Child> listMain;
-        listMain = ManageChildrenActivity.loadListChildrenStatic(this);
-        game.setChildrenList(listMain); //Setting the list of children to be the saved list from the Manage Children Activity
-
-        //Toast for debugging purposes
-        //TODO: remove toast before submitting the iteration
-        Toast.makeText(this, "Number of children in game instance: " + game.getChildrenList().size(), Toast.LENGTH_SHORT).show();
     }
 
     private void iniTimeoutButton() {
@@ -70,12 +67,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //For debugging purposes
-    //TODO: remove the toast from onResume before submitting the iteration
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "Number of children in game instance: " + game.getChildrenList().size(), Toast.LENGTH_SHORT).show();
     }
 
     private void initFlipCoinButton(){
@@ -91,6 +85,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveInstance() {
         SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String instanceSave = gson.toJson(Game.getInstance());
+        editor.putString("savedInstance", instanceSave);
+        editor.apply();
+    }
+    public static void saveInstanceStatic(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("saves", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String instanceSave = gson.toJson(Game.getInstance());
