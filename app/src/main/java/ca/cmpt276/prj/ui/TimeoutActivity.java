@@ -29,6 +29,11 @@ import java.util.TimerTask;
 
 import ca.cmpt276.prj.R;
 
+/**
+ * TimeoutActivity responsible for the screen that lets user to start the timer for
+ * the preloaded durations and also custom durations, works even when app is closed
+ * and phone used for other activities
+ */
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String[] duration = {"1", "2", "3","5","10","custom"};
@@ -171,7 +176,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setupDurationSpinner() {
         Spinner spinner = findViewById(R.id.duration);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, duration); //android.R.layout.simple_spinner_item
         spinner.setAdapter(adapter);
 
     }
@@ -300,5 +305,10 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 //            handler.removeMessages(mes);
 //            handler = null;
 //        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
     }
 }

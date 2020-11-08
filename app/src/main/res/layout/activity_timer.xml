@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.TimeoutActivity">
+    tools:context=".ui.TimeoutActivity"
+    android:background="@drawable/sky_image">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
             android:paddingStart="15dp"
             android:text="@string/timeout_timer"
             android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
             android:textSize="36sp"
             android:textStyle="bold"
             tools:ignore="RtlSymmetry" />
@@ -36,6 +38,7 @@
                 android:layout_weight="1"
                 android:paddingStart="15dp"
                 android:text="@string/time_duration_mins"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 tools:ignore="NestedWeights,RtlSymmetry" />
 
@@ -53,14 +56,28 @@
             android:backgroundTint="#FFFFFF"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/timer"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/_00_00_00"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="50sp" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/timer"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:background="@drawable/custom_circle_viw"
+                    android:gravity="center"
+                    android:text="@string/_00_00_00"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="50sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </LinearLayout>
 
@@ -73,16 +90,19 @@
                 android:id="@+id/timeCustom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/custom_duration_mins" />
+                android:text="@string/custom_duration_mins"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/inputTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/please_input_a_whole_number_of_minutes"
                 android:inputType="numberSigned"
-                android:autofillHints="" />
+                android:textColor="#F4F4F4"
+                android:textColorHint="#FFFFFF" />
         </LinearLayout>
 
         <LinearLayout

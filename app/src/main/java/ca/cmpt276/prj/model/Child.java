@@ -1,5 +1,8 @@
 package ca.cmpt276.prj.model;
 
+/**
+ * Child class used to create Child objects with name and pick attributes
+ */
 public class Child {
 
     private String name;
