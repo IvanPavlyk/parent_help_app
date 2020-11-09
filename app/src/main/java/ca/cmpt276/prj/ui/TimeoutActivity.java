@@ -40,6 +40,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private int minute;
 
     private static final int mes = 0;
+    @SuppressLint("StaticFieldLeak")
     private static TextView timeShow;
 
     private static Timer timer;

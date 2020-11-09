@@ -2,4 +2,5 @@ Main menu background: https://pixabay.com/vectors/the-background-background-desi
 ManageChildrenActivity background: https://pixabay.com/illustrations/pumpkin-bear-bat-bunny-chicken-5540550/
 Timer screen background: https://pixabay.com/vectors/sky-clouds-mountains-blue-34536/
 Coin image: https://www.vippng.com/maxp/bRJoxw/
-Coin sound: https://www.youtube.com/watch?v=zhtyRiEbnbk 
+Coin sound: https://www.youtube.com/watch?v=zhtyRiEbnbk
+Timer alarm sound: http://soundbible.com/2061-Loud-Alarm-Clock-Buzzer.html
