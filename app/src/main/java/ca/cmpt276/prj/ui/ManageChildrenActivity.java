@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,14 +42,17 @@ import ca.cmpt276.prj.model.Game;
  */
 public class ManageChildrenActivity extends AppCompatActivity {
 
-    private ArrayList<Child> childrenList;
     private Game game;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Objects.requireNonNull(getSupportActionBar()).hide();   //Hiding the top bar that says the app name
+        //Objects.requireNonNull(getSupportActionBar()).hide();   //Hiding the top bar that says the app name
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setTitle("Manage Children");
+        }
         setContentView(R.layout.activity_manage_children);
-        childrenList = new ArrayList<>();
         game = Game.getInstance();
         populateListView();
         final EditText addChildEditText = findViewById(R.id.editTextTextPersonName);

@@ -295,17 +295,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
     };
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
-//        destroyTimer();
-//        if (handler != null) {
-//            handler.removeMessages(mes);
-//            handler = null;
-//        }
     }
     @Override
     protected void onStop() {
