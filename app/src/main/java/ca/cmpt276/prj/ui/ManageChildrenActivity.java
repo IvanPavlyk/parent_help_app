@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,17 +22,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Objects;
-
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.CoinSide;
-import ca.cmpt276.prj.model.Game;
+import ca.cmpt276.prj.model.coinManager.CoinSide;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
  * ManageChildrenActivity responsible for the screen that shoes the list of children
@@ -42,7 +33,7 @@ import ca.cmpt276.prj.model.Game;
  */
 public class ManageChildrenActivity extends AppCompatActivity {
 
-    private Game game;
+    private CoinManager coinManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +44,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
             bar.setTitle("Manage Children");
         }
         setContentView(R.layout.activity_manage_children);
-        game = Game.getInstance();
+        coinManager = CoinManager.getInstance();
         populateListView();
         final EditText addChildEditText = findViewById(R.id.editTextTextPersonName);
         Button addChildButton = findViewById(R.id.buttonAddChild);
@@ -61,7 +52,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(addChildEditText.getText().toString().length() > 0) {
-                    game.addChild(new Child(addChildEditText.getText().toString(), CoinSide.HEAD));
+                    coinManager.addChild(new Child(addChildEditText.getText().toString(), CoinSide.HEAD));
                     populateListView();
                 }
             }
@@ -82,7 +73,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Child>{
         public MyListAdapter(){
-            super(ManageChildrenActivity.this, R.layout.item_view, game.getChildrenList());//childrenList);
+            super(ManageChildrenActivity.this, R.layout.item_view, coinManager.getChildrenList());//childrenList);
         }
 
         @SuppressLint("CutPasteId")
@@ -107,7 +98,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 private int pos = position;
                 @Override
                 public void onClick(View view) {
-                    game.removeChild(game.getChild(pos));
+                    coinManager.removeChild(coinManager.getChild(pos));
                     populateListView();
                     //childrenList.remove(pos);
                     //updateListOfChildrenInGame(game);
@@ -128,14 +119,14 @@ public class ManageChildrenActivity extends AppCompatActivity {
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            game.getChild(pos).setName(input.getText().toString());
+                            coinManager.getChild(pos).setName(input.getText().toString());
                             populateListView();
                         }
                     });
                     builder.show();
                 }
             });
-            Child currentChild = game.getChild(position);
+            Child currentChild = coinManager.getChild(position);
             TextView textView = itemView.findViewById(R.id.textNameOfChild);
             textView.setText(currentChild.getName());
             textView.setTextColor(Color.parseColor("#ffffff"));

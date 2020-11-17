@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.CoinSide;
-import ca.cmpt276.prj.model.Flip;
-import ca.cmpt276.prj.model.Game;
+import ca.cmpt276.prj.model.coinManager.CoinSide;
+import ca.cmpt276.prj.model.coinManager.Flip;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
  * FlipHistoryActivity responsible for the screen that stores the history about
  * all of the coin flips that were performed, saved between application runs
  */
 public class FlipHistoryActivity extends AppCompatActivity {
-    private Game game = Game.getInstance();
+    private CoinManager coinManager = CoinManager.getInstance();
     private boolean showAllHistory = true;
     private ArrayList<Flip> flipHistory;
     private ArrayList<Flip> childHistory;
@@ -42,8 +42,8 @@ public class FlipHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_history);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         extractFromIntent();
-        flipHistory = game.getFlipsRecord();
-        childHistory = game.getFilteredRecord(currentChildName);
+        flipHistory = coinManager.getFlipsRecord();
+        childHistory = coinManager.getFilteredRecord(currentChildName);
         populateListView();
         setupButtons();
     }

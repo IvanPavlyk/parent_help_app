@@ -1,30 +1,32 @@
-package ca.cmpt276.prj.model;
+package ca.cmpt276.prj.model.coinManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import ca.cmpt276.prj.model.Child;
+
 /**
  * Game singleton class used to handle all the logic connected to flip coin activity and manage children activity
  */
-public class Game {
+public class CoinManager {
 
-    private static Game game;
+    private static CoinManager coinManager;
 
-    ArrayList<Child> childrenList;
-    ArrayList<Flip> flipsRecord;
-    Child winner = null;
+    private ArrayList<Child> childrenList;
+    private ArrayList<Flip> flipsRecord;
+    private Child winner = null;
 
-    public static Game getInstance() {
-        if (game == null) game = new Game();
-        return game;
+    public static CoinManager getInstance() {
+        if (coinManager == null) coinManager = new CoinManager();
+        return coinManager;
     }
 
-    public static void loadInstance(Game instance) {
-        if (instance != null) game = instance;
+    public static void loadInstance(CoinManager instance) {
+        if (instance != null) coinManager = instance;
     }
 
-    private Game() {
+    private CoinManager() {
         this.childrenList = new ArrayList<>();
         this.flipsRecord = new ArrayList<>();
     }
