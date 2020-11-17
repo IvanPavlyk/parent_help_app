@@ -26,6 +26,11 @@ import java.io.InputStream;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Game;
 
+/**
+ * EditChildrenActivity is booted from the ManageChildrenActivity when user presses the portrait on the list view item
+ * Lets user edit the portrait of the given child
+ * Similar functionality to AddChildrenActivity
+ */
 public class EditChildPortraitActivity extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST = 228;

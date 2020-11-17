@@ -29,6 +29,12 @@ import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Game;
 
+/**
+ * AddChildActivity class that is booted from the ManageChildrenActivity
+ * Lets user to add a child (name and portrait), when no image used - default is used
+ * Button with camera icon responsible for taking the portrait from the camera
+ * Button with gallery icon responsible for taking the portrait from the gallery
+ */
 public class AddChildActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST = 228;
     private static final int CAMERA_REQUEST = 1337;
@@ -91,6 +97,8 @@ public class AddChildActivity extends AppCompatActivity {
         });
     }
 
+
+    //Converting bitmap into String compressed version to transfer the image along
     public static String bitmapToString(Bitmap bitmap){
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);

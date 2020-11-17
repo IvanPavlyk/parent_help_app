@@ -160,6 +160,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
         }
     }
 
+    //Converting compressed String into bitmap to show the image
     public static Bitmap stringToBitmap(String str){
         Bitmap bitmap = null;
         try{
