@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ca.cmpt276.prj">
+
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,15 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-
-        <activity android:name=".ui.TimeoutActivity"
+        <activity android:name=".ui.EditChildPortraitActivity"
+            android:parentActivityName=".ui.ManageChildrenActivity"></activity>
+        <activity
+            android:name=".ui.AddChildActivity"
+            android:parentActivityName=".ui.ManageChildrenActivity" />
+        <activity
+            android:name=".ui.TimeoutActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".ui.MainActivity">
-        </activity>
-
-        <activity android:name=".ui.ManageChildrenActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:parentActivityName=".ui.MainActivity"></activity>
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.ManageChildrenActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.CoinFlipActivity"
-            android:label="Flip a Coin"></activity>
-        <activity android:name=".ui.FlipHistoryActivity"
-            android:label="History"></activity>
+        <activity
+            android:name=".ui.CoinFlipActivity"
+            android:label="Flip a Coin" />
+        <activity
+            android:name=".ui.FlipHistoryActivity"
+            android:label="History" />
     </application>
 
 </manifest>
