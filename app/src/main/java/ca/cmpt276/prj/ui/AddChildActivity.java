@@ -134,10 +134,13 @@ public class AddChildActivity extends AppCompatActivity {
                 exception.printStackTrace();
             }
         }
-        if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK){
+        else if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
             Bitmap image  = (Bitmap)extras.get("data");
             imageViewChildPortrait.setImageBitmap(image);
+        }
+        else{
+            Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
         }
     }
 
