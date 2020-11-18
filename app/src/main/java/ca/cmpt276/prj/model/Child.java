@@ -1,5 +1,7 @@
 package ca.cmpt276.prj.model;
 
+import android.graphics.Bitmap;
+
 /**
  * Child class used to create Child objects with name and pick attributes
  */
@@ -7,10 +9,12 @@ public class Child {
 
     private String name;
     private CoinSide pick;
+    private String imageString;
 
-    public Child(String name, CoinSide pick) {
+    public Child(String name, CoinSide pick, String imageStr) {
         this.name = name;
         this.pick = pick;
+        this.imageString = imageStr;
     }
 
     // Getters and Setters
@@ -26,5 +30,13 @@ public class Child {
 
     public void setPick(CoinSide pick) {
         this.pick = pick;
+    }
+
+    public void setImageString(String str){
+        this.imageString = str;
+    }
+
+    public String getImageString(){
+        return this.imageString;
     }
 }

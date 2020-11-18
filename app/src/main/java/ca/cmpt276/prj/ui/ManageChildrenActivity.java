@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +50,6 @@ public class ManageChildrenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Objects.requireNonNull(getSupportActionBar()).hide();   //Hiding the top bar that says the app name
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
@@ -55,15 +58,12 @@ public class ManageChildrenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_children);
         game = Game.getInstance();
         populateListView();
-        final EditText addChildEditText = findViewById(R.id.editTextTextPersonName);
         Button addChildButton = findViewById(R.id.buttonAddChild);
         addChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(addChildEditText.getText().toString().length() > 0) {
-                    game.addChild(new Child(addChildEditText.getText().toString(), CoinSide.HEAD));
-                    populateListView();
-                }
+                Intent intent = AddChildActivity.makeIntent(ManageChildrenActivity.this);
+                startActivity(intent);
             }
         });
     }
@@ -96,6 +96,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 holder = new ChildHolder();
                 holder.childName = itemView.findViewById(R.id.textNameOfChild);
                 holder.removeChild = itemView.findViewById(R.id.buttonDeleteChild);
+                holder.imagePortraitChild = itemView.findViewById(R.id.imageViewChildPortraitList);
                 itemView.setTag(holder);
             }
             else{
@@ -135,21 +136,53 @@ public class ManageChildrenActivity extends AppCompatActivity {
                     builder.show();
                 }
             });
+            holder.imagePortraitChild.setOnClickListener(new View.OnClickListener() {
+                private int pos = position;
+                @Override
+                public void onClick(View view) {
+                    Intent intent = EditChildPortraitActivity.makeIntent(ManageChildrenActivity.this);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("PositionChild", pos);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
             Child currentChild = game.getChild(position);
             TextView textView = itemView.findViewById(R.id.textNameOfChild);
             textView.setText(currentChild.getName());
             textView.setTextColor(Color.parseColor("#ffffff"));
-            textView.setTextSize(25);
+            textView.setTextSize(18);
             textView.setGravity(Gravity.CENTER);
             itemView.setBackgroundColor(Color.parseColor("#f5a742"));
+            ImageView imageChild = (ImageView) itemView.findViewById(R.id.imageViewChildPortraitList);
+            imageChild.setImageBitmap(stringToBitmap(currentChild.getImageString()));
             return itemView;
         }
+    }
+
+    //Converting compressed String into bitmap to show the image
+    public static Bitmap stringToBitmap(String str){
+        Bitmap bitmap = null;
+        try{
+            byte[] encodeByte = Base64.decode(str, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        } catch(Exception exception){
+            exception.printStackTrace();
+        }
+        return bitmap;
     }
 
     //Static inner class representing every row of the list view
     static class ChildHolder{
         TextView childName;
         Button removeChild;
+        ImageView imagePortraitChild;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        populateListView();
     }
 
     @Override

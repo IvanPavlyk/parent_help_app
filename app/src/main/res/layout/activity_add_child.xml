@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fantasy_background"
+    tools:context=".ui.AddChildActivity">
+
+    <ImageView
+        android:id="@+id/imagePortrait"
+        android:layout_width="183dp"
+        android:layout_height="164dp"
+        android:layout_marginTop="160dp"
+        android:contentDescription="@string/portrait_child_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/ediTextChildName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/name_child_edit_text"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagePortrait"
+        android:autofillHints="" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCamera"
+        android:layout_width="91dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#8BC34A"
+        android:contentDescription="@string/camera_button_content_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ediTextChildName"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <ImageButton
+        android:id="@+id/imageButtonGallery"
+        android:layout_width="90dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="100dp"
+        android:backgroundTint="#8BC34A"
+        android:contentDescription="@string/gallery_button_content_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ediTextChildName"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/buttonAddChildScreen"
+        android:layout_width="138dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_child_screen_button_text"
+        android:background="@drawable/menu_buttons"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonCamera" />
+</androidx.constraintlayout.widget.ConstraintLayout>
