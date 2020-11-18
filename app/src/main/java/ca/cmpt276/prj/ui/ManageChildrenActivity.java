@@ -110,8 +110,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     game.removeChild(game.getChild(pos));
                     populateListView();
-                    //childrenList.remove(pos);
-                    //updateListOfChildrenInGame(game);
+                    MainActivity.saveInstanceStatic(ManageChildrenActivity.this);
                 }
             });
 
