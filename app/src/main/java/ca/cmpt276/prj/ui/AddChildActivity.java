@@ -26,8 +26,8 @@ import java.io.InputStream;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.CoinSide;
-import ca.cmpt276.prj.model.Game;
+import ca.cmpt276.prj.model.coinManager.CoinSide;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
  * AddChildActivity class that is booted from the ManageChildrenActivity
@@ -44,7 +44,7 @@ public class AddChildActivity extends AppCompatActivity {
     private ImageButton buttonAddPortraitGallery;
     private EditText editTextChildName;
     private ImageView imageViewChildPortrait;
-    private Game game;
+    private CoinManager game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class AddChildActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_add_child);
         initializeResources();
-        game = Game.getInstance();
+        game = CoinManager.getInstance();
         setListeners();
     }
 

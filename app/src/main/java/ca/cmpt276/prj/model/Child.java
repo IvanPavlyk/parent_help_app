@@ -1,6 +1,6 @@
 package ca.cmpt276.prj.model;
 
-import android.graphics.Bitmap;
+import ca.cmpt276.prj.model.coinManager.CoinSide;
 
 /**
  * Child class used to create Child objects with name and pick attributes

@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Game;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
  * EditChildrenActivity is booted from the ManageChildrenActivity when user presses the portrait on the list view item
@@ -40,7 +40,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
     private ImageButton buttonAddPortraitCamera;
     private ImageButton buttonAddPortraitGallery;
     private ImageView imageViewChildPortrait;
-    private Game game;
+    private CoinManager game;
     private int position;
 
     @Override
@@ -54,7 +54,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         }
         Bundle bundle = getIntent().getExtras();
         position = bundle.getInt("PositionChild");
-        game = Game.getInstance();
+        game = CoinManager.getInstance();
         initializeResources();
         imageViewChildPortrait.setImageBitmap(ManageChildrenActivity.stringToBitmap(game.getChild(position).getImageString()));
         setListeners();
