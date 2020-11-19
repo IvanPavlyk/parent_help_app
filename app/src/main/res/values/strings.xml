@@ -2,7 +2,7 @@
     <string name="app_name">cmpt276prj</string>
     <string name="main_menu">Main Menu</string>
     <string name="manage_children">Manage Children</string>
-    <string name="add">Add</string>
+    <string name="add">Add Child</string>
     <string name="add_a_child">Add a child</string>
     <string name="remove">Remove</string>
     <string name="nameofthechild">NameOfTheChild</string>
@@ -40,4 +40,14 @@
     <string name="tails_result">It landed on tails!</string>
     <string name="show_all_history">All History</string>
     <string name="show_current_child_history">Current Child History</string>
+    <string name="name_child_edit_text">Name</string>
+    <string name="add_child_screen_button_text">Add Child</string>
+    <string name="portrait_child_photo">Portrait child photo</string>
+    <string name="camera_button_content_description">Camera button</string>
+    <string name="gallery_button_content_description">Gallery button</string>
+    <string name="save_button_edit_image">Save</string>
+    <string name="portrait_of_the_child_edit_screen">Portrait of the child</string>
+    <string name="camera_button_edit_screen">Camera button</string>
+    <string name="gallery_button_edit_screen">Gallery button</string>
+    <string name="portrait_of_the_child_inside_the_list_view_item">Portrait of the child inside the list view item</string>
 </resources>

@@ -1,6 +1,6 @@
 package ca.cmpt276.prj.model;
 
-import ca.cmpt276.prj.model.coinManager.CoinSide;
+import android.graphics.Bitmap;
 
 /**
  * Child class used to create Child objects with name and pick attributes
@@ -9,11 +9,12 @@ public class Child {
 
     private String name;
     private CoinSide pick;
-    private int portrait;
+    private String imageString;
 
-    public Child(String name, CoinSide pick) {
+    public Child(String name, CoinSide pick, String imageStr) {
         this.name = name;
         this.pick = pick;
+        this.imageString = imageStr;
     }
 
     // Getters and Setters
@@ -31,11 +32,11 @@ public class Child {
         this.pick = pick;
     }
 
-    public int getPortrait() {
-        return portrait;
+    public void setImageString(String str){
+        this.imageString = str;
     }
 
-    public void setPortrait(int portrait) {
-        this.portrait = portrait;
+    public String getImageString(){
+        return this.imageString;
     }
 }
