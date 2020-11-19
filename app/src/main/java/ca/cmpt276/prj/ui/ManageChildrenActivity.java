@@ -37,8 +37,8 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.CoinSide;
-import ca.cmpt276.prj.model.Game;
+import ca.cmpt276.prj.model.coinManager.CoinSide;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
  * ManageChildrenActivity responsible for the screen that shoes the list of children
@@ -46,7 +46,7 @@ import ca.cmpt276.prj.model.Game;
  */
 public class ManageChildrenActivity extends AppCompatActivity {
 
-    private Game game;
+    private CoinManager coinManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
             bar.setTitle("Manage Children");
         }
         setContentView(R.layout.activity_manage_children);
-        game = Game.getInstance();
+        coinManager = CoinManager.getInstance();
         populateListView();
         Button addChildButton = findViewById(R.id.buttonAddChild);
         addChildButton.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +82,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Child>{
         public MyListAdapter(){
-            super(ManageChildrenActivity.this, R.layout.item_view, game.getChildrenList());//childrenList);
+            super(ManageChildrenActivity.this, R.layout.item_view, coinManager.getChildrenList());//childrenList);
         }
 
         @SuppressLint("CutPasteId")
@@ -108,7 +108,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 private int pos = position;
                 @Override
                 public void onClick(View view) {
-                    game.removeChild(game.getChild(pos));
+                    coinManager.removeChild(coinManager.getChild(pos));
                     populateListView();
                     MainActivity.saveInstanceStatic(ManageChildrenActivity.this);
                 }
@@ -128,7 +128,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            game.getChild(pos).setName(input.getText().toString());
+                            coinManager.getChild(pos).setName(input.getText().toString());
                             populateListView();
                         }
                     });
@@ -146,7 +146,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            Child currentChild = game.getChild(position);
+            Child currentChild = coinManager.getChild(position);
             TextView textView = itemView.findViewById(R.id.textNameOfChild);
             textView.setText(currentChild.getName());
             textView.setTextColor(Color.parseColor("#ffffff"));

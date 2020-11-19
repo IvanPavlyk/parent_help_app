@@ -6,19 +6,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.Flip;
-import ca.cmpt276.prj.model.Game;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
  * MainActivity responsible for the first screen that loads up when the application starts running
@@ -26,7 +22,7 @@ import ca.cmpt276.prj.model.Game;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private Game game;
+    private CoinManager coinManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
         Gson gson = new Gson();
         String instanceSave = sharedPreferences.getString("savedInstance", null);
-        Game loadedInstance = gson.fromJson(instanceSave, Game.class);
-        Game.loadInstance(loadedInstance);
-        game = Game.getInstance();
+        CoinManager loadedInstance = gson.fromJson(instanceSave, CoinManager.class);
+        CoinManager.loadInstance(loadedInstance);
+        coinManager = CoinManager.getInstance();
     }
 
     private void iniTimeoutButton() {
@@ -83,32 +79,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void saveInstance() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String instanceSave = gson.toJson(Game.getInstance());
-        editor.putString("savedInstance", instanceSave);
-        editor.apply();
-    }
     public static void saveInstanceStatic(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("saves", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String instanceSave = gson.toJson(Game.getInstance());
+        String instanceSave = gson.toJson(CoinManager.getInstance());
         editor.putString("savedInstance", instanceSave);
         editor.apply();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        saveInstance();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        saveInstance();
     }
 }

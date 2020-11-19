@@ -20,8 +20,8 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.CoinSide;
-import ca.cmpt276.prj.model.Game;
+import ca.cmpt276.prj.model.coinManager.CoinSide;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
  * Coin Flip activity, child calls heads or tails
@@ -29,7 +29,7 @@ import ca.cmpt276.prj.model.Game;
  */
 public class CoinFlipActivity extends AppCompatActivity {
     private ImageView coin;
-    private Game game = Game.getInstance();
+    private CoinManager coinManager = CoinManager.getInstance();
     private String childName;
     private Button heads, tails, reset, flip;
     private static final String EMPTY_STRING = "";
@@ -88,11 +88,11 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void checkForChild(){
-        if(game.getChildrenList().size() == 0){
+        if(coinManager.getChildrenList().size() == 0){
             childName = EMPTY_STRING;
             hideButtons();
         } else {
-            childName = game.getChild(0).getName();
+            childName = coinManager.getChild(0).getName();
             flip.setVisibility(View.GONE);
             TextView child = findViewById(R.id.childName);
             child.setText(childName);
@@ -142,14 +142,14 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void selectHeads(){
         TextView selection = findViewById(R.id.selectionDetails);
         selection.setText(getString(R.string.selectionHeads, childName));
-        game.getChild(0).setPick(CoinSide.HEAD);
+        coinManager.getChild(0).setPick(CoinSide.HEAD);
         coinSelection = CoinSide.HEAD;
     }
 
     private void selectTails(){
         TextView selection = findViewById(R.id.selectionDetails);
         selection.setText(getString(R.string.selectionTails, childName));
-        game.getChild(0).setPick(CoinSide.TAIL);
+        coinManager.getChild(0).setPick(CoinSide.TAIL);
         coinSelection = CoinSide.TAIL;
     }
 
@@ -170,10 +170,10 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 boolean result;
                 if(childName.equals(EMPTY_STRING)){
-                    result = game.plainCoinFlip();
+                    result = coinManager.plainCoinFlip();
                     displayResultNoChildren(result);
                 } else {
-                    result = game.flip();
+                    result = coinManager.flip();
                     showFlipResult(result);
                     setResultText(result);
                 }
