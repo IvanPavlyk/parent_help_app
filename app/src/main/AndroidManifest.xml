@@ -12,8 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.EditChildPortraitActivity"
-            android:parentActivityName=".ui.ManageChildrenActivity"></activity>
+        <activity android:name=".ui.WhoseTurnActivity"></activity>
+        <activity
+            android:name=".ui.EditChildPortraitActivity"
+            android:parentActivityName=".ui.ManageChildrenActivity" />
         <activity
             android:name=".ui.AddChildActivity"
             android:parentActivityName=".ui.ManageChildrenActivity" />

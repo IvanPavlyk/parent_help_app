@@ -1,33 +1,31 @@
 package ca.cmpt276.prj.model.taskManager;
 
-import java.util.ArrayList;
-
-import ca.cmpt276.prj.model.Child;
-
 public class Task {
 
     String name;
     String description;
-    ArrayList<Child> queue;
+    String taskName;
+    //ArrayList<Child> queue;
 
-    public Task(String name, String description) {
-        this.name = name;
-        this.description = description;
-        queue = new ArrayList<>();
-    }
 
-    public Child whoseTurn () {
-        return queue.get(0);
-    }
+//    public Task(String name, String description) {
+//        this.name = name;
+//        this.description = description;
+//        queue = new ArrayList<>();
+//    }
 
-    public Child whoseNext() {
-        return queue.get(1);
-    }
-
-    public void advanceTurn() {
-        Child child = queue.remove(0);
-        queue.add(queue.size(), child);
-    }
+//    public Child whoseTurn () {
+//        return queue.get(0);
+//    }
+//
+//    public Child whoseNext() {
+//        return queue.get(1);
+//    }
+//
+//    public void advanceTurn() {
+//        Child child = queue.remove(0);
+//        queue.add(queue.size(), child);
+//    }
 
     // Getters and Setters
     public String getName() {
@@ -46,11 +44,19 @@ public class Task {
         this.description = description;
     }
 
-    public ArrayList<Child> getQueue() {
-        return queue;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setQueue(ArrayList<Child> queue) {
-        this.queue = queue;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
+
+//    public ArrayList<Child> getQueue() {
+//        return queue;
+//    }
+//
+//    public void setQueue(ArrayList<Child> queue) {
+//        this.queue = queue;
+//    }
 }
