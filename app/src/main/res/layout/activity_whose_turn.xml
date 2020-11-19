@@ -32,7 +32,7 @@
             android:text="Task" />
 
         <EditText
-            android:id="@+id/addFocal"
+            android:id="@+id/addTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -46,7 +46,7 @@
             android:text="Description" />
 
         <EditText
-            android:id="@+id/addAperture"
+            android:id="@+id/addDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
