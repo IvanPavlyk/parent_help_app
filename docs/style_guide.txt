@@ -1,0 +1,32 @@
+CMPT 276 - Team Salmon Style guide
+
+Formating:
+- Indentations are always 4 spaces
+- K & R style bracing
+- One statement per line
+- each line should not exceed 100 columns in length
+
+Variables:
+- One variable per declaration: example( int a, b; is never used)
+- local variables declared close to the point where they are used
+
+Arrays:
+- Non C-style array declarations
+
+Comments:
+- Every class must include top level comment
+- comments within code optional
+- multiline comment blocks are enclosed by /* and */ or /** */
+- to do comments are allowed, removed before submission
+
+Naming:
+- Class names are always UpperCamelCase
+- variable names are always lowerCamelCase
+- constants are in CONSTANT_CASE
+- variables should have relevant, useful names
+- package names are all lowercase, concatenated together by periods
+
+
+
+
+
