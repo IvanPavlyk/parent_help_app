@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.coinManager.CoinSide;
 import ca.cmpt276.prj.model.coinManager.CoinManager;
 
@@ -92,10 +93,13 @@ public class CoinFlipActivity extends AppCompatActivity {
             childName = EMPTY_STRING;
             hideButtons();
         } else {
-            childName = coinManager.getChild(0).getName();
+            Child child = coinManager.getChild(0);
+            childName = child.getName();
             flip.setVisibility(View.GONE);
-            TextView child = findViewById(R.id.childName);
-            child.setText(childName);
+            TextView childNameText = findViewById(R.id.childName);
+            childNameText.setText(childName);
+            ImageView childImg = findViewById(R.id.child_image);
+            childImg.setImageBitmap(ManageChildrenActivity.stringToBitmap(child.getImageString()));
         }
 
     }
@@ -231,6 +235,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         heads.setVisibility(View.GONE);
         TextView selection = findViewById(R.id.selectInstructionsText);
         selection.setVisibility(View.GONE);
+        ImageView childImg = findViewById(R.id.child_image);
+        childImg.setVisibility(View.GONE);
     }
 
     private void displayResultNoChildren(Boolean result){

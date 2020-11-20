@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CoinFlipActivity">
+    tools:context=".ui.CoinFlipActivity"
+    android:background="@drawable/stars">
 
     <ImageView
         android:id="@+id/coinImage"
@@ -30,6 +31,7 @@
         android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectionDetails"
         app:layout_constraintWidth_percent="0.35" />
@@ -64,15 +66,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectInstructionsText" />
 
-    <TextView
-        android:id="@+id/childName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/exampleChildString"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
     <TextView
         android:id="@+id/resultText"
@@ -81,17 +74,19 @@
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@+id/coinImage" />
 
     <TextView
         android:id="@+id/selectInstructionsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:text="@string/selectionInstructionsTextString"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/childName" />
+        app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
     <TextView
         android:id="@+id/selectionDetails"
@@ -112,9 +107,43 @@
         android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/childName"
+        app:layout_constraintTop_toBottomOf="@id/resultText"
         app:layout_constraintWidth_percent="0.35" />
+
+    <Button
+        android:id="@+id/overrideChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/darker_gray"
+        android:text="@string/change"
+        android:textColor="@android:color/white"
+        android:state_selected="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/child_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        android:contentDescription="@string/child_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/childName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/child_image"
+        app:layout_constraintStart_toEndOf="@+id/child_image"
+        app:layout_constraintTop_toTopOf="@+id/child_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
