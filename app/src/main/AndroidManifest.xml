@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity android:name=".ui.WhoseTurnActivity"></activity>
+        <activity android:name=".ui.AddTaskActivity" />
         <activity
             android:name=".ui.EditChildPortraitActivity"
             android:parentActivityName=".ui.ManageChildrenActivity" />
