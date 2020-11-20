@@ -35,6 +35,10 @@ public class CoinManager {
         childrenList.add(childrenList.size(), child);
     }
 
+    public void addChildToFront(Child child){
+        childrenList.add(0, child);
+    }
+
     public Child removeChild(Child child) {
         for (int i=0; i<childrenList.size(); i++) {
             if (childrenList.get(i).getName().equals(child.getName())) {

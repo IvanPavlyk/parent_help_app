@@ -52,4 +52,5 @@
     <string name="portrait_of_the_child_inside_the_list_view_item">Portrait of the child inside the list view item</string>
     <string name="change">Change</string>
     <string name="child_image">child image</string>
+    <string name="none">NONE</string>
 </resources>
