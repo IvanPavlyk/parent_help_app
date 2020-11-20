@@ -1,6 +1,7 @@
 package ca.cmpt276.prj.ui;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
@@ -16,10 +17,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.coinManager.CoinSide;
 import ca.cmpt276.prj.model.coinManager.CoinManager;
 
@@ -31,10 +34,11 @@ public class CoinFlipActivity extends AppCompatActivity {
     private ImageView coin;
     private CoinManager coinManager = CoinManager.getInstance();
     private String childName;
-    private Button heads, tails, reset, flip;
+    private Button heads, tails, reset, flip, change;
     private static final String EMPTY_STRING = "";
     private MediaPlayer coinSound;
     private int defaultColor = Color.GRAY;
+    private static final int CHOOSE_NEXT_FLIP_REQUEST_CODE = 0;
     private CoinSide coinSelection;
 
     public static Intent makeIntent(Context context){
@@ -84,6 +88,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         reset = findViewById(R.id.resetButton);
         reset.setBackgroundColor(defaultColor);
         flip = findViewById(R.id.flipButton);
+        change = findViewById(R.id.overrideChild);
         coinSound = MediaPlayer.create(this, R.raw.coin_sound);
     }
 
@@ -92,12 +97,22 @@ public class CoinFlipActivity extends AppCompatActivity {
             childName = EMPTY_STRING;
             hideButtons();
         } else {
-            childName = coinManager.getChild(0).getName();
+            Child child = coinManager.getChild(0);
+            childName = child.getName();
             flip.setVisibility(View.GONE);
-            TextView child = findViewById(R.id.childName);
-            child.setText(childName);
+            TextView childNameText = findViewById(R.id.childName);
+            childNameText.setText(childName);
+            ImageView childImg = findViewById(R.id.flipChildImage);
+            childImg.setImageBitmap(ManageChildrenActivity.stringToBitmap(child.getImageString()));
         }
+    }
 
+    private void bypassChildFlip(){
+        childName = EMPTY_STRING;
+        TextView childNameText = findViewById(R.id.childName);
+        childNameText.setText(childName);
+        flip.setVisibility(View.VISIBLE);
+        hideButtons();
     }
 
     private void setupButtons(){
@@ -137,6 +152,31 @@ public class CoinFlipActivity extends AppCompatActivity {
                 flipCoinAnimation();
             }
         });
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ChooseNextFlipActivity.makeIntent(CoinFlipActivity.this);
+                startActivityForResult(intent, CHOOSE_NEXT_FLIP_REQUEST_CODE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CHOOSE_NEXT_FLIP_REQUEST_CODE){
+            if(resultCode == RESULT_OK){
+                String returnString = data.getStringExtra("SELECTION");
+                if(returnString.equals("CHILD")){
+                    Toast.makeText(CoinFlipActivity.this, "Successfully selected child that will flip next", Toast.LENGTH_SHORT).show();
+                    unhideButtons();
+                    checkForChild();
+                }
+                else {
+                    bypassChildFlip();
+                }
+            }
+        }
     }
 
     private void selectHeads(){
@@ -231,6 +271,17 @@ public class CoinFlipActivity extends AppCompatActivity {
         heads.setVisibility(View.GONE);
         TextView selection = findViewById(R.id.selectInstructionsText);
         selection.setVisibility(View.GONE);
+        ImageView childImg = findViewById(R.id.flipChildImage);
+        childImg.setVisibility(View.GONE);
+    }
+
+    private void unhideButtons(){
+        tails.setVisibility(View.VISIBLE);
+        heads.setVisibility(View.VISIBLE);
+        TextView selection = findViewById(R.id.selectInstructionsText);
+        selection.setVisibility(View.VISIBLE);
+        ImageView childImg = findViewById(R.id.flipChildImage);
+        childImg.setVisibility(View.VISIBLE);
     }
 
     private void displayResultNoChildren(Boolean result){
