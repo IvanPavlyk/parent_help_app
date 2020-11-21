@@ -15,11 +15,11 @@
         <activity
             android:name=".ui.WhoseTurnActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.MainActivity"></activity>
+            android:parentActivityName=".ui.MainActivity"/>
         <activity
             android:name=".ui.AddTaskActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.WhoseTurnActivity"></activity>
+            android:parentActivityName=".ui.WhoseTurnActivity"/>
         <activity
             android:name=".ui.EditChildPortraitActivity"
             android:parentActivityName=".ui.ManageChildrenActivity" />

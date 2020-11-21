@@ -52,6 +52,7 @@ public class TaskManager {
 
     private TaskManager(){
         taskList=new ArrayList<>();
+        taskList.add(new Task("dd","tt","ff"));
     }
 
     public static TaskManager getInstance(){

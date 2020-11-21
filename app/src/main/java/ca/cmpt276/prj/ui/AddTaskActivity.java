@@ -22,10 +22,10 @@ public class AddTaskActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar ab=getSupportActionBar();
-        assert ab != null;
-        ab.setTitle("Task Details");
-        ab.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("Task Details");
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 bundle.putString("name", n);
                 bundle.putString("task", t);
                 bundle.putString("description", d);
-                intent.putExtra("tasker_information", bundle);
+                intent.putExtra("task_information", bundle);
                 setResult(RESULT_OK, intent);
                 finish();
 

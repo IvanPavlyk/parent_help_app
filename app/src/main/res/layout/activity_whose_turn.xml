@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.WhoseTurnActivity">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/content_whose_turn" />
 
     <include
         layout="@layout/content_whose_turn"
@@ -32,6 +34,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:srcCompat="@drawable/add" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

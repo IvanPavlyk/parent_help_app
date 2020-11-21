@@ -77,7 +77,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         if(requestCode==1&&resultCode==RESULT_OK){
             if (data == null) throw new AssertionError();
             Bundle information;
-            information = data.getBundleExtra("tasker_information");
+            information = data.getBundleExtra("task_information");
             if (information == null) throw new AssertionError();
             String name;
             name = information.getString("name");
@@ -114,9 +114,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
 }
