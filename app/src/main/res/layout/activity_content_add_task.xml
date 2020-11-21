@@ -11,21 +11,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">>
+        tools:layout_editor_absoluteY="0dp"><![CDATA[>
 
-        <TextView
-            android:id="@+id/Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Child's name" />
 
-        <EditText
-            android:id="@+id/addName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Please enter the child's name"
-            android:inputType="text" />
+
+        ]]>
 
         <TextView
             android:id="@+id/Task"

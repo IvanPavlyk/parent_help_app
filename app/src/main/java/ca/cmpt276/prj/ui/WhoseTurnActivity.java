@@ -1,11 +1,15 @@
 package ca.cmpt276.prj.ui;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,8 +40,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
         list_view_build();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabAdd = findViewById(R.id.fab_add);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(WhoseTurnActivity.this, AddTaskActivity.class);
@@ -52,7 +56,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         int count=0;
         while(count< taskManager.size()){
             Task buffer=taskManager.retrieving(count);
-            arr.add("Name: "+buffer.getName()+"\nTask: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
+            arr.add("Task: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
             count+=1;
         }
 
@@ -60,14 +64,30 @@ public class WhoseTurnActivity extends AppCompatActivity {
         ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,arr);
         lv.setAdapter(adapter);
 
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(WhoseTurnActivity.this);
+
+                LayoutInflater factory = LayoutInflater.from(WhoseTurnActivity.this);
+                View v = factory.inflate(R.layout.task_infomation, null);
+                ///
+                alert.setView(v);
+                alert.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dlg, int sumthin) {
+
+                        finish();
+                    }
+                });
+                alert.show();
+
 //                Intent intent= newPageIntent(WhoseTurnActivity.this,position);
 //                startActivity(intent);
-//            }
-//        });
+            }
+
+        });
     }
 
 
@@ -79,15 +99,15 @@ public class WhoseTurnActivity extends AppCompatActivity {
             Bundle information;
             information = data.getBundleExtra("task_information");
             if (information == null) throw new AssertionError();
-            String name;
-            name = information.getString("name");
+//            String name;
+//            name = information.getString("name");
             String task;
             task = information.getString("task");
             String description;
             description = information.getString("description");
             if (task == null) throw new AssertionError();
             if (description == null) throw new AssertionError();
-            taskManager.add(new Task(name,task,description));
+            taskManager.add(new Task(task,description));
             Toast.makeText(WhoseTurnActivity.this,"New lens added",Toast.LENGTH_LONG).show();
             list_view_build();
         }

@@ -38,8 +38,8 @@ public class AddTaskActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.save_button:
-                EditText make=(EditText)findViewById(R.id.addName);
-                String n = make.getText().toString();
+//                EditText make=(EditText)findViewById(R.id.addName);
+//                String n = make.getText().toString();
 
                 EditText aperture=(EditText)findViewById(R.id.addTask);
                 String t = aperture.getText().toString();
@@ -49,7 +49,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putString("name", n);
+             //   bundle.putString("name", n);
                 bundle.putString("task", t);
                 bundle.putString("description", d);
                 intent.putExtra("task_information", bundle);

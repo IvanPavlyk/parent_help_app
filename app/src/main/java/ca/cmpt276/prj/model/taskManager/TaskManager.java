@@ -46,13 +46,15 @@ public class TaskManager {
     taskList.add(newTask);
 }
 
+    public void remove(Task newTask) { taskList.remove(newTask); }
+
     public Task retrieving(int index){
         return taskList.get(index);
     }
 
     private TaskManager(){
         taskList=new ArrayList<>();
-        taskList.add(new Task("dd","tt","ff"));
+        taskList.add(new Task("dd","tt"));
     }
 
     public static TaskManager getInstance(){

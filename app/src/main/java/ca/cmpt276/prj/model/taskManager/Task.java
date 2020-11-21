@@ -1,11 +1,15 @@
 package ca.cmpt276.prj.model.taskManager;
 
+import java.util.ArrayList;
+
+import ca.cmpt276.prj.model.Child;
+
 public class Task {
 
     String name;
     String description;
     String taskName;
-    //ArrayList<Child> queue;
+    ArrayList<Child> queue;
 
 
 //    public Task(String name, String description) {
@@ -26,9 +30,10 @@ public class Task {
 //        Child child = queue.remove(0);
 //        queue.add(queue.size(), child);
 //    }
+    public Child child;
 
-    public Task(String name,String task, String description){
-        this.name=name;
+    public Task(String task, String description){
+       // this.name=child.getName();
         this.description=description;
         this.taskName=task;
     }
