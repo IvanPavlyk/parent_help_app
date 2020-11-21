@@ -27,6 +27,11 @@ public class Task {
 //        queue.add(queue.size(), child);
 //    }
 
+    public Task(String name,String task, String description){
+        this.name=name;
+        this.description=description;
+        this.taskName=task;
+    }
     // Getters and Setters
     public String getName() {
         return name;

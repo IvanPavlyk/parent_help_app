@@ -19,13 +19,12 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_add_task);
-        ActionBar bar = getSupportActionBar();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar ab=getSupportActionBar();
         assert ab != null;
-        ab.setTitle("Lens Details");
+        ab.setTitle("Task Details");
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -51,9 +50,9 @@ public class AddTaskActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", n);
-                bundle.putString("aperture", t);
-                bundle.putString("len_focal", d);
-                intent.putExtra("Len_information", bundle);
+                bundle.putString("task", t);
+                bundle.putString("description", d);
+                intent.putExtra("tasker_information", bundle);
                 setResult(RESULT_OK, intent);
                 finish();
 
