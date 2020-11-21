@@ -2,6 +2,7 @@ package ca.cmpt276.prj.ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,9 @@ public class WhoseTurnActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whose_turn);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Whose Turn");
 
         list_view_build();
 
