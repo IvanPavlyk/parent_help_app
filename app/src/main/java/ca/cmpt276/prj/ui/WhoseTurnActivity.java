@@ -16,18 +16,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.Child;
+import ca.cmpt276.prj.model.MyTaskDialog;
 import ca.cmpt276.prj.model.taskManager.Task;
 import ca.cmpt276.prj.model.taskManager.TaskManager;
 
 public class WhoseTurnActivity extends AppCompatActivity {
-
     private TaskManager taskManager=TaskManager.getInstance();
 
     @Override
@@ -49,6 +52,46 @@ public class WhoseTurnActivity extends AppCompatActivity {
             }
         });
         list_view_build();
+
+        FloatingActionButton edit = findViewById(R.id.edit);
+        if(taskManager.size() != 0) {
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(WhoseTurnActivity.this, EditTaskActivity.class);
+                    startActivityForResult(intent, 1);
+                }
+            });
+        }else if(taskManager.size() == 0){
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(WhoseTurnActivity.this, "Please  a new task.\n At the bottom right corner \"+\" sign.",Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+
+        FloatingActionButton delete = findViewById(R.id.delete);
+        if(taskManager.size() != 0) {
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(WhoseTurnActivity.this, deleteTask.class);
+                    startActivityForResult(intent, 1);
+                }
+            });
+        }else if(taskManager.size() == 0){
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(WhoseTurnActivity.this, "Please Add a new task.\n At the bottom right corner \"+\" sign.",Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+
     }
 
     private void list_view_build() {
@@ -60,35 +103,29 @@ public class WhoseTurnActivity extends AppCompatActivity {
             count+=1;
         }
 
-        ListView lv=(ListView)findViewById(R.id.list_view);
+        ListView listView=(ListView)findViewById(R.id.list_view);
         ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,arr);
-        lv.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(WhoseTurnActivity.this);
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
+                Task temp = TaskManager.getInstance().retrieving(position);
+                MyTaskDialog dialog = new MyTaskDialog();
+                Bundle bundle = new Bundle();
+               // bundle.putString("child_name", temp.child.getName());
+                bundle.putString("task_name", temp.getTaskName());
+                bundle.putString("description", temp.getDescription());
+                dialog.setArguments(bundle);
+                dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");
 
-                LayoutInflater factory = LayoutInflater.from(WhoseTurnActivity.this);
-                View v = factory.inflate(R.layout.task_infomation, null);
-                ///
-                alert.setView(v);
-                alert.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dlg, int sumthin) {
-
-                        finish();
-                    }
-                });
-                alert.show();
-
-//                Intent intent= newPageIntent(WhoseTurnActivity.this,position);
-//                startActivity(intent);
             }
-
         });
+
     }
+
 
 
     @Override
@@ -108,7 +145,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             if (task == null) throw new AssertionError();
             if (description == null) throw new AssertionError();
             taskManager.add(new Task(task,description));
-            Toast.makeText(WhoseTurnActivity.this,"New lens added",Toast.LENGTH_LONG).show();
+            Toast.makeText(WhoseTurnActivity.this,"New task added",Toast.LENGTH_LONG).show();
             list_view_build();
         }
     }

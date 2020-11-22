@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniWhoseTurnButton() {
-        Button btn=findViewById(R.id.buttonHelp);
+        Button btn=findViewById(R.id.whoseturn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,16 +26,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Objects;
-
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.coinManager.CoinSide;
 import ca.cmpt276.prj.model.coinManager.CoinManager;
 
 /**
@@ -94,9 +84,9 @@ public class ManageChildrenActivity extends AppCompatActivity {
             if(itemView == null || itemView.getTag() == null){
                 itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
                 holder = new ChildHolder();
-                holder.childName = itemView.findViewById(R.id.textNameOfChild);
-                holder.removeChild = itemView.findViewById(R.id.buttonDeleteChild);
-                holder.imagePortraitChild = itemView.findViewById(R.id.imageViewChildPortraitList);
+                holder.childName = itemView.findViewById(R.id.NameOfChild);
+                holder.removeChild = itemView.findViewById(R.id.DeleteChild);
+                holder.imagePortraitChild = itemView.findViewById(R.id.pic);
                 itemView.setTag(holder);
             }
             else{
@@ -147,13 +137,13 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 }
             });
             Child currentChild = coinManager.getChild(position);
-            TextView textView = itemView.findViewById(R.id.textNameOfChild);
+            TextView textView = itemView.findViewById(R.id.NameOfChild);
             textView.setText(currentChild.getName());
             textView.setTextColor(Color.parseColor("#ffffff"));
             textView.setTextSize(18);
             textView.setGravity(Gravity.CENTER);
             itemView.setBackgroundColor(Color.parseColor("#f5a742"));
-            ImageView imageChild = (ImageView) itemView.findViewById(R.id.imageViewChildPortraitList);
+            ImageView imageChild = (ImageView) itemView.findViewById(R.id.pic);
             imageChild.setImageBitmap(stringToBitmap(currentChild.getImageString()));
             return itemView;
         }

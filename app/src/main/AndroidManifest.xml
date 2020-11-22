@@ -13,13 +13,23 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".ui.deleteTask"
+            android:parentActivityName=".ui.WhoseTurnActivity">
+        </activity>
+        <activity
+            android:name=".ui.EditOne"
+            android:parentActivityName=".ui.WhoseTurnActivity"></activity>
+        <activity
+            android:name=".ui.EditTaskActivity"
+            android:parentActivityName=".ui.WhoseTurnActivity" />
+        <activity
             android:name=".ui.WhoseTurnActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.MainActivity"/>
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.AddTaskActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.WhoseTurnActivity"/>
+            android:parentActivityName=".ui.WhoseTurnActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.EditChildPortraitActivity"
             android:parentActivityName=".ui.ManageChildrenActivity" />

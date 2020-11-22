@@ -2,10 +2,13 @@ package ca.cmpt276.prj.model.taskManager;
 
 import java.util.ArrayList;
 
+import ca.cmpt276.prj.model.Child;
+import ca.cmpt276.prj.model.coinManager.Flip;
+
 public class TaskManager {
 
     private static TaskManager taskManager;
-
+    private ArrayList<Child> childrenList;
     private ArrayList<Task> taskList;
 
     public int size(){
@@ -52,16 +55,66 @@ public class TaskManager {
         return taskList.get(index);
     }
 
+    public int returnint(int i){
+        return i;
+    }
+
     private TaskManager(){
+        this.childrenList = new ArrayList<>();
         taskList=new ArrayList<>();
         taskList.add(new Task("dd","tt"));
     }
+
+    public void addChild(Child child) {
+        childrenList.add(childrenList.size(), child);
+    }
+
+    public Child removeChild(Child child) {
+        for (int i=0; i<childrenList.size(); i++) {
+            if (childrenList.get(i).getName().equals(child.getName())) {
+                return childrenList.remove(i);
+            }
+        }
+        return null;
+    }
+
+    public Child getChild(int index) {
+        return childrenList.get(index);
+    }
+
+    public void wipeChildrens() {
+        childrenList = new ArrayList<>();
+    }
+
+
 
     public static TaskManager getInstance(){
         if(taskManager==null){
             taskManager =new TaskManager();
         }
         return taskManager;
+    }
+
+    public void removeByIndex(int index){
+        taskList.remove(retrieving(index));
+    }
+
+    public void EditTask(String task,String description,int index){
+        removeByIndex(index);
+        Task editTask=new Task(task,description);
+        taskList.add(editTask);
+    }
+
+    public ArrayList<Child> getChildrenList() {
+        return childrenList;
+    }
+
+
+    public void setChildrenList(ArrayList<Child> list){
+        wipeChildrens();
+        for(Child child : list){
+            addChild(child);
+        }
     }
 
 }
