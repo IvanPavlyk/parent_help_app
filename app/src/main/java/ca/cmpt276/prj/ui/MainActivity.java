@@ -39,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Initialize buttons
         initFlipCoinButton();
-
         iniTimeoutButton();
+        initHelpButton();
 
         // Load instance on initialization
         SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
@@ -63,17 +64,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void initFlipCoinButton(){
         Button flipCoinBtn = findViewById(R.id.buttonFlipCoin);
         flipCoinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = CoinFlipActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initHelpButton() {
+        Button helpBtn = findViewById(R.id.buttonHelp);
+        helpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = HelpActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
