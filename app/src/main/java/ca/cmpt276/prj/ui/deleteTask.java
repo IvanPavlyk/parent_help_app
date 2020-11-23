@@ -44,7 +44,7 @@ public class deleteTask extends AppCompatActivity {
         for (int i = 0; i < temp1.getTaskList().size(); i++) {
             Task temp = temp1.retrieving(i);
 
-            editTask.add("Task: "+temp.getName()+"\nTask Description: "+temp.getDescription());
+            editTask.add("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription());
 
         }
 

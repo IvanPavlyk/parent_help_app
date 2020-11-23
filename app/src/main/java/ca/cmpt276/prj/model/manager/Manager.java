@@ -114,17 +114,17 @@ public class Manager {
     }
 
     public void addTask(Task task) {
-        taskList.add(taskList.size(), task);
+        taskList.add(task);
     }
 
-    public Task removeTask(Task task) {
-        for (int i=0; i<taskList.size(); i++) {
-            if (taskList.get(i).getName().equals(task.getName())) {
-                return taskList.remove(i);
-            }
-        }
-        return null;
-    }
+//    public Task removeTask(Task task) {
+//        for (int i=0; i<taskList.size(); i++) {
+//            if (taskList.get(i).getTaskName().equals(task.getTaskName())) {
+//                return taskList.remove(i);
+//            }
+//        }
+//        return null;
+//    }
 
     public void wipeTasks() {
         taskList = new ArrayList<>();
