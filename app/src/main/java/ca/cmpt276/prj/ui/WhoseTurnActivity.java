@@ -58,7 +58,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         list_view_build();
 
         FloatingActionButton edit = findViewById(R.id.edit);
-        if(manager.getTaskList().size() != 0) {
+        if(manager.size() != 0) {
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,7 +67,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     startActivityForResult(intent, 1);
                 }
             });
-        }else if(manager.getTaskList().size() == 0){
+        }else if(manager.size() == 0){
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -78,7 +78,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         FloatingActionButton delete = findViewById(R.id.delete);
-        if(manager.getTaskList().size() != 0) {
+        if(manager.size() != 0) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -86,7 +86,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     startActivityForResult(intent, 1);
                 }
             });
-        }else if(manager.getTaskList().size() == 0){
+        }else if(manager.size() == 0){
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -105,9 +105,9 @@ public class WhoseTurnActivity extends AppCompatActivity {
     private void list_view_build() {
         ArrayList<String> arr=new ArrayList<>();
         int count=0;
-        while(count< manager.getTaskList().size()){
+        while(count< manager.size()){
             Task buffer = manager.retrieving(count);
-            arr.add("Task: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
+            arr.add("Task: "+buffer.getName()+"\nTask Description: "+buffer.getDescription());
             count+=1;
         }
 
@@ -127,7 +127,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     MyTaskDialog dialog = new MyTaskDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString("child_name",temp.getName());
-                    bundle.putString("task_name", temp.getTaskName());
+                    bundle.putString("task_name", temp.getName());
                     bundle.putString("description", temp.getDescription());
                     dialog.setArguments(bundle);
                     dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");

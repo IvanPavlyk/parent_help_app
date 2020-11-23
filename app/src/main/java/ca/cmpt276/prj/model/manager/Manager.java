@@ -21,6 +21,10 @@ public class Manager {
     private ArrayList<Task> taskList;
     private Child winner = null;
 
+    public int size(){
+        return taskList.size();
+    }
+
     public static Manager getInstance() {
         if (manager == null) manager = new Manager();
         return manager;
@@ -33,6 +37,7 @@ public class Manager {
     private Manager() {
         this.childrenList = new ArrayList<>();
         this.flipsRecord = new ArrayList<>();
+        taskList=new ArrayList<>();
     }
 
     public void addChild(Child child) {

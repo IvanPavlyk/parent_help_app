@@ -28,9 +28,9 @@ public class EditOne extends AppCompatActivity {
         Intent intent = getIntent();
         Task temp = Manager.getInstance().retrieving(intent.getIntExtra("index",0));
         TextView changetext = findViewById(R.id.EditTaskDetail);
-        changetext.setText("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription() );
+        changetext.setText("Task: "+temp.getName()+"\nTask Description: "+temp.getDescription() );
         CenterTextView();
-        ActivateButton(temp.getTaskName());
+        ActivateButton(temp.getName());
 
     }
 

@@ -43,7 +43,7 @@ public class EditTaskActivity extends AppCompatActivity {
         for (int i = 0; i < temp1.getTaskList().size(); i++) {
             Task temp = temp1.retrieving(i);
 
-            editTasks.add("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription());
+            editTasks.add("Task: "+temp.getName()+"\nTask Description: "+temp.getDescription());
 
         }
 
