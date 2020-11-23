@@ -23,11 +23,12 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.coinManager.CoinSide;
-import ca.cmpt276.prj.model.coinManager.CoinManager;
+import ca.cmpt276.prj.model.manager.CoinSide;
+import ca.cmpt276.prj.model.manager.Manager;
 
 /**
  * AddChildActivity class that is booted from the ManageChildrenActivity
@@ -44,7 +45,7 @@ public class AddChildActivity extends AppCompatActivity {
     private ImageButton buttonAddPortraitGallery;
     private EditText editTextChildName;
     private ImageView imageViewChildPortrait;
-    private CoinManager game;
+    private Manager game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +57,16 @@ public class AddChildActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_add_child);
         initializeResources();
-        game = CoinManager.getInstance();
+        game = Manager.getInstance();
         setListeners();
     }
 
     private void initializeResources() {
-        buttonAddChild = (Button) findViewById(R.id.buttonAddChildScreen);
-        buttonAddPortraitCamera = (ImageButton) findViewById(R.id.imageButtonCamera);
-        buttonAddPortraitGallery = (ImageButton) findViewById(R.id.imageButtonGallery);
-        editTextChildName = (EditText) findViewById(R.id.ediTextChildName);
-        imageViewChildPortrait = (ImageView) findViewById(R.id.imagePortrait);
+        buttonAddChild = findViewById(R.id.buttonAddChildScreen);
+        buttonAddPortraitCamera = findViewById(R.id.imageButtonCamera);
+        buttonAddPortraitGallery = findViewById(R.id.imageButtonGallery);
+        editTextChildName = findViewById(R.id.ediTextChildName);
+        imageViewChildPortrait = findViewById(R.id.imagePortrait);
         imageViewChildPortrait.setImageResource(R.drawable.default_portrait);
     }
 
@@ -127,16 +128,16 @@ public class AddChildActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             try{
-                Uri image = data.getData();
-                InputStream imageStream = getContentResolver().openInputStream(image);
+                Uri image = Objects.requireNonNull(data).getData();
+                InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(image));
                 imageViewChildPortrait.setImageBitmap(BitmapFactory.decodeStream(imageStream));
             } catch (IOException exception){
                 exception.printStackTrace();
             }
         }
         else if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK){
-            Bundle extras = data.getExtras();
-            Bitmap image  = (Bitmap)extras.get("data");
+            Bundle extras = Objects.requireNonNull(data).getExtras();
+            Bitmap image  = (Bitmap) Objects.requireNonNull(extras).get("data");
             imageViewChildPortrait.setImageBitmap(image);
         }
         else{

@@ -204,7 +204,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                     mp.pause();
                 }
                 Spinner spinner = findViewById(R.id.duration);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
 
                 switch (s) {
@@ -272,6 +272,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @SuppressWarnings("deprecation")
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override

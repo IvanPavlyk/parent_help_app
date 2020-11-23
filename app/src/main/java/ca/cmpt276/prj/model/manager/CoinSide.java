@@ -1,4 +1,4 @@
-package ca.cmpt276.prj.model.coinManager;
+package ca.cmpt276.prj.model.manager;
 
 /**
  * CoinSide enum responsible for all of the options of the coin sides

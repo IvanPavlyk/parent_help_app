@@ -9,22 +9,21 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.coinManager.CoinManager;
+import ca.cmpt276.prj.model.manager.Manager;
 
 /**
  * EditChildrenActivity is booted from the ManageChildrenActivity when user presses the portrait on the list view item
@@ -40,7 +39,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
     private ImageButton buttonAddPortraitCamera;
     private ImageButton buttonAddPortraitGallery;
     private ImageView imageViewChildPortrait;
-    private CoinManager game;
+    private Manager game;
     private int position;
 
     @Override
@@ -53,8 +52,8 @@ public class EditChildPortraitActivity extends AppCompatActivity {
             bar.setTitle("Edit a portrait");
         }
         Bundle bundle = getIntent().getExtras();
-        position = bundle.getInt("PositionChild");
-        game = CoinManager.getInstance();
+        position = Objects.requireNonNull(bundle).getInt("PositionChild");
+        game = Manager.getInstance();
         initializeResources();
         imageViewChildPortrait.setImageBitmap(ManageChildrenActivity.stringToBitmap(game.getChild(position).getImageString()));
         setListeners();
@@ -105,16 +104,16 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             try{
-                Uri image = data.getData();
-                InputStream imageStream = getContentResolver().openInputStream(image);
+                Uri image = Objects.requireNonNull(data).getData();
+                InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(image));
                 imageViewChildPortrait.setImageBitmap(BitmapFactory.decodeStream(imageStream));
             } catch (IOException exception){
                 exception.printStackTrace();
             }
         }
         else if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK){
-            Bundle extras = data.getExtras();
-            Bitmap image  = (Bitmap)extras.get("data");
+            Bundle extras = Objects.requireNonNull(data).getExtras();
+            Bitmap image  = (Bitmap) Objects.requireNonNull(extras).get("data");
             imageViewChildPortrait.setImageBitmap(image);
         }
         else{
@@ -123,10 +122,10 @@ public class EditChildPortraitActivity extends AppCompatActivity {
     }
 
     private void initializeResources() {
-        buttonSaveChild = (Button) findViewById(R.id.buttonSaveChildEditScreen);
-        buttonAddPortraitCamera = (ImageButton) findViewById(R.id.imageButtonPortraitEditCamera);
-        buttonAddPortraitGallery = (ImageButton) findViewById(R.id.imageButtonPortraiteditGallery);
-        imageViewChildPortrait = (ImageView) findViewById(R.id.imageViewPortraitEdit);
+        buttonSaveChild = findViewById(R.id.buttonSaveChildEditScreen);
+        buttonAddPortraitCamera = findViewById(R.id.imageButtonPortraitEditCamera);
+        buttonAddPortraitGallery = findViewById(R.id.imageButtonPortraiteditGallery);
+        imageViewChildPortrait = findViewById(R.id.imageViewPortraitEdit);
     }
 
     public static Intent makeIntent(Context context){

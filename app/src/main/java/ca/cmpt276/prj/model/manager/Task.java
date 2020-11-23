@@ -1,4 +1,4 @@
-package ca.cmpt276.prj.model.taskManager;
+package ca.cmpt276.prj.model.manager;
 
 import java.util.ArrayList;
 

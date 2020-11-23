@@ -1,4 +1,4 @@
-package ca.cmpt276.prj.model.coinManager;
+package ca.cmpt276.prj.model.manager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,24 +9,25 @@ import ca.cmpt276.prj.model.Child;
 /**
  * Game singleton class used to handle all the logic connected to flip coin activity and manage children activity
  */
-public class CoinManager {
+public class Manager {
 
-    private static CoinManager coinManager;
+    private static Manager manager;
 
     private ArrayList<Child> childrenList;
     private ArrayList<Flip> flipsRecord;
+    private ArrayList<Task> taskList;
     private Child winner = null;
 
-    public static CoinManager getInstance() {
-        if (coinManager == null) coinManager = new CoinManager();
-        return coinManager;
+    public static Manager getInstance() {
+        if (manager == null) manager = new Manager();
+        return manager;
     }
 
-    public static void loadInstance(CoinManager instance) {
-        if (instance != null) coinManager = instance;
+    public static void loadInstance(Manager instance) {
+        if (instance != null) manager = instance;
     }
 
-    private CoinManager() {
+    private Manager() {
         this.childrenList = new ArrayList<>();
         this.flipsRecord = new ArrayList<>();
     }
@@ -104,6 +105,31 @@ public class CoinManager {
         return filteredRecord;
     }
 
+    public void addTask(Task task) {
+        taskList.add(taskList.size(), task);
+    }
+
+    public Task removeTask(Task task) {
+        for (int i=0; i<taskList.size(); i++) {
+            if (taskList.get(i).getName().equals(task.getName())) {
+                return taskList.remove(i);
+            }
+        }
+        return null;
+    }
+
+    public void wipeTasks() {
+        taskList = new ArrayList<>();
+    }
+
+    // Returns image of child as a string, returns empty string if no correspondent child found
+    public String getPortrait(String name) {
+        for (Child child : childrenList) {
+            if (child.getName().equals(name)) return child.getImageString();
+        }
+        return "";
+    }
+
     // Getters and Setters
     public ArrayList<Child> getChildrenList() {
         return childrenList;
@@ -120,5 +146,13 @@ public class CoinManager {
         for(Child child : list){
             addChild(child);
         }
+    }
+
+    public ArrayList<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(ArrayList<Task> taskList) {
+        this.taskList = taskList;
     }
 }

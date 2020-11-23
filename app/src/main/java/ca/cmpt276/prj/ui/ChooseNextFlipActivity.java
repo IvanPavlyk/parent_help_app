@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,15 +16,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.coinManager.CoinManager;
+import ca.cmpt276.prj.model.manager.Manager;
 
 public class ChooseNextFlipActivity extends AppCompatActivity {
 
-    private CoinManager coinManager;
+    private Manager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +32,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setTitle("Choose next flipper");
         }
-        coinManager = CoinManager.getInstance();
+        manager = Manager.getInstance();
         setContentView(R.layout.activity_choose_next_flip);
         populateListView();
         registerListClickCallback();
@@ -56,9 +54,9 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Child child = coinManager.getChild(position);
-                coinManager.removeChild(child);
-                coinManager.addChildToFront(child);
+                Child child = manager.getChild(position);
+                manager.removeChild(child);
+                manager.addChildToFront(child);
                 Intent output = new Intent();
                 output.putExtra("SELECTION", "CHILD");
                 setResult(RESULT_OK, output);
@@ -83,7 +81,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
 
     private class ChildListAdapter extends ArrayAdapter<Child> {
         public ChildListAdapter(){
-            super(ChooseNextFlipActivity.this, R.layout.child_item, coinManager.getChildrenList());
+            super(ChooseNextFlipActivity.this, R.layout.child_item, manager.getChildrenList());
         }
 
         @NonNull
@@ -93,7 +91,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
             if(itemView == null){
                 itemView = getLayoutInflater().inflate(R.layout.child_item, parent, false);
             }
-            Child currentChild = coinManager.getChild(position);
+            Child currentChild = manager.getChild(position);
             ImageView img = itemView.findViewById(R.id.childItemImage);
             img.setImageBitmap(ManageChildrenActivity.stringToBitmap(currentChild.getImageString()));
 

@@ -23,8 +23,8 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.coinManager.CoinSide;
-import ca.cmpt276.prj.model.coinManager.CoinManager;
+import ca.cmpt276.prj.model.manager.CoinSide;
+import ca.cmpt276.prj.model.manager.Manager;
 
 /**
  * Coin Flip activity, child calls heads or tails
@@ -32,7 +32,7 @@ import ca.cmpt276.prj.model.coinManager.CoinManager;
  */
 public class CoinFlipActivity extends AppCompatActivity {
     private ImageView coin;
-    private CoinManager coinManager = CoinManager.getInstance();
+    private Manager manager = Manager.getInstance();
     private String childName;
     private Button heads, tails, reset, flip, change;
     private static final String EMPTY_STRING = "";
@@ -93,11 +93,11 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void checkForChild(){
-        if(coinManager.getChildrenList().size() == 0){
+        if(manager.getChildrenList().size() == 0){
             childName = EMPTY_STRING;
             hideButtons();
         } else {
-            Child child = coinManager.getChild(0);
+            Child child = manager.getChild(0);
             childName = child.getName();
             flip.setVisibility(View.GONE);
             TextView childNameText = findViewById(R.id.childName);
@@ -166,8 +166,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CHOOSE_NEXT_FLIP_REQUEST_CODE){
             if(resultCode == RESULT_OK){
-                String returnString = data.getStringExtra("SELECTION");
-                if(returnString.equals("CHILD")){
+                String returnString = Objects.requireNonNull(data).getStringExtra("SELECTION");
+                if(Objects.requireNonNull(returnString).equals("CHILD")){
                     Toast.makeText(CoinFlipActivity.this, "Successfully selected child that will flip next", Toast.LENGTH_SHORT).show();
                     unhideButtons();
                     checkForChild();
@@ -182,14 +182,14 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void selectHeads(){
         TextView selection = findViewById(R.id.selectionDetails);
         selection.setText(getString(R.string.selectionHeads, childName));
-        coinManager.getChild(0).setPick(CoinSide.HEAD);
+        manager.getChild(0).setPick(CoinSide.HEAD);
         coinSelection = CoinSide.HEAD;
     }
 
     private void selectTails(){
         TextView selection = findViewById(R.id.selectionDetails);
         selection.setText(getString(R.string.selectionTails, childName));
-        coinManager.getChild(0).setPick(CoinSide.TAIL);
+        manager.getChild(0).setPick(CoinSide.TAIL);
         coinSelection = CoinSide.TAIL;
     }
 
@@ -210,10 +210,10 @@ public class CoinFlipActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 boolean result;
                 if(childName.equals(EMPTY_STRING)){
-                    result = coinManager.plainCoinFlip();
+                    result = manager.plainCoinFlip();
                     displayResultNoChildren(result);
                 } else {
-                    result = coinManager.flip();
+                    result = manager.flip();
                     showFlipResult(result);
                     setResultText(result);
                 }

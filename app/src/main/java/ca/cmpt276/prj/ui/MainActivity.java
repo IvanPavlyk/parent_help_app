@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.coinManager.CoinManager;
+import ca.cmpt276.prj.model.manager.Manager;
 
 /**
  * MainActivity responsible for the first screen that loads up when the application starts running
@@ -22,7 +22,7 @@ import ca.cmpt276.prj.model.coinManager.CoinManager;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private CoinManager coinManager;
+    private Manager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
         Gson gson = new Gson();
         String instanceSave = sharedPreferences.getString("savedInstance", null);
-        CoinManager loadedInstance = gson.fromJson(instanceSave, CoinManager.class);
-        CoinManager.loadInstance(loadedInstance);
-        coinManager = CoinManager.getInstance();
+        Manager loadedInstance = gson.fromJson(instanceSave, Manager.class);
+        Manager.loadInstance(loadedInstance);
+        manager = Manager.getInstance();
     }
 
     private void iniTimeoutButton() {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = context.getSharedPreferences("saves", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String instanceSave = gson.toJson(CoinManager.getInstance());
+        String instanceSave = gson.toJson(Manager.getInstance());
         editor.putString("savedInstance", instanceSave);
         editor.apply();
     }
