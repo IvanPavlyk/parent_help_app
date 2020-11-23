@@ -107,7 +107,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         int count=0;
         while(count< manager.size()){
             Task buffer = manager.retrieving(count);
-            arr.add("Task: "+buffer.getName()+"\nTask Description: "+buffer.getDescription());
+            arr.add("Task: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
             count+=1;
         }
 
@@ -126,8 +126,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     Task temp = Manager.getInstance().retrieving(position);
                     MyTaskDialog dialog = new MyTaskDialog();
                     Bundle bundle = new Bundle();
-                    bundle.putString("child_name",temp.getName());
-                    bundle.putString("task_name", temp.getName());
+                    bundle.putString("child_name",temp.getChildName());
+                    bundle.putString("task_name", temp.getTaskName());
                     bundle.putString("description", temp.getDescription());
                     dialog.setArguments(bundle);
                     dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");
@@ -227,17 +227,13 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        list_view_build();
-    }
-//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//    }
 //    @Override
 //    protected void onStop() {
 //        super.onStop();
 //        MainActivity.saveInstanceStatic(this);
 //    }
-
-
 }
