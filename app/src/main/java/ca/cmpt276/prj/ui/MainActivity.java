@@ -41,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize buttons
         initFlipCoinButton();
+
         iniTimeoutButton();
         initHelpButton();
+        iniWhoseTurnButton();
 
         // Load instance on initialization
         SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
@@ -51,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
         Manager loadedInstance = gson.fromJson(instanceSave, Manager.class);
         Manager.loadInstance(loadedInstance);
         manager = Manager.getInstance();
+    }
+
+    private void iniWhoseTurnButton() {
+        Button btn=findViewById(R.id.whoseturn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, WhoseTurnActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void iniTimeoutButton() {

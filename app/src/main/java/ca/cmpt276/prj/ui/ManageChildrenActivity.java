@@ -84,9 +84,9 @@ public class ManageChildrenActivity extends AppCompatActivity {
             if(itemView == null || itemView.getTag() == null){
                 itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
                 holder = new ChildHolder();
-                holder.childName = itemView.findViewById(R.id.textNameOfChild);
-                holder.removeChild = itemView.findViewById(R.id.buttonDeleteChild);
-                holder.imagePortraitChild = itemView.findViewById(R.id.imageViewChildPortraitList);
+                holder.childName = itemView.findViewById(R.id.NameOfChild);
+                holder.removeChild = itemView.findViewById(R.id.DeleteChild);
+                holder.imagePortraitChild = itemView.findViewById(R.id.picture);
                 itemView.setTag(holder);
             }
             else{
@@ -137,13 +137,21 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 }
             });
             Child currentChild = manager.getChild(position);
+<<<<<<< HEAD
+            TextView textView = itemView.findViewById(R.id.NameOfChild);
+=======
             TextView textView = itemView.findViewById(R.id.textNameOfChild);
+>>>>>>> origin/master
             textView.setText(currentChild.getName());
             textView.setTextColor(Color.parseColor("#ffffff"));
             textView.setTextSize(18);
             textView.setGravity(Gravity.CENTER);
             itemView.setBackgroundColor(Color.parseColor("#f5a742"));
+<<<<<<< HEAD
+            ImageView imageChild = itemView.findViewById(R.id.picture);
+=======
             ImageView imageChild = itemView.findViewById(R.id.imageViewChildPortraitList);
+>>>>>>> origin/master
             imageChild.setImageBitmap(stringToBitmap(currentChild.getImageString()));
             return itemView;
         }

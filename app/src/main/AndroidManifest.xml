@@ -18,6 +18,23 @@
             android:name=".ui.EditChildPortraitActivity"
             android:parentActivityName=".ui.ManageChildrenActivity" />
         <activity
+            android:name=".ui.deleteTask"
+            android:parentActivityName=".ui.WhoseTurnActivity">
+        </activity>
+        <activity
+            android:name=".ui.EditOne"
+            android:parentActivityName=".ui.WhoseTurnActivity" />
+        <activity
+            android:name=".ui.EditTaskActivity"
+            android:parentActivityName=".ui.WhoseTurnActivity" />
+        <activity
+            android:name=".ui.WhoseTurnActivity"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.AddTaskActivity"
+            android:parentActivityName=".ui.WhoseTurnActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.AddChildActivity"
             android:parentActivityName=".ui.ManageChildrenActivity" />
         <activity

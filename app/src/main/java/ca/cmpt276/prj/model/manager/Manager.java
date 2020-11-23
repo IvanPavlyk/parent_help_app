@@ -5,6 +5,9 @@ import java.util.Calendar;
 import java.util.Random;
 
 import ca.cmpt276.prj.model.Child;
+import ca.cmpt276.prj.model.manager.CoinSide;
+import ca.cmpt276.prj.model.manager.Flip;
+import ca.cmpt276.prj.model.manager.Task;
 
 /**
  * Game singleton class used to handle all the logic connected to flip coin activity and manage children activity
@@ -128,6 +131,28 @@ public class Manager {
             if (child.getName().equals(name)) return child.getImageString();
         }
         return "";
+    }
+
+    public Task retrieving(int index){
+        return taskList.get(index);
+    }
+
+    public int returnint(int i){
+        return i;
+    }
+
+    public void add(Task newTask){
+        taskList.add(newTask);
+    }
+
+    public void removeByIndex(int index){
+        taskList.remove(retrieving(index));
+    }
+
+    public void EditTask(String task,String description,int index){
+        removeByIndex(index);
+        Task editTask=new Task(task,description);
+        taskList.add(editTask);
     }
 
     // Getters and Setters
