@@ -3,20 +3,16 @@ package ca.cmpt276.prj.ui;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,17 +25,13 @@ import java.util.Set;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.MyTaskDialog;
-import ca.cmpt276.prj.model.coinManager.CoinManager;
-import ca.cmpt276.prj.model.taskManager.Task;
-import ca.cmpt276.prj.model.taskManager.TaskManager;
-
-import static ca.cmpt276.prj.ui.ManageChildrenActivity.stringToBitmap;
+import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.manager.Task;
 
 public class WhoseTurnActivity extends AppCompatActivity {
-    private static TaskManager taskManager=TaskManager.getInstance();
-    private static CoinManager coinManager=CoinManager.getInstance();
-    private ArrayList<Task> taskList=TaskManager.getInstance().getTaskList();
-    private ArrayList<Child> ChildNameList= CoinManager.getInstance().getChildrenList();
+    private static Manager manager = Manager.getInstance();
+    private ArrayList<Task> taskList = Manager.getInstance().getTaskList();
+    private ArrayList<Child> childNameList = Manager.getInstance().getChildrenList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +58,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         list_view_build();
 
         FloatingActionButton edit = findViewById(R.id.edit);
-        if(taskManager.size() != 0) {
+        if(manager.getTaskList().size() != 0) {
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,7 +67,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     startActivityForResult(intent, 1);
                 }
             });
-        }else if(taskManager.size() == 0){
+        }else if(manager.getTaskList().size() == 0){
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -86,7 +78,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         FloatingActionButton delete = findViewById(R.id.delete);
-        if(taskManager.size() != 0) {
+        if(manager.getTaskList().size() != 0) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -94,7 +86,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     startActivityForResult(intent, 1);
                 }
             });
-        }else if(taskManager.size() == 0){
+        }else if(manager.getTaskList().size() == 0){
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -113,8 +105,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
     private void list_view_build() {
         ArrayList<String> arr=new ArrayList<>();
         int count=0;
-        while(count< taskManager.size()){
-            Task buffer=taskManager.retrieving(count);
+        while(count< manager.getTaskList().size()){
+            Task buffer = manager.retrieving(count);
             arr.add("Task: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
             count+=1;
         }
@@ -127,11 +119,11 @@ public class WhoseTurnActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
-                if(ChildNameList.size()==0){
+                if(childNameList.size()==0){
                     Toast.makeText(WhoseTurnActivity.this, "Please add a child before add some tasks", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Task temp = TaskManager.getInstance().retrieving(position);
+                    Task temp = Manager.getInstance().retrieving(position);
                     MyTaskDialog dialog = new MyTaskDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString("child_name",temp.getName());
@@ -153,8 +145,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        Child currentChild = coinManager.getChild(0);
-
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1&&resultCode==RESULT_OK){
             if (data == null) throw new AssertionError();
@@ -174,18 +164,18 @@ public class WhoseTurnActivity extends AppCompatActivity {
             String lastTask = sp.getString("name", "");
 
 
-            int child_count = ChildNameList.size()-1;
+            int child_count = childNameList.size()-1;
             if (child_count < 0) {
                 Toast.makeText(this, "No Child Added Yet", Toast.LENGTH_SHORT).show();
                 return;
             }
             int random_index = (int)(Math.random() * ((child_count) + 1));
             if (!lastTask.equals("")) {
-                while (ChildNameList.get(random_index).equals(lastTask)) {
+                while (childNameList.get(random_index).equals(lastTask)) {
                     random_index = (int) (Math.random() * ((child_count) + 1));
                 }
             }
-            String task_assigned_to = ChildNameList.get(random_index).getName();
+            String task_assigned_to = childNameList.get(random_index).getName();
 
 
             SharedPreferences.Editor editor = sp.edit();
@@ -198,7 +188,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
             Task temp = new Task(task,description);
             temp.setName(task_assigned_to);
-            taskManager.add(temp);
+            manager.add(temp);
 
 
 //            ImageView imageView = (ImageView) findViewById(R.id.picture);

@@ -50,4 +50,24 @@
     <string name="camera_button_edit_screen">Camera button</string>
     <string name="gallery_button_edit_screen">Gallery button</string>
     <string name="portrait_of_the_child_inside_the_list_view_item">Portrait of the child inside the list view item</string>
+    <string name="change">Change</string>
+    <string name="child_image">child image</string>
+    <string name="none">NONE</string>
+    <string name="helpActivity_title">The Multi-Purpose Family Assistant</string>
+    <string name="helpActivity_description">A multi-functional utility tool that helps families arrange activities for their children in a fun and intuitive way.</string>
+    <string name="helpActivity_credits_title">By Team Salmon</string>
+    <string name="helpActivity_copyright_title">Copyright</string>
+    <string name="helpActivity_credit_content">Daniel Du\n Ethan Yu\n Ivan Pavlyk\n Kevin Tang</string>
+    <string name="helpActivity_copyright_content">
+        https://pixabay.com/vectors/the-background-background-design-352165/\n
+        https://pixabay.com/illustrations/pumpkin-bear-bat-bunny-chicken-5540550/\n
+        https://pixabay.com/vectors/sky-clouds-mountains-blue-34536/\n
+        https://www.vippng.com/maxp/bRJoxw/\n
+        https://www.youtube.com/watch?v=zhtyRiEbnbk\n
+        http://soundbible.com/2061-Loud-Alarm-Clock-Buzzer.html\n
+        https://pixabay.com/illustrations/portrait-aesthetic-man-mr-2899779/\n
+        https://pixabay.com/photos/fantasy-background-image-arch-3645269/\n
+        https://www.youtube.com/watch?v=ykbU41xhDrY&amp;ab_channel=VladSpreys\n
+        https://pixabay.com/photos/star-points-stains-effect-space-1626550/
+    </string>
 </resources>

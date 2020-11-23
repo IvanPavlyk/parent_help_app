@@ -10,11 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.taskManager.Task;
-import ca.cmpt276.prj.model.taskManager.TaskManager;
+import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.manager.Task;
 
 public class EditOne extends AppCompatActivity {
 
@@ -27,7 +26,7 @@ public class EditOne extends AppCompatActivity {
         actionbar1.setTitle("Edit The task you chose.");
 
         Intent intent = getIntent();
-        Task temp = TaskManager.getInstance().retrieving(intent.getIntExtra("index",0));
+        Task temp = Manager.getInstance().retrieving(intent.getIntExtra("index",0));
         TextView changetext = findViewById(R.id.EditTaskDetail);
         changetext.setText("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription() );
         CenterTextView();
@@ -45,9 +44,9 @@ public class EditOne extends AppCompatActivity {
 
 
                 Intent intent = getIntent();
-                Task EditLens = TaskManager.getInstance().retrieving(intent.getIntExtra("index",0));
-                int indexNeeded = TaskManager.getInstance().returnint(intent.getIntExtra("index",0));
-                TaskManager.getInstance().EditTask(EditedTask,EditedDescription,indexNeeded);
+                Task EditLens = Manager.getInstance().retrieving(intent.getIntExtra("index",0));
+                int indexNeeded = Manager.getInstance().returnint(intent.getIntExtra("index",0));
+                Manager.getInstance().EditTask(EditedTask,EditedDescription,indexNeeded);
 
                 Intent Home=new Intent(EditOne.this,WhoseTurnActivity.class);
                 startActivity(Home);

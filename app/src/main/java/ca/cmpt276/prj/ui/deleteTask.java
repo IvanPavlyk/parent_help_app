@@ -2,7 +2,6 @@ package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +14,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.taskManager.Task;
-import ca.cmpt276.prj.model.taskManager.TaskManager;
+import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.manager.Task;
 
 public class deleteTask extends AppCompatActivity {
-    private TaskManager temp1 = TaskManager.getInstance();
+    private Manager temp1 = Manager.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +41,7 @@ public class deleteTask extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.deleteLen);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, editTask);
         listview.setAdapter(arrayAdapter);
-        for (int i = 0; i < temp1.size(); i++) {
+        for (int i = 0; i < temp1.getTaskList().size(); i++) {
             Task temp = temp1.retrieving(i);
 
             editTask.add("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription());
@@ -53,7 +52,7 @@ public class deleteTask extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = getIntent();
-                TaskManager.getInstance().removeByIndex(position);
+                Manager.getInstance().removeByIndex(position);
                 Intent Home=new Intent(deleteTask.this,WhoseTurnActivity.class);
                 startActivity(Home);
             }

@@ -2,7 +2,6 @@ package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +14,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.taskManager.Task;
-import ca.cmpt276.prj.model.taskManager.TaskManager;
+import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.manager.Task;
 
 public class EditTaskActivity extends AppCompatActivity {
-    private TaskManager temp1 = TaskManager.getInstance();
+    private Manager temp1 = Manager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class EditTaskActivity extends AppCompatActivity {
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, editTasks);
         listview.setAdapter(arrayAdapter);
 
-        for (int i = 0; i < temp1.size(); i++) {
+        for (int i = 0; i < temp1.getTaskList().size(); i++) {
             Task temp = temp1.retrieving(i);
 
             editTasks.add("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription());
