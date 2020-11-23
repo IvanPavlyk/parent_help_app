@@ -66,4 +66,11 @@ public class AddTaskActivity extends AppCompatActivity {
         }
 
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
+    }
 }

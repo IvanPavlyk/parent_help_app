@@ -24,8 +24,7 @@
             android:parentActivityName=".ui.WhoseTurnActivity" />
         <activity
             android:name=".ui.WhoseTurnActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.AddTaskActivity"
             android:parentActivityName=".ui.WhoseTurnActivity"

@@ -86,7 +86,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 holder = new ChildHolder();
                 holder.childName = itemView.findViewById(R.id.NameOfChild);
                 holder.removeChild = itemView.findViewById(R.id.DeleteChild);
-                holder.imagePortraitChild = itemView.findViewById(R.id.pic);
+                holder.imagePortraitChild = itemView.findViewById(R.id.picture);
                 itemView.setTag(holder);
             }
             else{
@@ -143,7 +143,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
             textView.setTextSize(18);
             textView.setGravity(Gravity.CENTER);
             itemView.setBackgroundColor(Color.parseColor("#f5a742"));
-            ImageView imageChild = (ImageView) itemView.findViewById(R.id.pic);
+            ImageView imageChild = (ImageView) itemView.findViewById(R.id.picture);
             imageChild.setImageBitmap(stringToBitmap(currentChild.getImageString()));
             return itemView;
         }

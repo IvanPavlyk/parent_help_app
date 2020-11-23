@@ -1,29 +1,30 @@
 package ca.cmpt276.prj.ui;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
@@ -32,16 +33,24 @@ import ca.cmpt276.prj.model.coinManager.CoinManager;
 import ca.cmpt276.prj.model.taskManager.Task;
 import ca.cmpt276.prj.model.taskManager.TaskManager;
 
+import static ca.cmpt276.prj.ui.ManageChildrenActivity.stringToBitmap;
+
 public class WhoseTurnActivity extends AppCompatActivity {
-    private TaskManager taskManager=TaskManager.getInstance();
+    private static TaskManager taskManager=TaskManager.getInstance();
+    private static CoinManager coinManager=CoinManager.getInstance();
+    private ArrayList<Task> taskList=TaskManager.getInstance().getTaskList();
     private ArrayList<Child> ChildNameList= CoinManager.getInstance().getChildrenList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whose_turn);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Whose Turn");
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setTitle("Whose Turn");
+        }
 
         list_view_build();
 
@@ -51,6 +60,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(WhoseTurnActivity.this, AddTaskActivity.class);
                 startActivityForResult(intent,1);
+              //  MainActivity.saveInstanceStatic(WhoseTurnActivity.this);
             }
         });
         list_view_build();
@@ -96,6 +106,10 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
     }
 
+    public static Intent makeIntent(Context context){
+        return new Intent(context, WhoseTurnActivity.class);
+    }
+
     private void list_view_build() {
         ArrayList<String> arr=new ArrayList<>();
         int count=0;
@@ -138,6 +152,9 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        Child currentChild = coinManager.getChild(0);
+
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1&&resultCode==RESULT_OK){
             if (data == null) throw new AssertionError();
@@ -174,20 +191,32 @@ public class WhoseTurnActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("name", task_assigned_to);
 
+            Set<String> all_description=new HashSet<>();
+            all_description.add(description);
+            Set<String> all_task=new HashSet<>();
+            all_task.add(task);
 
             Task temp = new Task(task,description);
             temp.setName(task_assigned_to);
             taskManager.add(temp);
 
+
+//            ImageView imageView = (ImageView) findViewById(R.id.picture);
+//            //ImageView imageChild = (ImageView) itemView.findViewById(R.id.pic);
+//            imageView.setImageBitmap(stringToBitmap(currentChild.getImageString()));
+
             Toast.makeText(WhoseTurnActivity.this,"New task added",Toast.LENGTH_LONG).show();
             list_view_build();
         }
+
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.whose_turn_menu, menu);
+        //getMenuInflater().inflate(R.menu.whose_turn_menu, menu);
         return true;
     }
 
@@ -199,12 +228,26 @@ public class WhoseTurnActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        list_view_build();
+    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        MainActivity.saveInstanceStatic(this);
+//    }
 
 
 }

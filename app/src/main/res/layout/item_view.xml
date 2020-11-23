@@ -17,7 +17,7 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/DeleteChild"
         app:layout_constraintHorizontal_bias="0.763"
-        app:layout_constraintStart_toEndOf="@+id/pic"
+        app:layout_constraintStart_toEndOf="@+id/picture"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/pic"
+        android:id="@+id/picture"
         android:layout_width="77dp"
         android:layout_height="69dp"
         app:layout_constraintStart_toStartOf="parent"

@@ -2,6 +2,7 @@ package ca.cmpt276.prj.model;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.ui.ManageChildrenActivity;
+
+import static ca.cmpt276.prj.ui.ManageChildrenActivity.stringToBitmap;
 
 public class MyTaskDialog extends DialogFragment {
     @NonNull
@@ -28,17 +32,18 @@ public class MyTaskDialog extends DialogFragment {
         String task_name = bundle.getString("task_name", "Default Task Name");
         String task_description = bundle.getString("description", "Default Description");
 
+       // Bitmap bitmap = ManageChildrenActivity.stringToBitmap(your_string);
 
-        ImageView pic = (ImageView) view.findViewById(R.id.pic);
-        pic.setImageResource(getResources().getIdentifier(child_name, "drawable", getActivity().getPackageName()));
+
+       // pic.setImageResource(getResources().getIdentifier(child_name, "drawable", getActivity().getPackageName()));
 
 
         TextView task_child_view = (TextView) view.findViewById(R.id.NameOfChild);
-        task_child_view.setText(child_name);
+        task_child_view.setText("It's "+child_name+"'s turn");
         TextView task_name_view = (TextView) view.findViewById(R.id.TaskNameView);
-        task_name_view.setText(task_name);
+        task_name_view.setText("Task: "+task_name);
         TextView task_description_view = (TextView) view.findViewById(R.id.TaskDescription);
-        task_description_view.setText(task_description);
+        task_description_view.setText("Task Description: "+task_description);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
