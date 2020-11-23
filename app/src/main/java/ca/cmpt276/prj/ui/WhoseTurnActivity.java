@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,12 +28,13 @@ import java.util.List;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.MyTaskDialog;
+import ca.cmpt276.prj.model.coinManager.CoinManager;
 import ca.cmpt276.prj.model.taskManager.Task;
 import ca.cmpt276.prj.model.taskManager.TaskManager;
 
 public class WhoseTurnActivity extends AppCompatActivity {
     private TaskManager taskManager=TaskManager.getInstance();
-
+    private ArrayList<Child> ChildNameList= CoinManager.getInstance().getChildrenList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +116,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 Task temp = TaskManager.getInstance().retrieving(position);
                 MyTaskDialog dialog = new MyTaskDialog();
                 Bundle bundle = new Bundle();
-               // bundle.putString("child_name", temp.child.getName());
+                bundle.putString("child_name",temp.getName());
                 bundle.putString("task_name", temp.getTaskName());
                 bundle.putString("description", temp.getDescription());
                 dialog.setArguments(bundle);
@@ -136,15 +138,41 @@ public class WhoseTurnActivity extends AppCompatActivity {
             Bundle information;
             information = data.getBundleExtra("task_information");
             if (information == null) throw new AssertionError();
-//            String name;
-//            name = information.getString("name");
+
             String task;
             task = information.getString("task");
             String description;
             description = information.getString("description");
             if (task == null) throw new AssertionError();
             if (description == null) throw new AssertionError();
-            taskManager.add(new Task(task,description));
+
+
+            SharedPreferences sp = getSharedPreferences("last_child", Context.MODE_PRIVATE);
+            String lastTask = sp.getString("name", "");
+
+
+            int child_count = ChildNameList.size()-1;
+            if (child_count < 0) {
+                Toast.makeText(this, "No Child Added Yet", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int random_index = (int)(Math.random() * ((child_count) + 1));
+            if (!lastTask.equals("")) {
+                while (ChildNameList.get(random_index).equals(lastTask)) {
+                    random_index = (int) (Math.random() * ((child_count) + 1));
+                }
+            }
+            String task_assigned_to = ChildNameList.get(random_index).getName();
+
+
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("name", task_assigned_to);
+
+
+            Task temp = new Task(task,description);
+            temp.setName(task_assigned_to);
+            taskManager.add(temp);
+
             Toast.makeText(WhoseTurnActivity.this,"New task added",Toast.LENGTH_LONG).show();
             list_view_build();
         }

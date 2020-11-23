@@ -1,5 +1,8 @@
 package ca.cmpt276.prj.model.taskManager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
 import ca.cmpt276.prj.model.Child;
@@ -14,7 +17,7 @@ public class TaskManager {
     public int size(){
         return taskList.size();
     }
-    public ArrayList<Task> getLens() {
+    public ArrayList<Task> getTaskList() {
         return taskList;
     }
     public void setLens(ArrayList<Task> lens) {
@@ -62,7 +65,10 @@ public class TaskManager {
     private TaskManager(){
         this.childrenList = new ArrayList<>();
         taskList=new ArrayList<>();
-        taskList.add(new Task("dd","tt"));
+//        taskList.add(new Task("ff","tt"));
+//        taskList.add(new Task("dd","tt"));
+//        taskList.add(new Task("gg","tt"));
+//        taskList.add(new Task("hh","tt"));
     }
 
     public void addChild(Child child) {
@@ -116,5 +122,6 @@ public class TaskManager {
             addChild(child);
         }
     }
+
 
 }
