@@ -8,35 +8,27 @@ public class Task {
 
     String name;
     String description;
-    String taskName;
     ArrayList<Child> queue;
 
-
-//    public Task(String name, String description) {
-//        this.name = name;
-//        this.description = description;
-//        queue = new ArrayList<>();
-//    }
-
-//    public Child whoseTurn () {
-//        return queue.get(0);
-//    }
-//
-//    public Child whoseNext() {
-//        return queue.get(1);
-//    }
-//
-//    public void advanceTurn() {
-//        Child child = queue.remove(0);
-//        queue.add(queue.size(), child);
-//    }
-    public Child child;
-
-    public Task(String task, String description){
-       // this.name=child.getName();
-        this.description=description;
-        this.taskName=task;
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        queue = new ArrayList<>();
     }
+
+    public Child whoseTurn () {
+        return queue.get(0);
+    }
+
+    public Child whoseNext() {
+        return queue.get(1);
+    }
+
+    public void advanceTurn() {
+        Child child = queue.remove(0);
+        queue.add(queue.size(), child);
+    }
+
     // Getters and Setters
     public String getName() {
         return name;
@@ -54,19 +46,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public ArrayList<Child> getQueue() {
+        return queue;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setQueue(ArrayList<Child> queue) {
+        this.queue = queue;
     }
-
-//    public ArrayList<Child> getQueue() {
-//        return queue;
-//    }
-//
-//    public void setQueue(ArrayList<Child> queue) {
-//        this.queue = queue;
-//    }
 }

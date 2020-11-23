@@ -5,6 +5,9 @@ import java.util.Calendar;
 import java.util.Random;
 
 import ca.cmpt276.prj.model.Child;
+import ca.cmpt276.prj.model.manager.CoinSide;
+import ca.cmpt276.prj.model.manager.Flip;
+import ca.cmpt276.prj.model.manager.Task;
 
 /**
  * Game singleton class used to handle all the logic connected to flip coin activity and manage children activity

@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize buttons
         initFlipCoinButton();
+
         iniTimeoutButton();
         initHelpButton();
-
         iniWhoseTurnButton();
 
         // Load instance on initialization
