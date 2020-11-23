@@ -48,6 +48,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
         FloatingActionButton fabAdd = findViewById(R.id.fab_add);
         fabAdd.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(WhoseTurnActivity.this, AddTaskActivity.class);
@@ -65,7 +66,10 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(WhoseTurnActivity.this, EditTaskActivity.class);
                     startActivityForResult(intent, 1);
+
+
                 }
+
             });
         }else if(manager.size() == 0){
             edit.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +99,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             });
 
         }
+
 
     }
 
@@ -132,7 +137,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     dialog.setArguments(bundle);
                     dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");
                 }
-
 
 
             }
@@ -180,12 +184,12 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("name", task_assigned_to);
-
-            Set<String> all_description=new HashSet<>();
-            all_description.add(description);
-            Set<String> all_task=new HashSet<>();
-            all_task.add(task);
-
+//
+//            Set<String> all_description=new HashSet<>();
+//            all_description.add(description);
+//            Set<String> all_task=new HashSet<>();
+//            all_task.add(task);
+//
             Task temp = new Task(task,description);
             temp.setName(task_assigned_to);
             manager.add(temp);
@@ -231,9 +235,9 @@ public class WhoseTurnActivity extends AppCompatActivity {
 //    protected void onDestroy() {
 //        super.onDestroy();
 //    }
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        MainActivity.saveInstanceStatic(this);
-//    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
+    }
 }
