@@ -38,7 +38,7 @@ public class deleteTask extends AppCompatActivity {
     private void showEditView() {
         ArrayList<String> editTask = new ArrayList<>();
         ListView listview = null;
-        listview = (ListView) findViewById(R.id.deleteLen);
+        listview = findViewById(R.id.deleteLen);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, editTask);
         listview.setAdapter(arrayAdapter);
         for (int i = 0; i < temp1.getTaskList().size(); i++) {

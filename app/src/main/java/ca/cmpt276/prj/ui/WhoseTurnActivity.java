@@ -111,7 +111,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             count+=1;
         }
 
-        ListView listView=(ListView)findViewById(R.id.list_view);
+        ListView listView= findViewById(R.id.list_view);
         ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,arr);
         listView.setAdapter(adapter);
 
