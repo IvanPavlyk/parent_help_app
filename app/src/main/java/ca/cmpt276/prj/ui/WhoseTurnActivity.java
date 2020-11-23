@@ -113,14 +113,20 @@ public class WhoseTurnActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
-                Task temp = TaskManager.getInstance().retrieving(position);
-                MyTaskDialog dialog = new MyTaskDialog();
-                Bundle bundle = new Bundle();
-                bundle.putString("child_name",temp.getName());
-                bundle.putString("task_name", temp.getTaskName());
-                bundle.putString("description", temp.getDescription());
-                dialog.setArguments(bundle);
-                dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");
+                if(ChildNameList.size()==0){
+                    Toast.makeText(WhoseTurnActivity.this, "Please add a child before add some tasks", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Task temp = TaskManager.getInstance().retrieving(position);
+                    MyTaskDialog dialog = new MyTaskDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("child_name",temp.getName());
+                    bundle.putString("task_name", temp.getTaskName());
+                    bundle.putString("description", temp.getDescription());
+                    dialog.setArguments(bundle);
+                    dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");
+                }
+
 
 
             }
