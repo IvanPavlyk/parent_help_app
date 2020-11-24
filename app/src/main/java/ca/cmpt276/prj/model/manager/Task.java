@@ -10,15 +10,27 @@ public class Task {
     String description;
     String TaskName;
     String portrait;
+    ArrayList<Child> taskQueue;
 
     public Task(String taskName, String description) {
         this.TaskName = taskName;
         this.description = description;
+        this.taskQueue = new ArrayList<>();
     }
 
-
+    public void advanceTurn() {
+        if (taskQueue.size() == 0 || taskQueue.size() == 1) return;
+        Child next = taskQueue.get(1);
+        Child head = taskQueue.remove(0);
+        taskQueue.add(taskQueue.size(), head);
+    }
 
     // Getters and Setters
+    public Child getTaskHolder() {
+        if (taskQueue.size() != 0) return taskQueue.get(0);
+        else return null;
+    }
+
     public String getChildName() {
         return childName;
     }
