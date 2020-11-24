@@ -73,4 +73,5 @@
     <string name="dialog_image_description">Image for task list items</string>
     <string name="task_description">TaskDescription</string>
     <string name="task_name_view">TaskNameView</string>
+    <string name="advance_turn_button_text">Advance Turn</string>
 </resources>
