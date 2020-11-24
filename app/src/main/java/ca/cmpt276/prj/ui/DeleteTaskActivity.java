@@ -53,4 +53,10 @@ public class DeleteTaskActivity extends AppCompatActivity {
 
         });
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
+    }
 }
