@@ -2,7 +2,7 @@ CMPT 276 - Team Salmon Style guide
 
 Formating:
 - Indentations are always 4 spaces
-- K & R style bracing
+- K & R Variant 1TBS style bracing
 - One statement per line
 - each line should not exceed 100 columns in length
 

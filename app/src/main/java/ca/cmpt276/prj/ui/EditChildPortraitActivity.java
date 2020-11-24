@@ -42,6 +42,10 @@ public class EditChildPortraitActivity extends AppCompatActivity {
     private Manager game;
     private int position;
 
+    public static Intent makeIntent(Context context){
+        return new Intent(context, EditChildPortraitActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +98,8 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         if(intent.resolveActivity(getPackageManager()) != null){
             startActivityForResult(intent, CAMERA_REQUEST);
         }
-        else{
-            Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show();
-        }
+        else Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -116,9 +119,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
             Bitmap image  = (Bitmap) Objects.requireNonNull(extras).get("data");
             imageViewChildPortrait.setImageBitmap(image);
         }
-        else{
-            Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
-        }
+        else Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
     }
 
     private void initializeResources() {
@@ -126,10 +127,6 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         buttonAddPortraitCamera = findViewById(R.id.imageButtonPortraitEditCamera);
         buttonAddPortraitGallery = findViewById(R.id.imageButtonPortraiteditGallery);
         imageViewChildPortrait = findViewById(R.id.imageViewPortraitEdit);
-    }
-
-    public static Intent makeIntent(Context context){
-        return new Intent(context, EditChildPortraitActivity.class);
     }
 
     @Override

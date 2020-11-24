@@ -56,7 +56,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Child child = manager.getChild(position);
                 manager.removeChild(child);
-                manager.addChildToFront(child);
+                manager.prependChild(child);
                 Intent output = new Intent();
                 output.putExtra("SELECTION", "CHILD");
                 setResult(RESULT_OK, output);
@@ -99,5 +99,11 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
             childName.setText(currentChild.getName());
             return itemView;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MainActivity.saveInstanceStatic(this);
     }
 }

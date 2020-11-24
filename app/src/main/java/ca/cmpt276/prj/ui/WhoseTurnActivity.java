@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
@@ -27,7 +28,6 @@ import ca.cmpt276.prj.model.manager.Task;
 
 public class WhoseTurnActivity extends AppCompatActivity {
     private static Manager manager = Manager.getInstance();
-    private ArrayList<Task> taskList = Manager.getInstance().getTaskList();
     private ArrayList<Child> childNameList = Manager.getInstance().getChildrenList();
 
     @Override
@@ -61,7 +61,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(WhoseTurnActivity.this, EditTaskActivity.class);
+                    Intent intent = new Intent(WhoseTurnActivity.this, SelectEditTaskActivity.class);
                     startActivityForResult(intent, 1);
 
 
@@ -83,7 +83,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(WhoseTurnActivity.this, deleteTask.class);
+                    Intent intent = new Intent(WhoseTurnActivity.this, DeleteTaskActivity.class);
                     startActivityForResult(intent, 1);
                 }
             });
@@ -114,7 +114,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         ListView listView= findViewById(R.id.list_view);
-        ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,arr);
+        // MARK
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,arr);
         listView.setAdapter(adapter);
 
 
@@ -171,30 +172,22 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 return;
             }
             int random_index = (int)(Math.random() * ((child_count) + 1));
-            if (!lastTask.equals("")) {
-                while (childNameList.get(random_index).equals(lastTask)) {
+            if (!Objects.requireNonNull(lastTask).equals("")) {
+                // MARK
+                while (childNameList.get(random_index).getName().equals(lastTask)) {
                     random_index = (int) (Math.random() * ((child_count) + 1));
                 }
             }
             String task_assigned_to = childNameList.get(random_index).getName();
 
-
+            // MARK
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("name", task_assigned_to);
-//
-//            Set<String> all_description=new HashSet<>();
-//            all_description.add(description);
-//            Set<String> all_task=new HashSet<>();
-//            all_task.add(task);
-//
+            editor.apply();
+
             Task temp = new Task(task,description);
             temp.setName(task_assigned_to);
             manager.add(temp);
-
-
-//            ImageView imageView = (ImageView) findViewById(R.id.picture);
-//            //ImageView imageChild = (ImageView) itemView.findViewById(R.id.pic);
-//            imageView.setImageBitmap(stringToBitmap(currentChild.getImageString()));
 
             Toast.makeText(WhoseTurnActivity.this,"New task added",Toast.LENGTH_LONG).show();
             list_view_build();
@@ -206,15 +199,9 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.whose_turn_menu, menu);
         return true;
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//    }
     @Override
     protected void onStop() {
         super.onStop();
