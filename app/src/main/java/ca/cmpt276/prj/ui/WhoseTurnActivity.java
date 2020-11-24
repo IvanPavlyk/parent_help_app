@@ -1,25 +1,23 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
@@ -29,6 +27,7 @@ import ca.cmpt276.prj.model.manager.Task;
 
 public class WhoseTurnActivity extends AppCompatActivity {
     private static Manager manager = Manager.getInstance();
+    private ArrayList<Task> taskList = Manager.getInstance().getTaskList();
     private ArrayList<Child> childNameList = Manager.getInstance().getChildrenList();
 
     @Override
@@ -101,8 +100,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
     }
 
-
-
     public static Intent makeIntent(Context context){
         return new Intent(context, WhoseTurnActivity.class);
     }
@@ -117,7 +114,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         ListView listView= findViewById(R.id.list_view);
-        ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,arr);
+        ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,arr);
         listView.setAdapter(adapter);
 
 
@@ -143,6 +140,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -172,8 +171,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 return;
             }
             int random_index = (int)(Math.random() * ((child_count) + 1));
-            if (!Objects.requireNonNull(lastTask).equals("")) {
-                while (childNameList.get(random_index).getName().equals(lastTask)) {
+            if (!lastTask.equals("")) {
+                while (childNameList.get(random_index).equals(lastTask)) {
                     random_index = (int) (Math.random() * ((child_count) + 1));
                 }
             }
@@ -182,7 +181,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("name", task_assigned_to);
-            editor.apply();
 //
 //            Set<String> all_description=new HashSet<>();
 //            all_description.add(description);
@@ -213,16 +211,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            MainActivity.saveInstanceStatic(this);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
@@ -231,5 +219,11 @@ public class WhoseTurnActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         MainActivity.saveInstanceStatic(this);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        list_view_build();
     }
 }
