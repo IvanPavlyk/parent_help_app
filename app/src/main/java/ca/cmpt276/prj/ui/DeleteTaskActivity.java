@@ -34,6 +34,7 @@ public class DeleteTaskActivity extends AppCompatActivity {
         ArrayList<String> editTask = new ArrayList<>();
         ListView listview;
         listview = findViewById(R.id.deleteLen);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, editTask);
         // MARK
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, editTask);
         listview.setAdapter(arrayAdapter);
