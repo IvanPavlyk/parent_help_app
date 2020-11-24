@@ -59,4 +59,7 @@ public class Task {
         this.description = description;
     }
 
+    public ArrayList<Child> getTaskQueue() {
+        return taskQueue;
+    }
 }
