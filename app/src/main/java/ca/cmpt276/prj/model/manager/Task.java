@@ -6,32 +6,49 @@ import ca.cmpt276.prj.model.Child;
 
 public class Task {
 
-    String ChildName;
+    String childName;
     String description;
     String TaskName;
+    String portrait;
+    ArrayList<Child> taskQueue;
 
-    public Task(String taskname, String description) {
-        this.TaskName = taskname;
+    public Task(String taskName, String description) {
+        this.TaskName = taskName;
         this.description = description;
+        this.taskQueue = new ArrayList<>();
     }
 
-
+    public void advanceTurn() {
+        if (taskQueue.size() == 0 || taskQueue.size() == 1) return;
+        Child next = taskQueue.get(1);
+        Child head = taskQueue.remove(0);
+        taskQueue.add(taskQueue.size(), head);
+    }
 
     // Getters and Setters
-    public String getChildName() {
-        return ChildName;
+    public Child getTaskHolder() {
+        if (taskQueue.size() != 0) return taskQueue.get(0);
+        else return null;
     }
 
-    public void setName(String childname) {
-        this.ChildName = childname;
+    public String getChildName() {
+        return childName;
+    }
+
+    public void setChildName(String childName) {
+        this.childName = childName;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 
     public String getTaskName() {
         return TaskName;
-    }
-
-    public void setTaskName(String taskname) {
-        this.TaskName = taskname;
     }
 
     public String getDescription() {
@@ -42,4 +59,7 @@ public class Task {
         this.description = description;
     }
 
+    public ArrayList<Child> getTaskQueue() {
+        return taskQueue;
+    }
 }

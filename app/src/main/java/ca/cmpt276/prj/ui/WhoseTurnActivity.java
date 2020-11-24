@@ -18,16 +18,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.MyTaskDialog;
+import ca.cmpt276.prj.model.TaskDialog;
 import ca.cmpt276.prj.model.manager.Manager;
 import ca.cmpt276.prj.model.manager.Task;
 
 public class WhoseTurnActivity extends AppCompatActivity {
     private static Manager manager = Manager.getInstance();
-    private ArrayList<Task> taskList = Manager.getInstance().getTaskList();
     private ArrayList<Child> childNameList = Manager.getInstance().getChildrenList();
 
     @Override
@@ -56,12 +56,12 @@ public class WhoseTurnActivity extends AppCompatActivity {
         list_view_build();
 
         FloatingActionButton edit = findViewById(R.id.edit);
-        if(manager.size() != 0) {
+        if(manager.size() > -1) {
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(WhoseTurnActivity.this, EditTaskActivity.class);
+                    Intent intent = new Intent(WhoseTurnActivity.this, SelectEditTaskActivity.class);
                     startActivityForResult(intent, 1);
 
 
@@ -79,11 +79,11 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         FloatingActionButton delete = findViewById(R.id.delete);
-        if(manager.size() != 0) {
+        if(manager.size() > -1) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(WhoseTurnActivity.this, deleteTask.class);
+                    Intent intent = new Intent(WhoseTurnActivity.this, DeleteTaskActivity.class);
                     startActivityForResult(intent, 1);
                 }
             });
@@ -108,13 +108,14 @@ public class WhoseTurnActivity extends AppCompatActivity {
         ArrayList<String> arr=new ArrayList<>();
         int count=0;
         while(count< manager.size()){
-            Task buffer = manager.retrieving(count);
+            Task buffer = manager.getTask(count);
             arr.add("Task: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
             count+=1;
         }
 
         ListView listView= findViewById(R.id.list_view);
-        ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,arr);
+        // MARK
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,arr);
         listView.setAdapter(adapter);
 
 
@@ -122,20 +123,19 @@ public class WhoseTurnActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
                 if(childNameList.size()==0){
-                    Toast.makeText(WhoseTurnActivity.this, "Please add a child before add some tasks", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WhoseTurnActivity.this, "Please addTask a child before addTask some tasks", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Task temp = Manager.getInstance().retrieving(position);
-                    MyTaskDialog dialog = new MyTaskDialog();
+                    Task temp = Manager.getInstance().getTask(position);
+                    TaskDialog dialog = new TaskDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString("child_name",temp.getChildName());
                     bundle.putString("task_name", temp.getTaskName());
                     bundle.putString("description", temp.getDescription());
+                    bundle.putString("portrait", temp.getPortrait());
                     dialog.setArguments(bundle);
                     dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");
                 }
-
-
             }
         });
 
@@ -171,30 +171,25 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 return;
             }
             int random_index = (int)(Math.random() * ((child_count) + 1));
-            if (!lastTask.equals("")) {
-                while (childNameList.get(random_index).equals(lastTask)) {
+            if (!Objects.requireNonNull(lastTask).equals("")) {
+                // MARK
+                while (childNameList.get(random_index).getName().equals(lastTask)) {
                     random_index = (int) (Math.random() * ((child_count) + 1));
                 }
             }
-            String task_assigned_to = childNameList.get(random_index).getName();
+            String assignee_name = childNameList.get(random_index).getName();
+            String assignee_portrait = Manager.getInstance().getChild(random_index).getPortrait();
 
-
+            // MARK
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("name", task_assigned_to);
-//
-//            Set<String> all_description=new HashSet<>();
-//            all_description.add(description);
-//            Set<String> all_task=new HashSet<>();
-//            all_task.add(task);
-//
+            editor.putString("name", assignee_name);
+            editor.putString("portrait", assignee_portrait);
+            editor.apply();
+
             Task temp = new Task(task,description);
-            temp.setName(task_assigned_to);
-            manager.add(temp);
-
-
-//            ImageView imageView = (ImageView) findViewById(R.id.picture);
-//            //ImageView imageChild = (ImageView) itemView.findViewById(R.id.pic);
-//            imageView.setImageBitmap(stringToBitmap(currentChild.getImageString()));
+            temp.setChildName(assignee_name);
+            temp.setPortrait(assignee_portrait);
+            manager.addTask(temp);
 
             Toast.makeText(WhoseTurnActivity.this,"New task added",Toast.LENGTH_LONG).show();
             list_view_build();
@@ -206,15 +201,9 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.whose_turn_menu, menu);
         return true;
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//    }
     @Override
     protected void onStop() {
         super.onStop();

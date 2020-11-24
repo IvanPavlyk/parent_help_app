@@ -103,7 +103,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             TextView childNameText = findViewById(R.id.childName);
             childNameText.setText(childName);
             ImageView childImg = findViewById(R.id.flipChildImage);
-            childImg.setImageBitmap(ManageChildrenActivity.stringToBitmap(child.getImageString()));
+            childImg.setImageBitmap(ManageChildrenActivity.stringToBitmap(child.getPortrait()));
         }
     }
 
@@ -144,6 +144,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 heads.setBackgroundColor(defaultColor);
                 tails.setBackgroundColor(defaultColor);
                 setupButtons();
+                unhideButtons();
             }
         });
         flip.setOnClickListener(new View.OnClickListener() {

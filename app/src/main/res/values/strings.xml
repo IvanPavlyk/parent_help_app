@@ -70,4 +70,8 @@
         https://www.youtube.com/watch?v=ykbU41xhDrY&amp;ab_channel=VladSpreys\n
         https://pixabay.com/photos/star-points-stains-effect-space-1626550/
     </string>
+    <string name="dialog_image_description">Image for task list items</string>
+    <string name="task_description">TaskDescription</string>
+    <string name="task_name_view">TaskNameView</string>
+    <string name="advance_turn_button_text">Advance Turn</string>
 </resources>

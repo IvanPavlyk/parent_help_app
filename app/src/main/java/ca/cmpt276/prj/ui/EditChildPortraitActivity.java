@@ -42,6 +42,10 @@ public class EditChildPortraitActivity extends AppCompatActivity {
     private Manager game;
     private int position;
 
+    public static Intent makeIntent(Context context){
+        return new Intent(context, EditChildPortraitActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +59,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         position = Objects.requireNonNull(bundle).getInt("PositionChild");
         game = Manager.getInstance();
         initializeResources();
-        imageViewChildPortrait.setImageBitmap(ManageChildrenActivity.stringToBitmap(game.getChild(position).getImageString()));
+        imageViewChildPortrait.setImageBitmap(ManageChildrenActivity.stringToBitmap(game.getChild(position).getPortrait()));
         setListeners();
     }
 
@@ -76,7 +80,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bitmap bitmap = ((BitmapDrawable)imageViewChildPortrait.getDrawable()).getBitmap();
-                game.getChild(position).setImageString(AddChildActivity.bitmapToString(bitmap));
+                game.getChild(position).setPortrait(AddChildActivity.bitmapToString(bitmap));
                 Toast.makeText(EditChildPortraitActivity.this, "Edited the portrait successfully", Toast.LENGTH_SHORT).show();
             }
         });
@@ -94,9 +98,8 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         if(intent.resolveActivity(getPackageManager()) != null){
             startActivityForResult(intent, CAMERA_REQUEST);
         }
-        else{
-            Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show();
-        }
+        else Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -116,9 +119,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
             Bitmap image  = (Bitmap) Objects.requireNonNull(extras).get("data");
             imageViewChildPortrait.setImageBitmap(image);
         }
-        else{
-            Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
-        }
+        else Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
     }
 
     private void initializeResources() {
@@ -126,10 +127,6 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         buttonAddPortraitCamera = findViewById(R.id.imageButtonPortraitEditCamera);
         buttonAddPortraitGallery = findViewById(R.id.imageButtonPortraiteditGallery);
         imageViewChildPortrait = findViewById(R.id.imageViewPortraitEdit);
-    }
-
-    public static Intent makeIntent(Context context){
-        return new Intent(context, EditChildPortraitActivity.class);
     }
 
     @Override

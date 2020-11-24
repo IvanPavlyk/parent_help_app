@@ -32,7 +32,7 @@ import ca.cmpt276.prj.model.manager.Manager;
 
 /**
  * AddChildActivity class that is booted from the ManageChildrenActivity
- * Lets user to add a child (name and portrait), when no image used - default is used
+ * Lets user to addTask a child (name and portrait), when no image used - default is used
  * Button with camera icon responsible for taking the portrait from the camera
  * Button with gallery icon responsible for taking the portrait from the gallery
  */
@@ -46,6 +46,10 @@ public class AddChildActivity extends AppCompatActivity {
     private EditText editTextChildName;
     private ImageView imageViewChildPortrait;
     private Manager game;
+
+    public static Intent makeIntent(Context context){
+        return new Intent(context, AddChildActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +92,7 @@ public class AddChildActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(editTextChildName.getText().toString().length() > 0) {
                     Bitmap bitmap = ((BitmapDrawable)imageViewChildPortrait.getDrawable()).getBitmap();
-                    game.addChild(new Child(editTextChildName.getText().toString(), CoinSide.HEAD, bitmapToString(bitmap)));
+                    game.appendChild(new Child(editTextChildName.getText().toString(), CoinSide.HEAD, bitmapToString(bitmap)));
                     Toast.makeText(AddChildActivity.this, "Added child successfully", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -97,7 +101,6 @@ public class AddChildActivity extends AppCompatActivity {
             }
         });
     }
-
 
     //Converting bitmap into String compressed version to transfer the image along
     public static String bitmapToString(Bitmap bitmap){
@@ -143,10 +146,6 @@ public class AddChildActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static Intent makeIntent(Context context){
-        return new Intent(context, AddChildActivity.class);
     }
 
     @Override

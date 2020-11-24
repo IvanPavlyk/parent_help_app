@@ -22,8 +22,6 @@ import ca.cmpt276.prj.model.manager.Manager;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private Manager manager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         String instanceSave = sharedPreferences.getString("savedInstance", null);
         Manager loadedInstance = gson.fromJson(instanceSave, Manager.class);
         Manager.loadInstance(loadedInstance);
-        manager = Manager.getInstance();
     }
 
     private void iniWhoseTurnButton() {
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this, WhoseTurnActivity.class);
+                Intent intent = WhoseTurnActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this, TimeoutActivity.class);
+                Intent intent = new Intent(MainActivity.this, TimeoutActivity.class);
                 startActivity(intent);
             }
         });
