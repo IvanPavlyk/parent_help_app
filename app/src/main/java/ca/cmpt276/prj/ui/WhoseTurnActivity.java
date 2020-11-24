@@ -1,26 +1,23 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
@@ -214,23 +211,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
@@ -239,5 +219,11 @@ public class WhoseTurnActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         MainActivity.saveInstanceStatic(this);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        list_view_build();
     }
 }
