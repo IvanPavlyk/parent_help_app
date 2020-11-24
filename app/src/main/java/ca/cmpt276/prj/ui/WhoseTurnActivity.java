@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
@@ -29,6 +30,7 @@ import ca.cmpt276.prj.model.manager.Task;
 
 public class WhoseTurnActivity extends AppCompatActivity {
     private static Manager manager = Manager.getInstance();
+    private ArrayList<Task> taskList = Manager.getInstance().getTaskList();
     private ArrayList<Child> childNameList = Manager.getInstance().getChildrenList();
 
     @Override
@@ -101,8 +103,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
     }
 
-
-
     public static Intent makeIntent(Context context){
         return new Intent(context, WhoseTurnActivity.class);
     }
@@ -117,7 +117,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         ListView listView= findViewById(R.id.list_view);
-        ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,arr);
+        ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,arr);
         listView.setAdapter(adapter);
 
 
@@ -143,6 +143,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -172,8 +174,8 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 return;
             }
             int random_index = (int)(Math.random() * ((child_count) + 1));
-            if (!Objects.requireNonNull(lastTask).equals("")) {
-                while (childNameList.get(random_index).getName().equals(lastTask)) {
+            if (!lastTask.equals("")) {
+                while (childNameList.get(random_index).equals(lastTask)) {
                     random_index = (int) (Math.random() * ((child_count) + 1));
                 }
             }
@@ -182,7 +184,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("name", task_assigned_to);
-            editor.apply();
 //
 //            Set<String> all_description=new HashSet<>();
 //            all_description.add(description);
@@ -215,9 +216,16 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            MainActivity.saveInstanceStatic(this);
-        }
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+
         return super.onOptionsItemSelected(item);
     }
 
