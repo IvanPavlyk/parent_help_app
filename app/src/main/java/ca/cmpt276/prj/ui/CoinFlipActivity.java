@@ -144,6 +144,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 heads.setBackgroundColor(defaultColor);
                 tails.setBackgroundColor(defaultColor);
                 setupButtons();
+                unhideButtons();
             }
         });
         flip.setOnClickListener(new View.OnClickListener() {
