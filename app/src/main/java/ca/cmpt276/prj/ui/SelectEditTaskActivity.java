@@ -41,7 +41,7 @@ public class SelectEditTaskActivity extends AppCompatActivity {
         listview.setAdapter(arrayAdapter);
 
         for (int i = 0; i < temp1.getTaskList().size(); i++) {
-            Task temp = temp1.retrieving(i);
+            Task temp = temp1.getTask(i);
 
             editTasks.add("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription());
 

@@ -9,12 +9,12 @@ public class Child {
 
     private String name;
     private CoinSide pick;
-    private String imageString;
+    private String portrait;
 
     public Child(String name, CoinSide pick, String imageStr) {
         this.name = name;
         this.pick = pick;
-        this.imageString = imageStr;
+        this.portrait = imageStr;
     }
 
     // Getters and Setters
@@ -32,11 +32,11 @@ public class Child {
         this.pick = pick;
     }
 
-    public void setImageString(String str){
-        this.imageString = str;
+    public void setPortrait(String str){
+        this.portrait = str;
     }
 
-    public String getImageString(){
-        return this.imageString;
+    public String getPortrait(){
+        return this.portrait;
     }
 }

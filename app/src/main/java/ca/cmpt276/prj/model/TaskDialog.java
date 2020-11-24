@@ -1,5 +1,6 @@
 package ca.cmpt276.prj.model;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Bitmap;
@@ -14,36 +15,40 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import java.util.Objects;
+
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.ui.ManageChildrenActivity;
 
 import static ca.cmpt276.prj.ui.ManageChildrenActivity.stringToBitmap;
 
-public class MyTaskDialog extends DialogFragment {
+public class TaskDialog extends DialogFragment {
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.task, null);
 
-
         Bundle bundle = getArguments();
-        String child_name = bundle.getString("child_name", "Default Child Name Here");
+        String child_name = Objects.requireNonNull(bundle).getString("child_name", "Default Child Name Here");
         String task_name = bundle.getString("task_name", "Default Task Name");
         String task_description = bundle.getString("description", "Default Description");
+        String child_portrait_string = bundle.getString("portrait", "Default Portrait");
+        int child_portrait;
+        if (!child_portrait_string.equals("Default Portrait")) child_portrait = Integer.parseInt(child_portrait_string);
+        else child_portrait = R.drawable.ic_baseline_account_circle_24;
 
-       // Bitmap bitmap = ManageChildrenActivity.stringToBitmap(your_string);
-
-
-       // pic.setImageResource(getResources().getIdentifier(child_name, "drawable", getActivity().getPackageName()));
-
-
-        TextView task_child_view = (TextView) view.findViewById(R.id.NameOfChild);
+        TextView task_child_view = view.findViewById(R.id.NameOfChild);
         task_child_view.setText("It's "+child_name+"'s turn");
-        TextView task_name_view = (TextView) view.findViewById(R.id.TaskNameView);
+        TextView task_name_view = view.findViewById(R.id.TaskNameView);
         task_name_view.setText("Task: "+task_name);
-        TextView task_description_view = (TextView) view.findViewById(R.id.TaskDescription);
+        TextView task_description_view = view.findViewById(R.id.TaskDescription);
         task_description_view.setText("Task Description: "+task_description);
+        ImageView child_portrait_view = view.findViewById(R.id.picture);
+        child_portrait_view.setImageResource(child_portrait);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);

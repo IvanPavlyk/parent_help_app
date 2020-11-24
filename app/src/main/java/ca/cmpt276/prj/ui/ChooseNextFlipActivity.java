@@ -108,7 +108,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
             }
             Child currentChild = manager.getChild(position);
             ImageView img = itemView.findViewById(R.id.childItemImage);
-            img.setImageBitmap(ManageChildrenActivity.stringToBitmap(currentChild.getImageString()));
+            img.setImageBitmap(ManageChildrenActivity.stringToBitmap(currentChild.getPortrait()));
 
             TextView childName = itemView.findViewById(R.id.childNameText);
             childName.setText(currentChild.getName());

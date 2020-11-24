@@ -38,14 +38,14 @@ public class DeleteTaskActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, editTask);
         listview.setAdapter(arrayAdapter);
         for (int i = 0; i < temp1.getTaskList().size(); i++) {
-            Task temp = temp1.retrieving(i);
+            Task temp = temp1.getTask(i);
             editTask.add("Task: "+temp.getTaskName()+"\nTask Description: "+temp.getDescription());
         }
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Manager.getInstance().removeByIndex(position);
+                Manager.getInstance().removeTask(position);
                 Intent Home=new Intent(DeleteTaskActivity.this,WhoseTurnActivity.class);
                 startActivity(Home);
             }

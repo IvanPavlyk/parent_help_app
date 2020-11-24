@@ -114,8 +114,8 @@ public class Manager {
     }
 
     // Task Management Methods
-    public void addTask(Task task) {
-        taskList.add(task);
+    public void addTask(Task newTask){
+        taskList.add(newTask);
     }
 
     public Task removeTask(Task task) {
@@ -134,25 +134,21 @@ public class Manager {
     // Returns image of child as a string, returns empty string if no correspondent child found
     public String getPortrait(String name) {
         for (Child child : childrenList) {
-            if (child.getName().equals(name)) return child.getImageString();
+            if (child.getName().equals(name)) return child.getPortrait();
         }
         return "";
     }
 
-    public Task retrieving(int index){
+    public Task getTask(int index){
         return taskList.get(index);
     }
 
-    public void add(Task newTask){
-        taskList.add(newTask);
+    public void removeTask(int index){
+        taskList.remove(getTask(index));
     }
 
-    public void removeByIndex(int index){
-        taskList.remove(retrieving(index));
-    }
-
-    public void EditTask(String task,String description,int index){
-        removeByIndex(index);
+    public void editTask(String task, String description, int index){
+        removeTask(index);
         Task editTask=new Task(task,description);
         taskList.add(editTask);
     }

@@ -22,7 +22,7 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.MyTaskDialog;
+import ca.cmpt276.prj.model.TaskDialog;
 import ca.cmpt276.prj.model.manager.Manager;
 import ca.cmpt276.prj.model.manager.Task;
 
@@ -108,7 +108,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         ArrayList<String> arr=new ArrayList<>();
         int count=0;
         while(count< manager.size()){
-            Task buffer = manager.retrieving(count);
+            Task buffer = manager.getTask(count);
             arr.add("Task: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
             count+=1;
         }
@@ -123,20 +123,19 @@ public class WhoseTurnActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
                 if(childNameList.size()==0){
-                    Toast.makeText(WhoseTurnActivity.this, "Please add a child before add some tasks", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WhoseTurnActivity.this, "Please addTask a child before addTask some tasks", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Task temp = Manager.getInstance().retrieving(position);
-                    MyTaskDialog dialog = new MyTaskDialog();
+                    Task temp = Manager.getInstance().getTask(position);
+                    TaskDialog dialog = new TaskDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString("child_name",temp.getChildName());
                     bundle.putString("task_name", temp.getTaskName());
                     bundle.putString("description", temp.getDescription());
+                    bundle.putString("portrait", temp.getPortrait());
                     dialog.setArguments(bundle);
                     dialog.show((WhoseTurnActivity.this).getSupportFragmentManager(), "Task Tag");
                 }
-
-
             }
         });
 
@@ -178,16 +177,19 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     random_index = (int) (Math.random() * ((child_count) + 1));
                 }
             }
-            String task_assigned_to = childNameList.get(random_index).getName();
+            String assignee_name = childNameList.get(random_index).getName();
+            String assignee_portrait = Manager.getInstance().getChild(random_index).getPortrait();
 
             // MARK
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("name", task_assigned_to);
+            editor.putString("name", assignee_name);
+            editor.putString("portrait", assignee_portrait);
             editor.apply();
 
             Task temp = new Task(task,description);
-            temp.setName(task_assigned_to);
-            manager.add(temp);
+            temp.setChildName(assignee_name);
+            temp.setPortrait(assignee_portrait);
+            manager.addTask(temp);
 
             Toast.makeText(WhoseTurnActivity.this,"New task added",Toast.LENGTH_LONG).show();
             list_view_build();

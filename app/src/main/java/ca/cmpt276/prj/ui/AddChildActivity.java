@@ -32,7 +32,7 @@ import ca.cmpt276.prj.model.manager.Manager;
 
 /**
  * AddChildActivity class that is booted from the ManageChildrenActivity
- * Lets user to add a child (name and portrait), when no image used - default is used
+ * Lets user to addTask a child (name and portrait), when no image used - default is used
  * Button with camera icon responsible for taking the portrait from the camera
  * Button with gallery icon responsible for taking the portrait from the gallery
  */

@@ -30,7 +30,7 @@ public class EditTaskActivity extends AppCompatActivity {
         actionbar1.setTitle("Edit The task you chose.");
 
         Intent intent = getIntent();
-        Task temp = Manager.getInstance().retrieving(intent.getIntExtra("index", 0));
+        Task temp = Manager.getInstance().getTask(intent.getIntExtra("index", 0));
         TextView changetext = findViewById(R.id.EditTaskDetail);
         changetext.setText("Task: " + temp.getTaskName() + "\nTask Description: " + temp.getDescription());
         CenterTextView();
@@ -48,7 +48,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
                 Intent intent = getIntent();
                 int indexNeeded = intent.getIntExtra("index", 0);
-                Manager.getInstance().EditTask(EditedTask, EditedDescription, indexNeeded);
+                Manager.getInstance().editTask(EditedTask, EditedDescription, indexNeeded);
 
                 Intent Home = new Intent(EditTaskActivity.this, WhoseTurnActivity.class);
                 startActivity(Home);
@@ -58,6 +58,7 @@ public class EditTaskActivity extends AppCompatActivity {
         // MARK
     }
 
+    @SuppressWarnings("deprecation")
     private void CenterTextView() {
         TextView AskTask = findViewById(R.id.askTaskl);
         TextView AskDescription = findViewById(R.id.askDescription);

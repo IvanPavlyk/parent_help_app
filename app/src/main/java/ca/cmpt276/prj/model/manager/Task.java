@@ -6,9 +6,10 @@ import ca.cmpt276.prj.model.Child;
 
 public class Task {
 
-    String ChildName;
+    String childName;
     String description;
     String TaskName;
+    String portrait;
 
     public Task(String taskname, String description) {
         this.TaskName = taskname;
@@ -19,19 +20,23 @@ public class Task {
 
     // Getters and Setters
     public String getChildName() {
-        return ChildName;
+        return childName;
     }
 
-    public void setName(String childname) {
-        this.ChildName = childname;
+    public void setChildName(String childName) {
+        this.childName = childName;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 
     public String getTaskName() {
         return TaskName;
-    }
-
-    public void setTaskName(String taskname) {
-        this.TaskName = taskname;
     }
 
     public String getDescription() {

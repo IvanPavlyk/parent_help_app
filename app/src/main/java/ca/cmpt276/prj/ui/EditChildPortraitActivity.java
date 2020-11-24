@@ -59,7 +59,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         position = Objects.requireNonNull(bundle).getInt("PositionChild");
         game = Manager.getInstance();
         initializeResources();
-        imageViewChildPortrait.setImageBitmap(ManageChildrenActivity.stringToBitmap(game.getChild(position).getImageString()));
+        imageViewChildPortrait.setImageBitmap(ManageChildrenActivity.stringToBitmap(game.getChild(position).getPortrait()));
         setListeners();
     }
 
@@ -80,7 +80,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bitmap bitmap = ((BitmapDrawable)imageViewChildPortrait.getDrawable()).getBitmap();
-                game.getChild(position).setImageString(AddChildActivity.bitmapToString(bitmap));
+                game.getChild(position).setPortrait(AddChildActivity.bitmapToString(bitmap));
                 Toast.makeText(EditChildPortraitActivity.this, "Edited the portrait successfully", Toast.LENGTH_SHORT).show();
             }
         });

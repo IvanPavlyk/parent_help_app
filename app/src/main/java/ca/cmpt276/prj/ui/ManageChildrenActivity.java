@@ -32,7 +32,7 @@ import ca.cmpt276.prj.model.manager.Manager;
 
 /**
  * ManageChildrenActivity responsible for the screen that shoes the list of children
- * lets user to add/remove/edit children list, saved between application runs
+ * lets user to addTask/remove/edit children list, saved between application runs
  */
 public class ManageChildrenActivity extends AppCompatActivity {
 
@@ -150,7 +150,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
 
             ImageView imageChild = itemView.findViewById(R.id.picture);
 
-            imageChild.setImageBitmap(stringToBitmap(currentChild.getImageString()));
+            imageChild.setImageBitmap(stringToBitmap(currentChild.getPortrait()));
             return itemView;
         }
     }
