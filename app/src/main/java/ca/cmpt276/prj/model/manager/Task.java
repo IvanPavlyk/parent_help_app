@@ -11,8 +11,8 @@ public class Task {
     String TaskName;
     String portrait;
 
-    public Task(String taskname, String description) {
-        this.TaskName = taskname;
+    public Task(String taskName, String description) {
+        this.TaskName = taskName;
         this.description = description;
     }
 

@@ -11,10 +11,10 @@ public class Child {
     private CoinSide pick;
     private String portrait;
 
-    public Child(String name, CoinSide pick, String imageStr) {
+    public Child(String name, CoinSide pick, String portrait) {
         this.name = name;
         this.pick = pick;
-        this.portrait = imageStr;
+        this.portrait = portrait;
     }
 
     // Getters and Setters

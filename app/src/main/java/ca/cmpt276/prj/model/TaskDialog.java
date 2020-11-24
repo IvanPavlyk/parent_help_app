@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
@@ -37,9 +39,6 @@ public class TaskDialog extends DialogFragment {
         String task_name = bundle.getString("task_name", "Default Task Name");
         String task_description = bundle.getString("description", "Default Description");
         String child_portrait_string = bundle.getString("portrait", "Default Portrait");
-        int child_portrait;
-        if (!child_portrait_string.equals("Default Portrait")) child_portrait = Integer.parseInt(child_portrait_string);
-        else child_portrait = R.drawable.ic_baseline_account_circle_24;
 
         TextView task_child_view = view.findViewById(R.id.NameOfChild);
         task_child_view.setText("It's "+child_name+"'s turn");
@@ -48,7 +47,12 @@ public class TaskDialog extends DialogFragment {
         TextView task_description_view = view.findViewById(R.id.TaskDescription);
         task_description_view.setText("Task Description: "+task_description);
         ImageView child_portrait_view = view.findViewById(R.id.picture);
-        child_portrait_view.setImageResource(child_portrait);
+        if (!child_portrait_string.equals("Default Portrait")) {
+            byte [] encodeByte = Base64.decode(child_portrait_string, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            child_portrait_view.setImageBitmap(bitmap);
+        }
+        else child_portrait_view.setImageResource(R.drawable.ic_baseline_account_circle_24);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
