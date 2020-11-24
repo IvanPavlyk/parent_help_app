@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.manager.Manager;
@@ -23,23 +24,17 @@ public class deleteTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_task);
-
-
-
         showEditView();
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Select one task you want to delete.");
+        Objects.requireNonNull(actionbar).setTitle("Select one task you want to delete.");
         actionbar.setDisplayHomeAsUpEnabled(true);
-
     }
-
-
 
     private void showEditView() {
         ArrayList<String> editTask = new ArrayList<>();
-        ListView listview = null;
+        ListView listview;
         listview = findViewById(R.id.deleteLen);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, editTask);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, editTask);
         listview.setAdapter(arrayAdapter);
         for (int i = 0; i < temp1.getTaskList().size(); i++) {
             Task temp = temp1.retrieving(i);
