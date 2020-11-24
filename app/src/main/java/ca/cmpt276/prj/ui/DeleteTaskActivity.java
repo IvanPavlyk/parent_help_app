@@ -17,6 +17,9 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.manager.Manager;
 import ca.cmpt276.prj.model.manager.Task;
 
+/**
+ * Delete a task
+ */
 public class DeleteTaskActivity extends AppCompatActivity {
     private Manager temp1 = Manager.getInstance();
     @Override

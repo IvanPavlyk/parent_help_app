@@ -5,13 +5,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,10 +19,10 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.ui.ManageChildrenActivity;
 
-import static ca.cmpt276.prj.ui.ManageChildrenActivity.stringToBitmap;
-
+/**
+ * Dialog for the display of individual tasks
+ */
 public class TaskDialog extends DialogFragment {
     @SuppressLint("SetTextI18n")
     @NonNull

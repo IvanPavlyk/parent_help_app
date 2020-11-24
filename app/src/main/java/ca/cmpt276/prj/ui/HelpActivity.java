@@ -11,6 +11,9 @@ import android.view.MenuItem;
 
 import java.util.Objects;
 
+/**
+ * Help page detailing the app's purpose, makers, and copyright info
+ */
 public class HelpActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context) {

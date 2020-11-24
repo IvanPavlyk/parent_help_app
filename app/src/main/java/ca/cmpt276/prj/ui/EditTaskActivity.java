@@ -18,6 +18,9 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.manager.Manager;
 import ca.cmpt276.prj.model.manager.Task;
 
+/**
+ * Edit a task
+ */
 public class EditTaskActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")

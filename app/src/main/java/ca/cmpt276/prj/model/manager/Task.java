@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import ca.cmpt276.prj.model.Child;
 
+/**
+ * A task object containing information on itself and the children waiting in turns to do it
+ */
 public class Task {
 
     String childName;

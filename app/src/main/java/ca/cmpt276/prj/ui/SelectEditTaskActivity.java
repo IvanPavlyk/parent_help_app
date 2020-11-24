@@ -17,6 +17,9 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.manager.Manager;
 import ca.cmpt276.prj.model.manager.Task;
 
+/**
+ * Intermediate page for selecting which task to edit
+ */
 public class SelectEditTaskActivity extends AppCompatActivity {
     private Manager temp1 = Manager.getInstance();
 

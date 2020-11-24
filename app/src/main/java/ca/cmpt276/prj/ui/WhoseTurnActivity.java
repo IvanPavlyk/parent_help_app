@@ -26,6 +26,9 @@ import ca.cmpt276.prj.model.TaskDialog;
 import ca.cmpt276.prj.model.manager.Manager;
 import ca.cmpt276.prj.model.manager.Task;
 
+/**
+ * A component that manages tasks for children to take turns on
+ */
 public class WhoseTurnActivity extends AppCompatActivity {
     private static Manager manager = Manager.getInstance();
     private ArrayList<Child> childNameList = Manager.getInstance().getChildrenList();

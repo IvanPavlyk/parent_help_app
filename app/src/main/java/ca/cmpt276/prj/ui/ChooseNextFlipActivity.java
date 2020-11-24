@@ -1,10 +1,5 @@
 package ca.cmpt276.prj.ui;
 
-/*
-    Activity that shows the queue of children, allows users to choose the next child to flip
-    or select none and do a coin flip with no children
- */
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -27,6 +22,10 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.manager.Manager;
 
+/**
+ * Activity that shows the queue of children, allows users to choose the next child to flip
+ * or select none and do a coin flip with no children
+ */
 public class ChooseNextFlipActivity extends AppCompatActivity {
 
     private Manager manager;

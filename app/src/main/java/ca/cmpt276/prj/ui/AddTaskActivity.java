@@ -13,6 +13,9 @@ import android.widget.EditText;
 
 import ca.cmpt276.prj.R;
 
+/**
+ * Page that handles the addition of new tasks
+ */
 public class AddTaskActivity extends AppCompatActivity {
 
     @Override
