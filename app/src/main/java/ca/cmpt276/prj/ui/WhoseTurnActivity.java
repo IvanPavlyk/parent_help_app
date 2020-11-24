@@ -56,7 +56,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         list_view_build();
 
         FloatingActionButton edit = findViewById(R.id.edit);
-        if(manager.size() != 0) {
+        if(manager.size() > -1) {
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,7 +79,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         FloatingActionButton delete = findViewById(R.id.delete);
-        if(manager.size() != 0) {
+        if(manager.size() > -1) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
