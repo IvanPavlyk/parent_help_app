@@ -1,4 +1,4 @@
-package ca.cmpt276.prj.model.manager;
+package ca.cmpt276.prj.model;
 
 import java.util.ArrayList;
 
@@ -21,19 +21,21 @@ public class Task {
         this.taskQueue = new ArrayList<>();
     }
 
+    // Take current task holder off task, put it on the back of queue,
+    // and make its next-in-line the new task holder
     public void advanceTurn() {
         if (taskQueue.size() == 0 || taskQueue.size() == 1) return;
-        Child next = taskQueue.get(1);
         Child head = taskQueue.remove(0);
         taskQueue.add(taskQueue.size(), head);
     }
 
-    // Getters and Setters
+    // Get the current task holder
     public Child getTaskHolder() {
         if (taskQueue.size() != 0) return taskQueue.get(0);
         else return null;
     }
 
+    // Getters and Setters
     public String getChildName() {
         return childName;
     }

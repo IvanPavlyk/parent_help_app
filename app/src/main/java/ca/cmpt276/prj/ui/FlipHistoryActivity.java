@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.manager.CoinSide;
-import ca.cmpt276.prj.model.manager.Flip;
-import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.CoinSide;
+import ca.cmpt276.prj.model.Flip;
+import ca.cmpt276.prj.model.Manager;
 
 /**
  * FlipHistoryActivity responsible for the screen that stores the history about

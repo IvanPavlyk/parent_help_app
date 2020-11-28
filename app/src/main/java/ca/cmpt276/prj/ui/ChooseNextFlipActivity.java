@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.Manager;
 
 /**
  * Activity that shows the queue of children, allows users to choose the next child to flip

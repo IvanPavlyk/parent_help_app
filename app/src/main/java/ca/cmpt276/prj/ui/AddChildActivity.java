@@ -27,8 +27,8 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.manager.CoinSide;
-import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.CoinSide;
+import ca.cmpt276.prj.model.Manager;
 
 /**
  * AddChildActivity class that is booted from the ManageChildrenActivity

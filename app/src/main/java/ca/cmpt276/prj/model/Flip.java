@@ -1,4 +1,6 @@
-package ca.cmpt276.prj.model.manager;
+package ca.cmpt276.prj.model;
+
+import ca.cmpt276.prj.model.CoinSide;
 
 /**
  * Flip class used to create objects that have time, pickerName, outcome and win attributes which

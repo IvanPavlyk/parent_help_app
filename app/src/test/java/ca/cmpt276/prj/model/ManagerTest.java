@@ -2,9 +2,6 @@ package ca.cmpt276.prj.model;
 
 import org.junit.jupiter.api.Test;
 
-import ca.cmpt276.prj.model.manager.CoinSide;
-import ca.cmpt276.prj.model.manager.Manager;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerTest {

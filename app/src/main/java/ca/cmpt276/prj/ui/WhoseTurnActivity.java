@@ -23,8 +23,8 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.TaskDialog;
-import ca.cmpt276.prj.model.manager.Manager;
-import ca.cmpt276.prj.model.manager.Task;
+import ca.cmpt276.prj.model.Manager;
+import ca.cmpt276.prj.model.Task;
 
 /**
  * A component that manages tasks for children to take turns on
@@ -59,7 +59,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         list_view_build();
 
         FloatingActionButton edit = findViewById(R.id.edit);
-        if(manager.size() > -1) {
+        if(manager.taskListSize() > -1) {
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -71,7 +71,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 }
 
             });
-        }else if(manager.size() == 0){
+        }else if(manager.taskListSize() == 0){
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -82,7 +82,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         FloatingActionButton delete = findViewById(R.id.delete);
-        if(manager.size() > -1) {
+        if(manager.taskListSize() > -1) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -90,7 +90,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                     startActivityForResult(intent, 1);
                 }
             });
-        }else if(manager.size() == 0){
+        }else if(manager.taskListSize() == 0){
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -110,7 +110,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
     private void list_view_build() {
         ArrayList<String> arr=new ArrayList<>();
         int count=0;
-        while(count< manager.size()){
+        while(count< manager.taskListSize()){
             Task buffer = manager.getTask(count);
             arr.add("Task: "+buffer.getTaskName()+"\nTask Description: "+buffer.getDescription());
             count+=1;

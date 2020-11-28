@@ -28,7 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.Manager;
 
 /**
  * ManageChildrenActivity responsible for the screen that shoes the list of children

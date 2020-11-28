@@ -1,7 +1,5 @@
 package ca.cmpt276.prj.model;
 
-import ca.cmpt276.prj.model.manager.CoinSide;
-
 /**
  * Child class used to create Child objects with name and pick attributes
  */

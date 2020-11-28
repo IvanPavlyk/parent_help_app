@@ -14,8 +14,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.manager.Manager;
-import ca.cmpt276.prj.model.manager.Task;
+import ca.cmpt276.prj.model.Manager;
+import ca.cmpt276.prj.model.Task;
 
 /**
  * Intermediate page for selecting which task to edit

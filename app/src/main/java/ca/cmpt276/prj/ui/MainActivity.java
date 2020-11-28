@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.manager.Manager;
+import ca.cmpt276.prj.model.Manager;
 
 /**
  * MainActivity responsible for the first screen that loads up when the application starts running

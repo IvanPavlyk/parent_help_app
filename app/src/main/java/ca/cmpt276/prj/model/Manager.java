@@ -1,10 +1,8 @@
-package ca.cmpt276.prj.model.manager;
+package ca.cmpt276.prj.model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
-
-import ca.cmpt276.prj.model.Child;
 
 /**
  * Game singleton class used to handle all the logic connected to flip coin activity and manage children activity
@@ -16,12 +14,13 @@ public class Manager {
     private ArrayList<Child> childrenList;
     private ArrayList<Flip> flipsRecord;
     private ArrayList<Task> taskList;
-    private Child winner = null;
 
-    public int size(){
-        return taskList.size();
-    }
+    private Child winner;
+    private int breathsRemaining;
+    private int breathsTaken;
+    private BreathState breathState;
 
+    // Base Methods
     public static Manager getInstance() {
         if (manager == null) manager = new Manager();
         return manager;
@@ -34,7 +33,9 @@ public class Manager {
     private Manager() {
         this.childrenList = new ArrayList<>();
         this.flipsRecord = new ArrayList<>();
-        taskList=new ArrayList<>();
+        this.taskList = new ArrayList<>();
+        this.winner = null;
+        this.breathState = BreathState.DONE;
     }
 
     // Child Management Methods
@@ -74,11 +75,11 @@ public class Manager {
 
     public void wipeRecord() { flipsRecord = new ArrayList<>(); }
 
-    // Coin Flip Methods
     private String time() {
         return Calendar.getInstance().getTime().toString();
     }
 
+    // Coin Flip Methods
     public boolean flip() {
 
         // Initialization with front child as current picker
@@ -114,6 +115,10 @@ public class Manager {
     }
 
     // Task Management Methods
+    public int taskListSize(){
+        return taskList.size();
+    }
+
     public void addTask(Task newTask){
         taskList.add(newTask);
     }
@@ -131,14 +136,6 @@ public class Manager {
         taskList = new ArrayList<>();
     }
 
-    // Returns image of child as a string, returns empty string if no correspondent child found
-    public String getPortrait(String name) {
-        for (Child child : childrenList) {
-            if (child.getName().equals(name)) return child.getPortrait();
-        }
-        return "";
-    }
-
     public Task getTask(int index){
         return taskList.get(index);
     }
@@ -149,11 +146,38 @@ public class Manager {
 
     public void editTask(String task, String description, int index){
         removeTask(index);
-        Task editTask=new Task(task,description);
+        Task editTask = new Task(task,description);
         taskList.add(editTask);
     }
 
-    // Getters
+    // Breath Management Methods
+    public void inhale() {
+        // starts to inhale
+        if (breathState == BreathState.INHALE) {
+            throw new IllegalStateException("Already inhaling!");
+        }
+        breathState = BreathState.INHALE;
+    }
+
+    public void exhale() {
+        // starts to exhale
+        if (breathState == BreathState.DONE) {
+            throw new IllegalStateException("You have to inhale before exhaling!");
+        }
+        if (breathState == BreathState.EXHALE) {
+            throw new IllegalStateException("Already exhaling!");
+        }
+        breathState = BreathState.EXHALE;
+        breathsTaken++;
+        breathsRemaining--;
+    }
+
+    public void done() {
+        // Reset breathState;
+        breathState = BreathState.DONE;
+    }
+
+    // Getters and Setters
     public ArrayList<Child> getChildrenList() {
         return childrenList;
     }
@@ -166,5 +190,29 @@ public class Manager {
 
     public ArrayList<Task> getTaskList() {
         return taskList;
+    }
+
+    public int getBreathsRemaining() {
+        return breathsRemaining;
+    }
+
+    public void setBreathsRemaining(int breathsRemaining) {
+        this.breathsRemaining = breathsRemaining;
+    }
+
+    public int getBreathsTaken() {
+        return breathsTaken;
+    }
+
+    public void setBreathsTaken(int breathsTaken) {
+        this.breathsTaken = breathsTaken;
+    }
+
+    public BreathState getBreathState() {
+        return breathState;
+    }
+
+    public void setBreathState(BreathState breathState) {
+        this.breathState = breathState;
     }
 }

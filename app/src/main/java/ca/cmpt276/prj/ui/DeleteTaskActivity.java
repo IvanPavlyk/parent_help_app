@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.manager.Manager;
-import ca.cmpt276.prj.model.manager.Task;
+import ca.cmpt276.prj.model.Manager;
+import ca.cmpt276.prj.model.Task;
 
 /**
  * Delete a task
