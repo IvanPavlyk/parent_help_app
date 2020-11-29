@@ -18,7 +18,7 @@ import ca.cmpt276.prj.model.Manager;
 import ca.cmpt276.prj.model.Task;
 
 /**
- * Delete a task
+ * Delete a task_dialog
  */
 public class DeleteTaskActivity extends AppCompatActivity {
     private Manager temp1 = Manager.getInstance();
@@ -29,7 +29,7 @@ public class DeleteTaskActivity extends AppCompatActivity {
 
         showEditView();
         ActionBar actionbar = getSupportActionBar();
-        Objects.requireNonNull(actionbar).setTitle("Select one task you want to delete.");
+        Objects.requireNonNull(actionbar).setTitle("Select one task_dialog you want to delete.");
         actionbar.setDisplayHomeAsUpEnabled(true);
     }
 

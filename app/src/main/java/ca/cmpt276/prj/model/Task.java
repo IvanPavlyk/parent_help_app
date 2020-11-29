@@ -2,59 +2,63 @@ package ca.cmpt276.prj.model;
 
 import java.util.ArrayList;
 
-import ca.cmpt276.prj.model.Child;
-
 /**
- * A task object containing information on itself and the children waiting in turns to do it
+ * A task_dialog object containing information on itself and the children waiting in turns to do it
  */
 public class Task {
 
-    String childName;
-    String description;
     String TaskName;
-    String portrait;
+    String description;
     ArrayList<Child> taskQueue;
 
     public Task(String taskName, String description) {
         this.TaskName = taskName;
         this.description = description;
         this.taskQueue = new ArrayList<>();
+        System.out.println("Adding children to task");
+        for (Child child : Manager.getInstance().getChildrenList()) {
+            taskQueue.add(taskQueue.size(), child);
+        }
     }
 
-    // Take current task holder off task, put it on the back of queue,
-    // and make its next-in-line the new task holder
+    // Take current task_dialog holder off task_dialog, put it on the back of queue,
+    // and make its next-in-line the new task_dialog holder
     public void advanceTurn() {
         if (taskQueue.size() == 0 || taskQueue.size() == 1) return;
         Child head = taskQueue.remove(0);
         taskQueue.add(taskQueue.size(), head);
     }
 
-    // Get the current task holder
+    // Get the current task_dialog holder
     public Child getTaskHolder() {
         if (taskQueue.size() != 0) return taskQueue.get(0);
         else return null;
     }
 
+    // Task Queue Management
+    public void appendChild(Child child) {
+        taskQueue.add(taskQueue.size(), child);
+    }
+
+    public Child removeChild(Child child) {
+        for (int i=0; i<taskQueue.size(); i++) {
+            if (taskQueue.get(i).getName().equals(child.getName())) {
+                return taskQueue.remove(i);
+            }
+        }
+        return null;
+    }
+
+    public void wipeQueue() {
+        taskQueue = new ArrayList<>();
+    }
+
     // Getters and Setters
-    public String getChildName() {
-        return childName;
-    }
-
-    public void setChildName(String childName) {
-        this.childName = childName;
-    }
-
-    public String getPortrait() {
-        return portrait;
-    }
-
-    public void setPortrait(String portrait) {
-        this.portrait = portrait;
-    }
-
     public String getTaskName() {
         return TaskName;
     }
+
+    public void setTaskName(String taskName) { TaskName = taskName;}
 
     public String getDescription() {
         return description;

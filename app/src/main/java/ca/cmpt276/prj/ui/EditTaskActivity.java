@@ -19,7 +19,7 @@ import ca.cmpt276.prj.model.Manager;
 import ca.cmpt276.prj.model.Task;
 
 /**
- * Edit a task
+ * Edit a task_dialog
  */
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -30,7 +30,7 @@ public class EditTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_one);
         ActionBar actionbar1 = getSupportActionBar();
         Objects.requireNonNull(actionbar1).setDisplayHomeAsUpEnabled(true);
-        actionbar1.setTitle("Edit The task you chose.");
+        actionbar1.setTitle("Edit The task_dialog you chose.");
 
         Intent intent = getIntent();
         Task temp = Manager.getInstance().getTask(intent.getIntExtra("index", 0));

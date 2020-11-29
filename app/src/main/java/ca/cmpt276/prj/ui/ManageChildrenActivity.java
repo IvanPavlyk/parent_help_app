@@ -72,7 +72,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Child>{
         public MyListAdapter(){
-            super(ManageChildrenActivity.this, R.layout.item_view, manager.getChildrenList());//childrenList);
+            super(ManageChildrenActivity.this, R.layout.manage_child_item, manager.getChildrenList());//childrenList);
         }
 
         @SuppressLint("CutPasteId")
@@ -82,7 +82,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
             View itemView = convertView;
             ChildHolder holder;
             if(itemView == null || itemView.getTag() == null){
-                itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.manage_child_item, parent, false);
                 holder = new ChildHolder();
                 holder.childName = itemView.findViewById(R.id.NameOfChild);
                 holder.removeChild = itemView.findViewById(R.id.DeleteChild);

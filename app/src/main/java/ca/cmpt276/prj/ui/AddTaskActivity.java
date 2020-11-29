@@ -49,7 +49,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putString("task", t);
+                bundle.putString("task_dialog", t);
                 bundle.putString("description", d);
                 intent.putExtra("task_information", bundle);
                 setResult(RESULT_OK, intent);

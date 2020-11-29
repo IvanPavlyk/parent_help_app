@@ -38,9 +38,12 @@ public class Manager {
         this.breathState = BreathState.DONE;
     }
 
-    // Child Management Methods
+    // Child Management Methods (Also directly connects with task queue)
     public void appendChild(Child child) {
         childrenList.add(childrenList.size(), child);
+        for (Task task : taskList) {
+            task.appendChild(child);
+        }
     }
 
     public void prependChild(Child child){
@@ -50,6 +53,9 @@ public class Manager {
     public Child removeChild(Child child) {
         for (int i=0; i<childrenList.size(); i++) {
             if (childrenList.get(i).getName().equals(child.getName())) {
+                for (Task task : taskList) {
+                    task.removeChild(child);
+                }
                 return childrenList.remove(i);
             }  
         }
@@ -62,6 +68,9 @@ public class Manager {
 
     public void wipeChildren() {
         childrenList = new ArrayList<>();
+        for (Task task : taskList) {
+            task.wipeQueue();
+        }
     }
 
     // Flip Record Management Methods

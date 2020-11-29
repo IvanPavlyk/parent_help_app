@@ -74,4 +74,9 @@
     <string name="task_description">TaskDescription</string>
     <string name="task_name_view">TaskNameView</string>
     <string name="advance_turn_button_text">Advance Turn</string>
+    <string name="advance_turn">Advance Turn</string>
+    <string name="task_name">Name of Task</string>
+    <string name="description_of_task">Description of Task</string>
+    <string name="view">View</string>
+    <string name="task_holder_name">Task Holder Name</string>
 </resources>

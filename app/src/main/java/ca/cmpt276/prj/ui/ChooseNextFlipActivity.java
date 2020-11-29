@@ -95,7 +95,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
 
     private class ChildListAdapter extends ArrayAdapter<Child> {
         public ChildListAdapter(){
-            super(ChooseNextFlipActivity.this, R.layout.child_item, manager.getChildrenList());
+            super(ChooseNextFlipActivity.this, R.layout.flip_child_item, manager.getChildrenList());
         }
 
         @NonNull
@@ -103,7 +103,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View itemView = convertView;
             if(itemView == null){
-                itemView = getLayoutInflater().inflate(R.layout.child_item, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.flip_child_item, parent, false);
             }
             Child currentChild = manager.getChild(position);
             ImageView img = itemView.findViewById(R.id.childItemImage);
