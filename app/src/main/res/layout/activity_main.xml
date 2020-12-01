@@ -91,6 +91,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonHelp" />
+
+    <Button
+        android:id="@+id/btnTakeBreath"
+        android:layout_width="203dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/take_breath_button_text"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:background="@drawable/menu_buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/whoseturn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
