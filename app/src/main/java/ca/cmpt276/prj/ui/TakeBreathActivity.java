@@ -1,5 +1,6 @@
 package ca.cmpt276.prj.ui;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -24,9 +25,9 @@ import android.widget.Toast;
 import ca.cmpt276.prj.R;
 
 /**
- * TODO: Add class comment here
- * TODO: Exhale state
- * TODO: Wire everything up
+ * TakeBreathActivity allows users to choose how many breaths they want to take, and allows them to
+ * take guided deep breaths to calm down by holding the inhale button when it asks, and exhaling
+ * when asked
  */
 public class TakeBreathActivity extends AppCompatActivity {
     private Spinner spinner;
@@ -50,8 +51,10 @@ public class TakeBreathActivity extends AppCompatActivity {
     //if switchFlag true means we are ready to switch state but
     //might need to wait until the animations end
     private boolean switchFlag = false;
+    //signals when button can be pressed to stop exhale
+    private boolean stopExhale = false;
 
-    private abstract class State{
+    private abstract static class State{
         void handleButtonPress(){}
         void handleEnter(){}
         void handleExit(){}
@@ -62,6 +65,11 @@ public class TakeBreathActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_breath);
+        ActionBar bar = getSupportActionBar();
+        if(bar != null){
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setTitle("Take a breath");
+        }
         initializeSpinner();
         initializeHeading();
         initializeResources();
@@ -92,7 +100,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     currentState.handleButtonPress();
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP && currentState == inhaleState) {
                     if(switchFlag){
                         switchFlag = false;
                         currentState.handleExit();
@@ -121,7 +129,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     private void initializeSpinner() {
         spinner = findViewById(R.id.spinnerList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(TakeBreathActivity.this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(TakeBreathActivity.this,
                 R.layout.spinner_item_layout,
                 getResources().getStringArray(R.array.spinner_items));
         adapter.setDropDownViewResource(R.layout.spinner_item_layout);
@@ -163,15 +171,15 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
     }
 
-    private class FinishedState extends State {}
+    private static class FinishedState extends State {}
 
     private class InhaleState extends State {
         Handler timerHandler = new Handler();
         Runnable timerRunnable3s = new Runnable() {
             @Override
             public void run() {
-                Button btn = (Button) findViewById(R.id.btnBreathing);
-                btn.setText("Out");
+                Button btn = findViewById(R.id.btnBreathing);
+                btn.setText(R.string.exhale_btn_text);
                 switchFlag = true;
             }
         };
@@ -185,9 +193,10 @@ public class TakeBreathActivity extends AppCompatActivity {
         };
         @Override
         void handleEnter() {
+            switchFlag = false;
             setCircleColor();
-            Button btn = (Button) findViewById(R.id.btnBreathing);
-            btn.setText("In");
+            Button btn = findViewById(R.id.btnBreathing);
+            btn.setText(R.string.inhale_btn_text);
             Toast.makeText(TakeBreathActivity.this, "Inhale and hold the In button!", Toast.LENGTH_SHORT).show();
         }
 
@@ -206,6 +215,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleExit() {
             pressed = false;
             stopAnimations();
+            timerHandler.removeCallbacks(timerRunnable3s);
+            timerHandler.removeCallbacks(timerRunnable10s);
             setState(exhaleState);
         }
 
@@ -224,60 +235,51 @@ public class TakeBreathActivity extends AppCompatActivity {
         Runnable timerRunnable3s = new Runnable() {
             @Override
             public void run() {
-                Button btn = (Button) findViewById(R.id.btnBreathing);
+                Button btn = findViewById(R.id.btnBreathing);
                 currNumBreathsTaken++;
                 if(currNumBreathsTaken < numberOfBreaths) {
-                    btn.setText("In");
+                    btn.setText(R.string.inhale_btn_text);
                 } else {
-                    btn.setText("Good Job!");
+                    btn.setText(R.string.done_breathing);
                 }
-                switchFlag = true;
+                stopExhale = true;
+                displayRemainingBreaths();
             }
         };
         Runnable timerRunnable10s = new Runnable() {
             @Override
             public void run() {
-                pressed = false;
-                stopAnimations();
+                handleButtonPress();
             }
         };
         @Override
         void handleEnter() {
-            Toast.makeText(TakeBreathActivity.this, "Exhale and hold the Out button", Toast.LENGTH_SHORT).show();
             setCircleColor();
+            timerHandler.postDelayed(timerRunnable3s, 3000);
+            timerHandler.postDelayed(timerRunnable10s, 10000);
+            startCircleAnimation(imageAnimated);
         }
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
         void handleButtonPress(){
-            if(!pressed){
-                timerHandler.postDelayed(timerRunnable3s, 3000);
-                timerHandler.postDelayed(timerRunnable10s, 10000);
-                startCircleAnimation(imageAnimated);
-                pressed = true;
+            if(stopExhale) {
+                stopAnimations();
+                stopExhale = false;
+                handleExit();
             }
         }
 
-        @SuppressLint("SetTextI18n")
         void handleExit() {
-            pressed = false;
-            stopAnimations();
-            TextView numBreathsRemain = findViewById(R.id.breathsRemaining);
-            if(currNumBreathsTaken < numberOfBreaths) {
-                setState(inhaleState);
-                numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " breaths remaining");
-            } else {
-                setState(new FinishedState());
-                numBreathsRemain.setVisibility(View.GONE);
-            }
-        }
-        @Override
-        void handleStop() {
             timerHandler.removeCallbacks(timerRunnable3s);
             timerHandler.removeCallbacks(timerRunnable10s);
-            pressed = false;
             stopAnimations();
-            setState(exhaleState);
+            if(currNumBreathsTaken < numberOfBreaths) {
+                setState(inhaleState);
+            }
+            else {
+                setState(new FinishedState());
+            }
         }
     }
 
@@ -286,6 +288,16 @@ public class TakeBreathActivity extends AppCompatActivity {
             imageAnimated.setImageResource(R.drawable.green_circle_ipa);
         } else{
             imageAnimated.setImageResource(R.drawable.red_circle);
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void displayRemainingBreaths(){
+        TextView numBreathsRemain = findViewById(R.id.breathsRemaining);
+        if(currNumBreathsTaken < numberOfBreaths) {
+            numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " breaths remaining");
+        } else {
+            numBreathsRemain.setVisibility(View.GONE);
         }
     }
 
