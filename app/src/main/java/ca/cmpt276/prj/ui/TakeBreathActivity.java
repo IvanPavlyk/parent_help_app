@@ -33,6 +33,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     //Number of breaths to take, number is changed when user chooses
     //different option from the drop down menu on the UI
     private int numberOfBreaths;
+    private int currNumBreathsTaken = 0;
     private State currentState = new IdleState();
     private final State inhaleState = new InhaleState();
     private final State exhaleState = new ExhaleState();
@@ -41,6 +42,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     private ImageView imageAnimated;
     private SoundPool soundPool;
     private int inhalingSound;
+    private int exhalingSound;
     //Number that is responsible for stopping the soundPool
     private int streamID;
     //True only when after switching to Inhale state user did not press button yet
@@ -75,10 +77,11 @@ public class TakeBreathActivity extends AppCompatActivity {
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build();
         soundPool = new SoundPool.Builder()
-                .setMaxStreams(1)
+                .setMaxStreams(2)
                 .setAudioAttributes(audioAttributes)
                 .build();
         inhalingSound = soundPool.load(TakeBreathActivity.this, R.raw.breathing_sound, 1);
+        exhalingSound = soundPool.load(TakeBreathActivity.this, R.raw.calm_sea, 1);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -146,11 +149,21 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
 
     private class IdleState extends State {
+        @SuppressLint("SetTextI18n")
         @Override
         void handleButtonPress() {
             setState(inhaleState);
+            TextView tvHeading = findViewById(R.id.textViewLetsTake);
+            TextView chooseNumBreaths = findViewById(R.id.textViewNumberBreaths);
+            spinner.setVisibility(View.GONE);
+            tvHeading.setVisibility(View.GONE);
+            chooseNumBreaths.setVisibility(View.GONE);
+            TextView numBreathsRemain = findViewById(R.id.breathsRemaining);
+            numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " breaths remaining");
         }
     }
+
+    private class FinishedState extends State {}
 
     private class InhaleState extends State {
         Handler timerHandler = new Handler();
@@ -171,6 +184,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         };
         @Override
         void handleEnter() {
+            setCircleColor();
             Button btn = (Button) findViewById(R.id.btnBreathing);
             btn.setText("In");
             Toast.makeText(TakeBreathActivity.this, "Inhale and hold the In button!", Toast.LENGTH_SHORT).show();
@@ -205,9 +219,72 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
 
     private class ExhaleState extends State {
+        Handler timerHandler = new Handler();
+        Runnable timerRunnable3s = new Runnable() {
+            @Override
+            public void run() {
+                Button btn = (Button) findViewById(R.id.btnBreathing);
+                currNumBreathsTaken++;
+                if(currNumBreathsTaken < numberOfBreaths) {
+                    btn.setText("In");
+                } else {
+                    btn.setText("Good Job!");
+                }
+                switchFlag = true;
+            }
+        };
+        Runnable timerRunnable10s = new Runnable() {
+            @Override
+            public void run() {
+                pressed = false;
+                stopAnimations();
+            }
+        };
         @Override
         void handleEnter() {
             Toast.makeText(TakeBreathActivity.this, "Exhale and hold the Out button", Toast.LENGTH_SHORT).show();
+            setCircleColor();
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        void handleButtonPress(){
+            if(!pressed){
+                timerHandler.postDelayed(timerRunnable3s, 3000);
+                timerHandler.postDelayed(timerRunnable10s, 10000);
+                startCircleAnimation(imageAnimated);
+                pressed = true;
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        void handleExit() {
+            pressed = false;
+            stopAnimations();
+            TextView numBreathsRemain = findViewById(R.id.breathsRemaining);
+            if(currNumBreathsTaken < numberOfBreaths) {
+                setState(inhaleState);
+                numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " breaths remaining");
+            } else {
+                setState(new FinishedState());
+                numBreathsRemain.setVisibility(View.GONE);
+            }
+        }
+        @Override
+        void handleStop() {
+            timerHandler.removeCallbacks(timerRunnable3s);
+            timerHandler.removeCallbacks(timerRunnable10s);
+            pressed = false;
+            stopAnimations();
+            setState(exhaleState);
+        }
+    }
+
+    private void setCircleColor(){
+        if(currentState == inhaleState){
+            imageAnimated.setImageResource(R.drawable.green_circle_ipa);
+        } else{
+            imageAnimated.setImageResource(R.drawable.red_circle);
         }
     }
 
@@ -217,13 +294,21 @@ public class TakeBreathActivity extends AppCompatActivity {
         imageAnimated.setAlpha(0.0f);
     }
     private void startCircleAnimation(View view){
-
-        ScaleAnimation fade_in =  new ScaleAnimation(0.4f, 1f, 0.4f, 1f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        fade_in.setDuration(10000);     // animation duration in milliseconds
-        fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
-        view.setAlpha(1.0f);
-        view.startAnimation(fade_in);
-        streamID = soundPool.play(inhalingSound, 1, 1, 1, 1, 1);
+        if(currentState == inhaleState) {
+            ScaleAnimation fade_in = new ScaleAnimation(0.4f, 1f, 0.4f, 1f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            fade_in.setDuration(10000);     // animation duration in milliseconds
+            fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
+            view.setAlpha(1.0f);
+            view.startAnimation(fade_in);
+            streamID = soundPool.play(inhalingSound, 1, 1, 1, 1, 1);
+        } else {
+            ScaleAnimation fade_out = new ScaleAnimation(1f, 0.4f, 1f, 0.4f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            fade_out.setDuration(10000);
+            fade_out.setFillAfter(true);
+            view.setAlpha(1.0f);
+            view.startAnimation(fade_out);
+            streamID = soundPool.play(exhalingSound, 1,1,1,1,1);
+        }
     }
 }
