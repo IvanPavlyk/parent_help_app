@@ -180,6 +180,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             public void run() {
                 pressed = false;
                 stopAnimations();
+                Toast.makeText(TakeBreathActivity.this, "Release button and breath out", Toast.LENGTH_SHORT).show();
             }
         };
         @Override
