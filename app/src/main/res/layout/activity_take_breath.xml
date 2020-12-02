@@ -10,11 +10,11 @@
         android:id="@+id/textViewNumberBreaths"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/choose_number_of_breaths_tv"
         android:textColor="#000000"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,12 +56,13 @@
 
     <ImageView
         android:id="@+id/imageViewAnimated"
-        android:layout_width="186dp"
-        android:layout_height="177dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="228dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBreathing"
-        app:srcCompat="@drawable/default_portrait" />
+        app:srcCompat="@drawable/green_circle_ipa" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
