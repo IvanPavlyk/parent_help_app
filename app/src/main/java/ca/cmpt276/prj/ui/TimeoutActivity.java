@@ -51,6 +51,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     private static MediaPlayer mp;
 
+    private CountDownProgress countDownProgress;
+    private int progress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.start).setOnClickListener(this);
         findViewById(R.id.pause).setOnClickListener(this);
         findViewById(R.id.cancel).setOnClickListener(this);
-        timeShow = findViewById(R.id.timer);
+        timeShow = findViewById(R.id.show);
 
         setupDurationSpinner();
 
@@ -73,6 +76,24 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         if(mp.isPlaying()){
             mp.pause();
         }
+
+
+//        countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+//        countDownProgress.setCountdownTime(minute*1000);
+//        countDownProgress.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                countDownProgress.startCountDownTime(new CountDownProgress.OnCountdownFinishListener() {
+//                    @Override
+//                    public void countdownFinished() {
+//                        Toast.makeText(TimeoutActivity.this, "Done", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//                /*Message message = Message.obtain();
+//                message.what = HANDLER_MESSAGE;
+//                handler.sendMessage(message);*/
+//            }
+//        });
 
     }
 
@@ -198,6 +219,24 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     // start,cancel,pause,resume
     @Override
     public void onClick(View view) {
+
+//        countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+//        countDownProgress.setCountdownTime(minute);
+//        countDownProgress.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                countDownProgress.startCountDownTime(new CountDownProgress.OnCountdownFinishListener() {
+//                    @Override
+//                    public void countdownFinished() {
+//                        Toast.makeText(TimeoutActivity.this, "Done", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//                /*Message message = Message.obtain();
+//                message.what = HANDLER_MESSAGE;
+//                handler.sendMessage(message);*/
+//            }
+//        });
+
         switch (view.getId()) {
             case R.id.start:
                 if(mp.isPlaying()){
@@ -237,6 +276,13 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 getTime();
                 isPause = false;
                 timer.schedule(timerTask, 0, 1000);
+
+                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+                countDownProgress.setCountdownTime(minute);
+
+                countDownProgress.startCountDownTime();
+
+
 
                 break;
             case R.id.cancel:

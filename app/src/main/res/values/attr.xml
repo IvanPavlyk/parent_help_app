@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="CountDownProgress">
 
-    <declare-styleable name="CountDownView">
-        <attr name="ringColor" format="color" />
-        <attr name="progressTextSize" format="dimension" />
-        <attr name="ringWidth" format="float" />
-        <attr name="progressTextColor" format="color"/>
-        <attr name="countdownTime" format="integer"/>
+        <attr name="default_circle_solide_color" format="color"/>
+        <attr name="default_circle_stroke_color" format="color"/>
+        <attr name="default_circle_stroke_width" format="dimension"/>
+        <attr name="default_circle_radius" format="dimension"/>
+        <attr name="progress_color" format="color"/>
+        <attr name="progress_width" format="dimension"/>
+        <attr name="small_circle_solide_color" format="color"/>
+        <attr name="small_circle_stroke_color" format="color"/>
+        <attr name="small_circle_stroke_width" format="dimension"/>
+        <attr name="small_circle_radius" format="dimension"/>
+        <attr name="text_color" format="color"/>
+        <attr name="text_size" format="dimension"/>
     </declare-styleable>
 </resources>
