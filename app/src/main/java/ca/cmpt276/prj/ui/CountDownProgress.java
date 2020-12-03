@@ -9,9 +9,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
@@ -237,7 +239,6 @@ public class CountDownProgress extends View {
     public void startCountDownTime(){
         setClickable(false);
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1.0f);
-
         animator.setDuration(countdownTime+1000);
         animator.setInterpolator(new LinearInterpolator());
         animator.setRepeatCount(0);
@@ -248,6 +249,46 @@ public class CountDownProgress extends View {
             }
         });
         animator.start();
+//        animator.addListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//
+//                if(countdownTime > 0){
+//                    setClickable(true);
+//                }else{
+//                    setClickable(false);
+//                }
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//            }
+//        });
+        countdownMethod();
+    }
+
+    public void stopCountDownTime(){
+        setClickable(false);
+        ValueAnimator animator = ValueAnimator.ofFloat(0, 1.0f);
+
+        animator.setDuration(countdownTime+1000);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setRepeatCount(0);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                currentAngle = (float) animation.getAnimatedValue();
+            }
+        });
+        animator.pause();
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -255,9 +296,7 @@ public class CountDownProgress extends View {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-//                if(countdownFinishListener != null){
-//                    countdownFinishListener.countdownFinished();
-//                }
+
                 if(countdownTime > 0){
                     setClickable(true);
                 }else{
@@ -273,10 +312,12 @@ public class CountDownProgress extends View {
             public void onAnimationRepeat(Animator animation) {
             }
         });
+
+
+
         countdownMethod();
     }
 
-    //倒计时的方法
     private void countdownMethod(){
         new CountDownTimer(countdownTime+1000, 1000) {
             @Override
@@ -296,8 +337,30 @@ public class CountDownProgress extends View {
         }.start();
     }
 
-    public interface OnCountdownFinishListener{
-        void countdownFinished();
+    public void setTime(long countDownTime){
+        this.countdownTime=countDownTime;
+        postInvalidate();
     }
 
+    public long getTime(){
+        return countdownTime;
+    }
+
+//    public interface OnCountdownFinishListener{
+//        void countdownFinished();
+//    }
+
+//    public enum Status{
+//        End,
+//        Starting
+//    }
+//    //设置Status的set/get方法
+//    public Status getStatus(){
+//        return mStatus;
+//    }
+//    public void setStatus(Status status){
+//        this.mStatus = status;
+//        invalidate();
+//    }
 }
+

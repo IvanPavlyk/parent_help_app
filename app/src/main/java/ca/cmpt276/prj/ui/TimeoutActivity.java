@@ -55,6 +55,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private int progress;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setTitle("Timeout Timer");
         }
+
 
         findViewById(R.id.start).setOnClickListener(this);
         findViewById(R.id.pause).setOnClickListener(this);
@@ -77,23 +79,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             mp.pause();
         }
 
-
-//        countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
-//        countDownProgress.setCountdownTime(minute*1000);
-//        countDownProgress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                countDownProgress.startCountDownTime(new CountDownProgress.OnCountdownFinishListener() {
-//                    @Override
-//                    public void countdownFinished() {
-//                        Toast.makeText(TimeoutActivity.this, "Done", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//                /*Message message = Message.obtain();
-//                message.what = HANDLER_MESSAGE;
-//                handler.sendMessage(message);*/
-//            }
-//        });
 
     }
 
@@ -245,7 +230,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 Spinner spinner = findViewById(R.id.duration);
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
-
+                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
                 switch (s) {
                     case "1":
                         minute = 60 * 1000;
@@ -277,11 +262,12 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 isPause = false;
                 timer.schedule(timerTask, 0, 1000);
 
-                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+//                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
                 countDownProgress.setCountdownTime(minute);
 
-                countDownProgress.startCountDownTime();
 
+
+                countDownProgress.startCountDownTime();
 
 
                 break;
@@ -296,6 +282,12 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 curTime = 0;
                 isPause = false;
                 timer.cancel();
+                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+                countDownProgress.setCountdownTime(0*1000);
+
+                countDownProgress.startCountDownTime();
+
+
                 break;
             case R.id.pause:
                 if(mp.isPlaying()){
@@ -310,6 +302,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                     isPause = true;
                     timer.cancel();
                 }
+
                 break;
 
 
