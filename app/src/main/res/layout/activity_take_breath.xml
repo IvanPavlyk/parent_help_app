@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/boat_sea_image"
     tools:context=".ui.TakeBreathActivity">
 
     <TextView
@@ -63,7 +64,8 @@
         app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBreathing"
-        app:srcCompat="@drawable/green_circle_ipa" />
+        app:srcCompat="@drawable/green_circle_ipa"
+        android:contentDescription="@string/image_view_breath_description" />
 
     <TextView
         android:id="@+id/breathsRemaining"

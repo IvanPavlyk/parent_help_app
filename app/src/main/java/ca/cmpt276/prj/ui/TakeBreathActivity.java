@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 import ca.cmpt276.prj.R;
 
+import static ca.cmpt276.prj.R.string.breath_out_help_text;
+import static ca.cmpt276.prj.R.string.inhale_help_text;
+
 /**
  * TakeBreathActivity allows users to choose how many breaths they want to take, and allows them to
  * take guided deep breaths to calm down by holding the inhale button when it asks, and exhaling
@@ -68,7 +71,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         if(bar != null){
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setTitle("Take a breath");
+            bar.setTitle(R.string.title_take_breath_bar);
         }
         initializeSpinner();
         initializeHeading();
@@ -120,10 +123,10 @@ public class TakeBreathActivity extends AppCompatActivity {
         TextView tvHeading = findViewById(R.id.textViewLetsTake);
         numberOfBreaths = Integer.parseInt(spinner.getSelectedItem().toString());
         if(numberOfBreaths == 1){
-            tvHeading.setText("Lets take " + numberOfBreaths + " breath");
+            tvHeading.setText(getString(R.string.lets_take_breath_text) + " " + numberOfBreaths + " " +  getString(R.string.breath_text));
         }
         else{
-            tvHeading.setText("Lets take " + numberOfBreaths + " breaths");
+            tvHeading.setText(getString(R.string.lets_take_breath_text) + " " + numberOfBreaths + " " + getString(R.string.breaths_text));
         }
     }
 
@@ -167,7 +170,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             tvHeading.setVisibility(View.GONE);
             chooseNumBreaths.setVisibility(View.GONE);
             TextView numBreathsRemain = findViewById(R.id.breathsRemaining);
-            numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " breaths remaining");
+            numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " " + getString(R.string.breaths_remaining_text));
         }
     }
 
@@ -188,7 +191,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             public void run() {
                 pressed = false;
                 stopAnimations();
-                Toast.makeText(TakeBreathActivity.this, "Release button and breath out", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TakeBreathActivity.this, breath_out_help_text, Toast.LENGTH_SHORT).show();
             }
         };
         @Override
@@ -197,7 +200,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             setCircleColor();
             Button btn = findViewById(R.id.btnBreathing);
             btn.setText(R.string.inhale_btn_text);
-            Toast.makeText(TakeBreathActivity.this, "Inhale and hold the In button!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TakeBreathActivity.this, inhale_help_text, Toast.LENGTH_SHORT).show();
         }
 
         @SuppressLint("ClickableViewAccessibility")
@@ -295,7 +298,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     private void displayRemainingBreaths(){
         TextView numBreathsRemain = findViewById(R.id.breathsRemaining);
         if(currNumBreathsTaken < numberOfBreaths) {
-            numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " breaths remaining");
+            numBreathsRemain.setText((numberOfBreaths-currNumBreathsTaken) + " " + getString(R.string.breaths_remaining_text));
         } else {
             numBreathsRemain.setVisibility(View.GONE);
         }

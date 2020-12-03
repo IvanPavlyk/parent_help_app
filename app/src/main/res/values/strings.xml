@@ -86,6 +86,14 @@
     <string name="inhale_btn_text">In</string>
     <string name="done_breathing">Good Job!</string>
     <string name="exhale_btn_text">Out</string>
+    <string name="title_take_breath_bar">Take a breath</string>
+    <string name="lets_take_breath_text">Lets take </string>
+    <string name="breath_text"> breath</string>
+    <string name="breaths_text"> breaths</string>
+    <string name="breaths_remaining_text"> breaths remaining</string>
+    <string name="breath_out_help_text">Release button and breath out</string>
+    <string name="inhale_help_text">Inhale and hold the In button!</string>
+    <string name="image_view_breath_description">Image of colorful circle</string>
     <string-array name="spinner_items">
         <item>1</item>
         <item>2</item>
