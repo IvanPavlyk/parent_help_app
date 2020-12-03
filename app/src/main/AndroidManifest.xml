@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity
+            android:name=".ui.TakeBreathActivity"
+            android:parentActivityName=".ui.MainActivity" />
         <activity android:name=".ui.HelpActivity" />
         <activity android:name=".ui.ChooseNextFlipActivity" />
         <activity
@@ -19,8 +22,7 @@
             android:parentActivityName=".ui.ManageChildrenActivity" />
         <activity
             android:name=".ui.DeleteTaskActivity"
-            android:parentActivityName=".ui.WhoseTurnActivity">
-        </activity>
+            android:parentActivityName=".ui.WhoseTurnActivity" />
         <activity
             android:name=".ui.EditTaskActivity"
             android:parentActivityName=".ui.WhoseTurnActivity" />

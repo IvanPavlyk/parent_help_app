@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         iniTimeoutButton();
         initHelpButton();
         iniWhoseTurnButton();
+        initTakeBreathButton();
 
         // Load instance on initialization
         SharedPreferences sharedPreferences = this.getSharedPreferences("saves", MODE_PRIVATE);
@@ -50,6 +51,17 @@ public class MainActivity extends AppCompatActivity {
         String instanceSave = sharedPreferences.getString("savedInstance", null);
         Manager loadedInstance = gson.fromJson(instanceSave, Manager.class);
         Manager.loadInstance(loadedInstance);
+    }
+
+    private void initTakeBreathButton() {
+        Button btn=findViewById(R.id.btnTakeBreath);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = TakeBreathActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void iniWhoseTurnButton() {
