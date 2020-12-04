@@ -108,6 +108,13 @@
     <string name="OK">OK</string>
     <string name="Name_Text_Front">\"It\'s \"</string>
     <string name="Name_Text_Back">\'s turn</string>
+    <string name="timeShow">00:00:00</string>
+    <string name="Resume">Resume</string>
+    <string name="Pause">Pause</string>
+    <string name="TimeUp">Time up</string>
+    <string name="PracticalParent">Practical Parent</string>
+    <string name="Timeup">Time up</string>
+    <string name="stopalarm">Time Up! Please click here to stop alarm</string>
     <string-array name="spinner_items">
         <item>1</item>
         <item>2</item>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -46,11 +47,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     @SuppressLint("StaticFieldLeak")
     private static TextView speedShow;
 
-    private static MediaPlayer mp;
-
     private CountDownProgress countDownProgress;
-
-    private Integer remember_pos=0;
 
     Button pause;
     private final CountdownUtils mCountdownUtils = CountdownUtils.instance;
@@ -89,10 +86,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         dealInterval();
         spinner1.setSelection(position);
 
-        mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
-        if(mp.isPlaying()){
-            mp.pause();
-        }
 
 
         mCountdownUtils.setOnCountdownListener(new CountdownUtils.OnCountdownListener() {
@@ -105,9 +98,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onFinish() {
-                timeShow.setText("00:00:00");
+                timeShow.setText(R.string.timeShow);
                 pushNotification();
-                mp.start();
                 Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
 
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -125,9 +117,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         if (mCountdownUtils.isPause()) {
-            pause.setText("Resume");
+            pause.setText(R.string.Resume);
         } else {
-            pause.setText("Pause");
+            pause.setText(R.string.Pause);
         }
     }
 
@@ -136,19 +128,22 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private void pushNotification() {
         createNotificationChannel();
         String CHANNEL_ID="CHANNEL_ID";
+        Uri sound=Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound);
 
         Intent intent = new Intent(this,TimeoutActivity.class);
+
         PendingIntent activity = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setContentIntent(activity)
-                .setTicker("Time up")
+                .setTicker(getString(R.string.TimeUp))
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Practical Parent")
-                .setContentInfo("Time up")
-                .setContentText("Time Up! Please click stop/cancel to top alarm")
+                .setContentTitle(getString(R.string.PracticalParent))
+                .setContentInfo(getString(R.string.Timeup))
+                .setContentText(getString(R.string.stopalarm))
                 .setFullScreenIntent(activity,true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setSound(sound)
                 .setAutoCancel(true);
 
         NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
@@ -164,7 +159,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             NotificationChannel channel=new NotificationChannel("CHANNEL_ID",name,importance);
             channel.setDescription(description);
             NotificationManager notificationManager=getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            notificationManager.createNotificationChannel(channel);;
         }
 
     }
@@ -269,7 +264,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 dealInterval();
-                remember_pos=i;
             }
 
             @Override
@@ -289,9 +283,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         int minute;
         switch (view.getId()) {
             case R.id.start:
-                if(mp.isPlaying()){
-                    mp.pause();
-                }
+//                if(mp.isPlaying()){
+//                    mp.pause();
+//                }
 
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
@@ -330,9 +324,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.cancel:
-                if(mp.isPlaying()){
-                    mp.pause();
-                }
+//                if(mp.isPlaying()){
+//                    mp.pause();
+//                }
 
                 mCountdownUtils.stopCountdown();
                 countDownProgress.stopCountDownTime();
@@ -341,9 +335,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.pause:
-                if(mp.isPlaying()){
-                    mp.pause();
-                }
+//                if(mp.isPlaying()){
+//                    mp.pause();
+//                }
 
                 if (mCountdownUtils.isStart()) {
                     if (mCountdownUtils.isPause()) {
