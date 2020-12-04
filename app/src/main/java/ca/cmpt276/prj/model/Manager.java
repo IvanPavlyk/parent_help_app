@@ -16,9 +16,6 @@ public class Manager {
     private ArrayList<Task> taskList;
 
     private Child winner;
-    private int breathsRemaining;
-    private int breathsTaken;
-    private BreathState breathState;
 
     // Base Methods
     public static Manager getInstance() {
@@ -35,7 +32,6 @@ public class Manager {
         this.flipsRecord = new ArrayList<>();
         this.taskList = new ArrayList<>();
         this.winner = null;
-        this.breathState = BreathState.DONE;
     }
 
     // Child Management Methods (Also directly connects with task queue)
@@ -114,7 +110,7 @@ public class Manager {
         childrenList.add(lastPicker);
 
         // Record and return
-        flipsRecord.add(new Flip(time(), currentPicker.getName(), outcome, win));
+        flipsRecord.add(new Flip(time(), currentPicker.getName(), currentPicker.getPortrait(), outcome, win));
         return win;
     }
 
@@ -158,33 +154,12 @@ public class Manager {
         Task editTask = new Task(task,description);
         taskList.add(editTask);
     }
+    /*
+    public void syncTaskWithChildren() {
+        for (Task task : taskList) {
 
-    // Breath Management Methods
-    public void inhale() {
-        // starts to inhale
-        if (breathState == BreathState.INHALE) {
-            throw new IllegalStateException("Already inhaling!");
         }
-        breathState = BreathState.INHALE;
-    }
-
-    public void exhale() {
-        // starts to exhale
-        if (breathState == BreathState.DONE) {
-            throw new IllegalStateException("You have to inhale before exhaling!");
-        }
-        if (breathState == BreathState.EXHALE) {
-            throw new IllegalStateException("Already exhaling!");
-        }
-        breathState = BreathState.EXHALE;
-        breathsTaken++;
-        breathsRemaining--;
-    }
-
-    public void done() {
-        // Reset breathState;
-        breathState = BreathState.DONE;
-    }
+    }*/
 
     // Getters and Setters
     public ArrayList<Child> getChildrenList() {
@@ -199,29 +174,5 @@ public class Manager {
 
     public ArrayList<Task> getTaskList() {
         return taskList;
-    }
-
-    public int getBreathsRemaining() {
-        return breathsRemaining;
-    }
-
-    public void setBreathsRemaining(int breathsRemaining) {
-        this.breathsRemaining = breathsRemaining;
-    }
-
-    public int getBreathsTaken() {
-        return breathsTaken;
-    }
-
-    public void setBreathsTaken(int breathsTaken) {
-        this.breathsTaken = breathsTaken;
-    }
-
-    public BreathState getBreathState() {
-        return breathState;
-    }
-
-    public void setBreathState(BreathState breathState) {
-        this.breathState = breathState;
     }
 }

@@ -2,13 +2,16 @@ package ca.cmpt276.prj.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +25,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Child;
-import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Manager;
 import ca.cmpt276.prj.model.Task;
 
@@ -128,6 +129,19 @@ public class WhoseTurnActivity extends AppCompatActivity {
             TextView descriptionText = itemView.findViewById(R.id.Item_Task_Description);
             descriptionText.setText(task.getDescription());
 
+            // Set quick portrait
+            ImageView quickPortraitView = itemView.findViewById(R.id.Item_Task_Quick_Portrait);
+            String quickPortraitString;
+            Child turnHolder = task.getTaskHolder();
+            if (turnHolder == null) quickPortraitString = "Default Portrait";
+            else quickPortraitString = turnHolder.getPortrait();
+            if (!quickPortraitString.equals("Default Portrait")) {
+                byte [] encodeByte = Base64.decode(quickPortraitString, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                quickPortraitView.setImageBitmap(bitmap);
+            }
+            else quickPortraitView.setImageResource(R.drawable.ic_baseline_account_circle_24);
+
             // Setup view button
             Button viewButton = itemView.findViewById(R.id.Item_View_Button);
             viewButton.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +171,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     task.advanceTurn();
+                    System.out.println("TaskList: \n" + task.getTaskQueue().toString());
                 }
             });
 

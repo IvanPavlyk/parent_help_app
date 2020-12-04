@@ -94,6 +94,8 @@
     <string name="breath_out_help_text">Release button and breath out</string>
     <string name="inhale_help_text">Inhale and hold the In button!</string>
     <string name="image_view_breath_description">Image of colorful circle</string>
+    <string name="quick_portrait_description">Portrait displayed to allow for easier recognition of turn holder</string>
+    <string name="flipHistoryPortraitDescription">Shows the portrait of child who made the flip</string>
     <string-array name="spinner_items">
         <item>1</item>
         <item>2</item>

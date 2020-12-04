@@ -55,7 +55,7 @@ public class TaskDialog extends AppCompatDialogFragment {
             child_name = child.getName();
             child_portrait = child.getPortrait();
         } else {
-            child_name = "John Doe";
+            child_name = "no one";
             child_portrait = "Default Portrait";
         }
 

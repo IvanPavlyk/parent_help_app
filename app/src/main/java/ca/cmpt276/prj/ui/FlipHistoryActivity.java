@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Flip;
 import ca.cmpt276.prj.model.Manager;
@@ -115,6 +119,16 @@ public class FlipHistoryActivity extends AppCompatActivity {
             } else {
                 outcome.setText(R.string.tailsString);
             }
+
+            // Set flipper portrait
+            ImageView flipHistoryPortraitView = itemView.findViewById(R.id.flipHistoryPortrait);
+            String flipHistoryPortraitString = currentFlip.getPickerPortrait();
+            if (flipHistoryPortraitString != null) {
+                byte [] encodeByte = Base64.decode(flipHistoryPortraitString, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                flipHistoryPortraitView.setImageBitmap(bitmap);
+            }
+            else flipHistoryPortraitView.setImageResource(R.drawable.ic_baseline_account_circle_24);
 
             return itemView;
         }
