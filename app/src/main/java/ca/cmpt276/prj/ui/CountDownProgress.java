@@ -45,26 +45,18 @@ public class CountDownProgress extends View {
     private int smallCircleRadius = dp2px(SMALL_CIRCLE_RADIUS);
 
     private int textColor = TEXT_COLOR;
-    private int textSize = sp2px(TEXT_SIZE);
+    private int textSize = sp2px();
 
 
-    private Paint defaultCriclePaint;
+    private Paint defaultCirclePaint;
     private Paint progressPaint;
     private Paint smallCirclePaint;
-    private Paint textPaint;
     private Paint smallCircleSolidePaint;
 
 
-    private float mStartSweepValue = -90;
-
     private float currentAngle;
 
-    /////////setting time
-    private long countdownTime;
 
-
-
-    private float extraDistance = 0.7F;
     private boolean isStart = false;
 
 
@@ -127,12 +119,12 @@ public class CountDownProgress extends View {
     }
 
     private void setPaint() {
-        defaultCriclePaint = new Paint();
-        defaultCriclePaint.setAntiAlias(true);
-        defaultCriclePaint.setDither(true);
-        defaultCriclePaint.setStyle(Paint.Style.STROKE);
-        defaultCriclePaint.setStrokeWidth(defaultCircleStrokeWidth);
-        defaultCriclePaint.setColor(defaultCircleStrokeColor);
+        defaultCirclePaint = new Paint();
+        defaultCirclePaint.setAntiAlias(true);
+        defaultCirclePaint.setDither(true);
+        defaultCirclePaint.setStyle(Paint.Style.STROKE);
+        defaultCirclePaint.setStrokeWidth(defaultCircleStrokeWidth);
+        defaultCirclePaint.setColor(defaultCircleStrokeColor);
         progressPaint = new Paint();
         progressPaint.setAntiAlias(true);
         progressPaint.setDither(true);
@@ -154,7 +146,7 @@ public class CountDownProgress extends View {
         smallCircleSolidePaint.setStyle(Paint.Style.FILL);
         smallCircleSolidePaint.setColor(smallCircleSolideColor);
 
-        textPaint = new Paint();
+        Paint textPaint = new Paint();
         textPaint.setAntiAlias(true);
         textPaint.setDither(true);
         textPaint.setStyle(Paint.Style.FILL);
@@ -182,6 +174,7 @@ public class CountDownProgress extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -189,16 +182,18 @@ public class CountDownProgress extends View {
         canvas.save();
         canvas.translate(getPaddingLeft(), getPaddingTop());
 
-        canvas.drawCircle(defaultCircleRadius, defaultCircleRadius, defaultCircleRadius, defaultCriclePaint);
+        canvas.drawCircle(defaultCircleRadius, defaultCircleRadius, defaultCircleRadius, defaultCirclePaint);
 
+        float mStartSweepValue = -90;
         canvas.drawArc(new RectF(0, 0, defaultCircleRadius * 2, defaultCircleRadius * 2), mStartSweepValue, 360 * currentAngle, false, progressPaint);
 
 
+        float extraDistance = 0.7F;
         float currentDegreeFlag = 360 * currentAngle + extraDistance;
         float smallCircleX = 0, smallCircleY = 0;
-        float hudu = (float) Math.abs(Math.PI * currentDegreeFlag / 180);
-        smallCircleX = (float) Math.abs(Math.sin(hudu) * defaultCircleRadius + defaultCircleRadius);
-        smallCircleY = (float) Math.abs(defaultCircleRadius - Math.cos(hudu) * defaultCircleRadius);
+        float radian = (float) Math.abs(Math.PI * currentDegreeFlag / 180);
+        smallCircleX = (float) Math.abs(Math.sin(radian) * defaultCircleRadius + defaultCircleRadius);
+        smallCircleY = (float) Math.abs(defaultCircleRadius - Math.cos(radian) * defaultCircleRadius);
         canvas.drawCircle(smallCircleX, smallCircleY, smallCircleRadius, smallCirclePaint);
         canvas.drawCircle(smallCircleX, smallCircleY, smallCircleRadius - smallCircleStrokeWidth, smallCircleSolidePaint);
 
@@ -211,15 +206,15 @@ public class CountDownProgress extends View {
                 dpVal, getResources().getDisplayMetrics());
     }
 
-    protected int sp2px(int spVal) {
+    protected int sp2px() {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                spVal, getResources().getDisplayMetrics());
+                CountDownProgress.TEXT_SIZE, getResources().getDisplayMetrics());
 
     }
 
 
     public void setCountdownTime(long countdownTime) {
-        this.countdownTime = countdownTime;
+
     }
 
     public void startCountDownTime() {
@@ -227,14 +222,6 @@ public class CountDownProgress extends View {
         setClickable(false);
         currentAngle = 0;
         postInvalidate();
-    }
-
-    public boolean isStart() {
-        return isStart;
-    }
-
-    public void setStart(boolean start) {
-        isStart = start;
     }
 
     public void stopCountDownTime() {

@@ -4,10 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
+//Module for countdown
 public enum CountdownUtils {
     instance;
-
-
     private int interval = 1000;
     private long curTime = 60 * 1000;
     private long duration = 60 * 1000;
