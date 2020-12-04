@@ -24,6 +24,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,7 +38,9 @@ import ca.cmpt276.prj.R;
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String[] duration = {"1", "2", "3","5","10","custom"};
+    private String[] timeRate = {"25", "50", "75", "100", "200", "300", "400"};
     private int minute;
+    private double timeSpeed;
 
     private static final int mes = 0;
     @SuppressLint("StaticFieldLeak")
@@ -182,10 +185,13 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setupDurationSpinner() {
-        Spinner spinner = findViewById(R.id.duration);
+        Spinner spinner = findViewById(R.id.timeDuration);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, duration); //android.R.layout.simple_spinner_item
         spinner.setAdapter(adapter);
 
+        Spinner spinner1 = findViewById(R.id.rate);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, R.layout.spinner_item, timeRate);
+        spinner1.setAdapter(adapter1);
     }
 
 
@@ -205,29 +211,43 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
 
-//        countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
-//        countDownProgress.setCountdownTime(minute);
-//        countDownProgress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                countDownProgress.startCountDownTime(new CountDownProgress.OnCountdownFinishListener() {
-//                    @Override
-//                    public void countdownFinished() {
-//                        Toast.makeText(TimeoutActivity.this, "Done", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//                /*Message message = Message.obtain();
-//                message.what = HANDLER_MESSAGE;
-//                handler.sendMessage(message);*/
-//            }
-//        });
-
         switch (view.getId()) {
             case R.id.start:
                 if(mp.isPlaying()){
                     mp.pause();
                 }
-                Spinner spinner = findViewById(R.id.duration);
+                Spinner spinner1 = findViewById(R.id.rate);
+                new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, timeRate);
+                String r = spinner1.getSelectedItem().toString();
+                switch(r){
+                    case "25":
+                        timeSpeed = 1.25;
+                        break;
+                    case "50":
+                        timeSpeed = 1.50;
+                        break;
+                    case "75":
+                        timeSpeed = 1.75;
+                        break;
+                    case "100":
+                        timeSpeed = 1.00;
+                        break;
+                    case "200":
+                        timeSpeed = 0.5;
+                        break;
+                    case "300":
+                        timeSpeed=1/3;
+                    case "400":
+                        timeSpeed=1/4;
+                    default:
+                       timeSpeed=1.00;
+                        break;
+                }
+
+
+
+
+                Spinner spinner = findViewById(R.id.timeDuration);
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
                 countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
@@ -260,7 +280,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 destroyTimer();
                 getTime();
                 isPause = false;
-                timer.schedule(timerTask, 0, 1000);
+                timer.schedule(timerTask, 0, (long) (1000*timeSpeed));
 
 //                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
                 countDownProgress.setCountdownTime(minute);
