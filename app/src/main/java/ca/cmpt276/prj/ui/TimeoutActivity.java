@@ -79,7 +79,15 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         countDownProgress = findViewById(R.id.countdownProgress);
         spinner = findViewById(R.id.timeDuration);
         spinner1 = findViewById(R.id.rate);
+
+
+
         setupSpinner();
+
+        SharedPreferences sharedPreferences=getSharedPreferences("save",Context.MODE_PRIVATE);
+        int position=sharedPreferences.getInt("Position",0);
+        dealInterval();
+        spinner1.setSelection(position);
 
         mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
         if(mp.isPlaying()){
@@ -235,6 +243,11 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 timeSpeed = 1.00;
                 break;
         }
+        SharedPreferences sharedPreferences=getSharedPreferences("save",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putInt("Position",spinner1.getSelectedItemPosition());
+
+        editor.commit();
 
         speedShow.setText("Time@"+info+"%");
         mCountdownUtils.setInterval((int)(timeSpeed*1000));
