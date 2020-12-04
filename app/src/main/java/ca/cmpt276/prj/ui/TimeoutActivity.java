@@ -40,13 +40,14 @@ import ca.cmpt276.prj.utils.CountdownUtils;
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String[] duration = {"1", "2", "3","5","10","custom"};
-    private String[] timeRate = {"25", "50", "75", "100", "200", "300", "400"};
+    private String[] timeRate = {"100","25", "50", "75",  "200", "300", "400"};
     private int minute;
     private double timeSpeed;
 
     private static final int mes = 0;
     @SuppressLint("StaticFieldLeak")
     private static TextView timeShow;
+    private static TextView speedShow;
 
     private static Timer timer;
     private static TimerTask timerTask;
@@ -79,6 +80,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.cancel).setOnClickListener(this);
 
         timeShow = findViewById(R.id.show);
+        speedShow=findViewById(R.id.speedShow);
+
         countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
         setupDurationSpinner();
 
@@ -214,6 +217,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
 
+        String information="";
         switch (view.getId()) {
             case R.id.start:
                 if(mp.isPlaying()){
@@ -225,27 +229,41 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 switch(r){
                     case "25":
                         timeSpeed = 1.25;
+                        information="25";
                         break;
                     case "50":
                         timeSpeed = 1.50;
+                        information="50";
                         break;
                     case "75":
                         timeSpeed = 1.75;
+                        information="75";
                         break;
                     case "100":
                         timeSpeed = 1.00;
+                        information="100 ";
                         break;
                     case "200":
                         timeSpeed = 0.5;
+                        information="200";
                         break;
                     case "300":
                         timeSpeed=0.33;
+                        information="300";
+                        break;
                     case "400":
                         timeSpeed=0.25;
+                        information="400";
+                        break;
                     default:
                        timeSpeed=1.00;
+                       information="100";
                         break;
                 }
+
+                speedShow.setText("Time@"+information+"%");
+
+
 
 
 
@@ -296,6 +314,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 mCountdownUtils.stopCountdown();
                 countDownProgress.stopCountDownTime();
                 timeShow.setText("00:00:00");
+
 
                 break;
             case R.id.pause:
