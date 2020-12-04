@@ -46,7 +46,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setTitle("Whose Turn");
+            bar.setTitle(R.string.Whose_Turn_Title);
         }
 
         list_view_build();
@@ -76,7 +76,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(WhoseTurnActivity.this, "Please add a new task_dialog.\n At the bottom right corner \"+\" sign.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(WhoseTurnActivity.this, R.string.No_Task_Alert,Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -94,7 +94,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(WhoseTurnActivity.this, "Please Add a new task_dialog.\n At the bottom right corner \"+\" sign.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(WhoseTurnActivity.this, R.string.No_Task_Delete_Alert,Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -148,7 +148,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(childNameList.size() == 0){
-                        Toast.makeText(WhoseTurnActivity.this, "Please add a child before adding tasks", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WhoseTurnActivity.this, R.string.No_Child_Alert, Toast.LENGTH_SHORT).show();
                     }
                     else{
                         TaskDialog dialog = new TaskDialog();
@@ -171,7 +171,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     task.advanceTurn();
-                    System.out.println("TaskList: \n" + task.getTaskQueue().toString());
                 }
             });
 
@@ -205,14 +204,14 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
             int child_count = childNameList.size()-1;
             if (child_count < 0) {
-                Toast.makeText(this, "No Child Added Yet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.No_Child_Added_Yet_Alert, Toast.LENGTH_SHORT).show();
                 return;
             }
 
             Task tempTask = new Task(task, description);
             manager.addTask(tempTask);
 
-            Toast.makeText(WhoseTurnActivity.this,"New task_dialog added",Toast.LENGTH_LONG).show();
+            Toast.makeText(WhoseTurnActivity.this, R.string.New_Task_Dialog_Alert,Toast.LENGTH_LONG).show();
             list_view_build();
         }
     }

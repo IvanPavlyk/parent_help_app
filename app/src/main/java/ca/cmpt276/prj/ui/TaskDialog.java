@@ -39,8 +39,8 @@ public class TaskDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.task_dialog, null);
 
         builder.setView(view)
-                .setTitle("Task")
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.Task_Dialog_Title)
+                .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) { }
                 });
@@ -63,7 +63,7 @@ public class TaskDialog extends AppCompatDialogFragment {
         String task_description = bundle.getString("description", "Default Description");
 
         TextView task_holder_name_view = view.findViewById(R.id.Dialog_Task_Holder_Name);
-        task_holder_name_view.setText("It's "+ child_name +"'s turn");
+        task_holder_name_view.setText(getString(R.string.Name_Text_Front)+ child_name +getString(R.string.Name_Text_Back));
         TextView task_name_view = view.findViewById(R.id.Dialog_Task_Name);
         task_name_view.setText(task_name);
         TextView task_description_view = view.findViewById(R.id.Dialog_Task_Description);

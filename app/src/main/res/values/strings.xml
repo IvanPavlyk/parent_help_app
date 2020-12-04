@@ -96,6 +96,16 @@
     <string name="image_view_breath_description">Image of colorful circle</string>
     <string name="quick_portrait_description">Portrait displayed to allow for easier recognition of turn holder</string>
     <string name="flipHistoryPortraitDescription">Shows the portrait of child who made the flip</string>
+    <string name="Whose_Turn_Title">Whose Turn</string>
+    <string name="No_Task_Alert">Please add a new task_dialog.\n At the bottom right corner \"+\" sign.</string>
+    <string name="No_Task_Delete_Alert">Please Add a new task_dialog.\n At the bottom right corner \"+\" sign.</string>
+    <string name="No_Child_Alert">Please add a child before adding tasks</string>
+    <string name="No_Child_Added_Yet_Alert">No Child Added Yet</string>
+    <string name="New_Task_Dialog_Alert">New task_dialog added</string>
+    <string name="Task_Dialog_Title">Task</string>
+    <string name="OK">OK</string>
+    <string name="Name_Text_Front">\"It\'s \"</string>
+    <string name="Name_Text_Back">\'s turn</string>
     <string-array name="spinner_items">
         <item>1</item>
         <item>2</item>
