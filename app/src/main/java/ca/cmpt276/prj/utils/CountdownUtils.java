@@ -16,6 +16,7 @@ public enum CountdownUtils {
     private OnCountdownListener mOnCountdownListener;
     private double rate=1.00;
 
+
     public void setOnCountdownListener(OnCountdownListener mOnCountdownListener) {
         this.mOnCountdownListener = mOnCountdownListener;
     }

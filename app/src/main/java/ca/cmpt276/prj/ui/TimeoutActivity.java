@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,15 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.utils.CountdownUtils;
@@ -50,7 +49,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private static MediaPlayer mp;
 
     private CountDownProgress countDownProgress;
-    private int progress;
+
+    private Integer remember_pos=0;
 
     Button pause;
     private final CountdownUtils mCountdownUtils = CountdownUtils.instance;
@@ -79,7 +79,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         countDownProgress = findViewById(R.id.countdownProgress);
         spinner = findViewById(R.id.timeDuration);
         spinner1 = findViewById(R.id.rate);
-        setupDurationSpinner();
+        setupSpinner();
 
         mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
         if(mp.isPlaying()){
@@ -107,6 +107,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
+
+
 
     }
 
@@ -236,19 +238,24 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
         speedShow.setText("Time@"+info+"%");
         mCountdownUtils.setInterval((int)(timeSpeed*1000));
+
+
     }
 
 
-    private void setupDurationSpinner() {
+    private void setupSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, duration); //android.R.layout.simple_spinner_item
         spinner.setAdapter(adapter);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, R.layout.spinner_item, timeRate);
         spinner1.setAdapter(adapter1);
+
+
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 dealInterval();
+                remember_pos=i;
             }
 
             @Override
