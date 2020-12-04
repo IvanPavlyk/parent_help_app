@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".utils.CountdownUtils"></activity>
+        <activity android:name=".ui.CountDownProgress" />
         <activity
             android:name=".ui.TakeBreathActivity"
             android:parentActivityName=".ui.MainActivity" />
@@ -22,7 +24,8 @@
             android:parentActivityName=".ui.ManageChildrenActivity" />
         <activity
             android:name=".ui.DeleteTaskActivity"
-            android:parentActivityName=".ui.WhoseTurnActivity" />
+            android:parentActivityName=".ui.WhoseTurnActivity">
+        </activity>
         <activity
             android:name=".ui.EditTaskActivity"
             android:parentActivityName=".ui.WhoseTurnActivity" />

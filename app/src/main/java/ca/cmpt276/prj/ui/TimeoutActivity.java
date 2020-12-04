@@ -6,17 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +26,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.utils.CountdownUtils;
 
 /**
  * TimeoutActivity responsible for the screen that lets user to start the timer for
@@ -36,21 +36,26 @@ import ca.cmpt276.prj.R;
  */
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String[] duration = {"1", "2", "3","5","10","custom"};
-    private int minute;
+    private final String[] duration = {"1", "2", "3","5","10","custom"};
+    private final String[] timeRate = {"100","25", "50", "75",  "200", "300", "400"};
+    private double timeSpeed;
 
     private static final int mes = 0;
     @SuppressLint("StaticFieldLeak")
     private static TextView timeShow;
-
-    private static Timer timer;
-    private static TimerTask timerTask;
-
-    private static long curTime = 0;
-    private boolean isPause = false;
+    @SuppressLint("StaticFieldLeak")
+    private static TextView speedShow;
 
     private static MediaPlayer mp;
 
+    private CountDownProgress countDownProgress;
+
+    private Integer remember_pos=0;
+
+    Button pause;
+    private final CountdownUtils mCountdownUtils = CountdownUtils.instance;
+    private Spinner spinner;
+    private Spinner spinner1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,43 +67,62 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             bar.setTitle("Timeout Timer");
         }
 
-        findViewById(R.id.start).setOnClickListener(this);
-        findViewById(R.id.pause).setOnClickListener(this);
-        findViewById(R.id.cancel).setOnClickListener(this);
-        timeShow = findViewById(R.id.timer);
 
-        setupDurationSpinner();
+        pause = findViewById(R.id.pause);
+        findViewById(R.id.start).setOnClickListener(this);
+        pause.setOnClickListener(this);
+        findViewById(R.id.cancel).setOnClickListener(this);
+
+        timeShow = findViewById(R.id.show);
+        speedShow=findViewById(R.id.speedShow);
+
+        countDownProgress = findViewById(R.id.countdownProgress);
+        spinner = findViewById(R.id.timeDuration);
+        spinner1 = findViewById(R.id.rate);
+        setupSpinner();
 
         mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
         if(mp.isPlaying()){
             mp.pause();
         }
 
-    }
 
-
-
-
-    private void getTime() {
-        timerTask = new TimerTask() {
+        mCountdownUtils.setOnCountdownListener(new CountdownUtils.OnCountdownListener() {
             @Override
-            public void run() {
-                if (curTime == 0) {
-                    curTime = minute;
-                } else {
-                    curTime -= 1000;
-                }
-                Message message = new Message();
-                message.what = mes;
-                message.obj = curTime;
-                handler.sendMessage(message);
-                if(curTime==0){
-                    pushNotification();
+            public void updateTime(long duration, long curTime) {
+                timeShow.setText(timeConvert(curTime));
+                float progress = ((float) (duration - curTime)) / duration;
+                countDownProgress.updateProgress(progress);
+            }
+
+            @Override
+            public void onFinish() {
+                pushNotification();
+                mp.start();
+                Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
+
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
                 }
             }
-        };
-        timer = new Timer();
+        });
+
+
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCountdownUtils.isPause()) {
+            pause.setText("Resume");
+        } else {
+            pause.setText("Pause");
+        }
+    }
+
+
 
     private void pushNotification() {
         createNotificationChannel();
@@ -121,7 +145,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager!=null;
         notificationManager.notify(0,builder.build());
-        //mp.stop();
     }
 
     private void createNotificationChannel() {
@@ -175,38 +198,89 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void setupDurationSpinner() {
-        Spinner spinner = findViewById(R.id.duration);
+    @SuppressLint("SetTextI18n")
+    private void dealInterval() {
+        String r = spinner1.getSelectedItem().toString();
+        String info = null;
+        switch (r) {
+            case "25":
+                timeSpeed =2;
+                info="25";
+                break;
+            case "50":
+                timeSpeed = 1.50;
+                info="50";
+                break;
+            case "75":
+                timeSpeed = 1.75;
+                info="75";
+                break;
+            case "100":
+                timeSpeed = 1.000;
+                info="100 ";
+                break;
+            case "200":
+                timeSpeed = 0.5;
+                info="200";
+                break;
+            case "300":
+                timeSpeed = 0.33;
+                info="300";
+                break;
+            case "400":
+                timeSpeed = 0.25;
+                info="400";
+                break;
+            default:
+                timeSpeed = 1.00;
+                break;
+        }
+
+        speedShow.setText("Time@"+info+"%");
+        mCountdownUtils.setInterval((int)(timeSpeed*1000));
+
+
+    }
+
+
+    private void setupSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, duration); //android.R.layout.simple_spinner_item
         spinner.setAdapter(adapter);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, R.layout.spinner_item, timeRate);
+        spinner1.setAdapter(adapter1);
 
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                dealInterval();
+                remember_pos=i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
-
-    public void destroyTimer() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-        if (timerTask != null) {
-            timerTask.cancel();
-            timerTask = null;
-        }
-    }
 
 
     // start,cancel,pause,resume
+    @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     @Override
     public void onClick(View view) {
+
+        int minute;
         switch (view.getId()) {
             case R.id.start:
                 if(mp.isPlaying()){
                     mp.pause();
                 }
-                Spinner spinner = findViewById(R.id.duration);
+
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
-
                 switch (s) {
                     case "1":
                         minute = 60 * 1000;
@@ -233,37 +307,42 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                         break;
                 }
 
-                destroyTimer();
-                getTime();
-                isPause = false;
-                timer.schedule(timerTask, 0, 1000);
+
+                mCountdownUtils.setDuration(minute,timeSpeed);
+                mCountdownUtils.startCountdown();
+
+                countDownProgress.setCountdownTime(minute);
+                countDownProgress.startCountDownTime();
 
                 break;
             case R.id.cancel:
                 if(mp.isPlaying()){
                     mp.pause();
                 }
-                if (curTime == 0) {
-                    break;
-                }
-                timeShow.setText(timeConvert(0));
-                curTime = 0;
-                isPause = false;
-                timer.cancel();
+
+                mCountdownUtils.stopCountdown();
+                countDownProgress.stopCountDownTime();
+                timeShow.setText("00:00:00");
+
+
                 break;
             case R.id.pause:
                 if(mp.isPlaying()){
                     mp.pause();
                 }
 
-                if (curTime == 0) {
-                    break;
+                if (mCountdownUtils.isStart()) {
+                    if (mCountdownUtils.isPause()) {
+                        mCountdownUtils.resumeCountdown();
+                        pause.setText("Pause");
+                    } else {
+                        mCountdownUtils.pauseCountdown();
+                        pause.setText("Resume");
+                    }
+                } else {
+                    Toast.makeText(this, "Please start countdown first", Toast.LENGTH_SHORT).show();
                 }
 
-                if (!isPause) {
-                    isPause = true;
-                    timer.cancel();
-                }
                 break;
 
 
@@ -272,29 +351,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == mes) {
-                long sRecLen = (long) msg.obj;
-                timeShow.setText(timeConvert(sRecLen));
-                if (sRecLen <= 0) {
-                    mp.start();
-                    Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
-
-                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
-                    }
-
-                    timer.cancel();
-                    curTime = 0;
-                }
-            }
-        }
-    };
 
     @Override
     protected void onDestroy() {

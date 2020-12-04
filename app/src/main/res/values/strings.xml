@@ -79,6 +79,8 @@
     <string name="description_of_task">Description of Task</string>
     <string name="view">View</string>
     <string name="task_holder_name">Task Holder Name</string>
+    <string name="time_rate">Time Rate (%)</string>
+    <string name="time_100">Time@100%</string>
     <string name="take_breath_button_text">Take Breath</string>
     <string name="choose_number_of_breaths_tv">Choose number of breaths:</string>
     <string name="lets_take_n_number_of_breaths">Lets Take N number of breaths</string>
