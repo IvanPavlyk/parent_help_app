@@ -32,6 +32,15 @@ public enum CountdownUtils {
     }
 
 
+    public void setInterval(int interval) {
+        this.interval = interval;
+    }
+
+    public int getInterval() {
+        return interval;
+    }
+
+
     public void setDuration(long duration,double rate) {
         this.duration = duration;
         this.rate=rate;
@@ -87,7 +96,7 @@ public enum CountdownUtils {
                     if (mOnCountdownListener != null) {
                         mOnCountdownListener.updateTime(duration, curTime);
                     }
-                    curTime = curTime - interval;
+                    curTime = curTime - 1000;
                     handler.sendEmptyMessageDelayed(MSG_INTERVAL, interval);
                 }
 

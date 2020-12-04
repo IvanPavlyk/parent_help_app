@@ -14,6 +14,7 @@ import android.os.Message;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +63,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     Button pause;
     private CountdownUtils mCountdownUtils = CountdownUtils.instance;
+    private Spinner spinner;
+    private Spinner spinner1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         speedShow=findViewById(R.id.speedShow);
 
         countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+        spinner = findViewById(R.id.timeDuration);
+        spinner1 = findViewById(R.id.rate);
         setupDurationSpinner();
 
         mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
@@ -147,7 +152,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager!=null;
         notificationManager.notify(0,builder.build());
-        //mp.stop();
     }
 
     private void createNotificationChannel() {
@@ -201,14 +205,65 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private void dealInterval() {
+        String r = spinner1.getSelectedItem().toString();
+        String info = null;
+        switch (r) {
+            case "25":
+                timeSpeed =2;
+                info="25";
+                break;
+            case "50":
+                timeSpeed = 1.50;
+                info="50";
+                break;
+            case "75":
+                timeSpeed = 1.75;
+                info="75";
+                break;
+            case "100":
+                timeSpeed = 1.000;
+                info="100 ";
+                break;
+            case "200":
+                timeSpeed = 0.5;
+                info="200";
+                break;
+            case "300":
+                timeSpeed = 0.33;
+                info="300";
+                break;
+            case "400":
+                timeSpeed = 0.25;
+                info="400";
+                break;
+            default:
+                timeSpeed = 1.00;
+                break;
+        }
+
+        speedShow.setText("Time@"+info+"%");
+        mCountdownUtils.setInterval((int)(timeSpeed*1000));
+    }
+
+
     private void setupDurationSpinner() {
-        Spinner spinner = findViewById(R.id.timeDuration);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, duration); //android.R.layout.simple_spinner_item
         spinner.setAdapter(adapter);
-
-        Spinner spinner1 = findViewById(R.id.rate);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, R.layout.spinner_item, timeRate);
         spinner1.setAdapter(adapter1);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                dealInterval();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
 
@@ -217,61 +272,14 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
 
-        String information="";
         switch (view.getId()) {
             case R.id.start:
                 if(mp.isPlaying()){
                     mp.pause();
                 }
-                Spinner spinner1 = findViewById(R.id.rate);
-                new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, timeRate);
-                String r = spinner1.getSelectedItem().toString();
-                switch(r){
-                    case "25":
-                        timeSpeed = 1.25;
-                        information="25";
-                        break;
-                    case "50":
-                        timeSpeed = 1.50;
-                        information="50";
-                        break;
-                    case "75":
-                        timeSpeed = 1.75;
-                        information="75";
-                        break;
-                    case "100":
-                        timeSpeed = 1.00;
-                        information="100 ";
-                        break;
-                    case "200":
-                        timeSpeed = 0.5;
-                        information="200";
-                        break;
-                    case "300":
-                        timeSpeed=0.33;
-                        information="300";
-                        break;
-                    case "400":
-                        timeSpeed=0.25;
-                        information="400";
-                        break;
-                    default:
-                       timeSpeed=1.00;
-                       information="100";
-                        break;
-                }
 
-                speedShow.setText("Time@"+information+"%");
-
-
-
-
-
-
-                Spinner spinner = findViewById(R.id.timeDuration);
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
-
                 switch (s) {
                     case "1":
                         minute = 60 * 1000;
