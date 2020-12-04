@@ -79,4 +79,6 @@
     <string name="description_of_task">Description of Task</string>
     <string name="view">View</string>
     <string name="task_holder_name">Task Holder Name</string>
+    <string name="time_rate">Time Rate (%)</string>
+    <string name="time_100">Time@100%</string>
 </resources>

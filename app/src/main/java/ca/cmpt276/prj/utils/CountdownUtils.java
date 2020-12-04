@@ -1,18 +1,8 @@
 package ca.cmpt276.prj.utils;
 
-import android.content.Context;
-import android.media.MediaPlayer;
-import android.os.Build;
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
-import android.widget.Toast;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
-import ca.cmpt276.prj.ui.TimeoutActivity;
 
 public enum CountdownUtils {
     instance;
@@ -34,10 +24,6 @@ public enum CountdownUtils {
 
     public void setInterval(int interval) {
         this.interval = interval;
-    }
-
-    public int getInterval() {
-        return interval;
     }
 
 
@@ -82,6 +68,7 @@ public enum CountdownUtils {
         return isPause;
     }
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

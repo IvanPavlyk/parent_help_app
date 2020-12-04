@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
@@ -26,7 +24,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,21 +37,15 @@ import ca.cmpt276.prj.utils.CountdownUtils;
  */
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String[] duration = {"1", "2", "3","5","10","custom"};
-    private String[] timeRate = {"100","25", "50", "75",  "200", "300", "400"};
-    private int minute;
+    private final String[] duration = {"1", "2", "3","5","10","custom"};
+    private final String[] timeRate = {"100","25", "50", "75",  "200", "300", "400"};
     private double timeSpeed;
 
     private static final int mes = 0;
     @SuppressLint("StaticFieldLeak")
     private static TextView timeShow;
+    @SuppressLint("StaticFieldLeak")
     private static TextView speedShow;
-
-    private static Timer timer;
-    private static TimerTask timerTask;
-
-    private static long curTime = 0;
-    private boolean isPause = false;
 
     private static MediaPlayer mp;
 
@@ -62,7 +53,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private int progress;
 
     Button pause;
-    private CountdownUtils mCountdownUtils = CountdownUtils.instance;
+    private final CountdownUtils mCountdownUtils = CountdownUtils.instance;
     private Spinner spinner;
     private Spinner spinner1;
 
@@ -85,7 +76,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         timeShow = findViewById(R.id.show);
         speedShow=findViewById(R.id.speedShow);
 
-        countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+        countDownProgress = findViewById(R.id.countdownProgress);
         spinner = findViewById(R.id.timeDuration);
         spinner1 = findViewById(R.id.rate);
         setupDurationSpinner();
@@ -205,6 +196,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void dealInterval() {
         String r = spinner1.getSelectedItem().toString();
         String info = null;
@@ -269,9 +261,11 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
 
     // start,cancel,pause,resume
+    @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     @Override
     public void onClick(View view) {
 
+        int minute;
         switch (view.getId()) {
             case R.id.start:
                 if(mp.isPlaying()){

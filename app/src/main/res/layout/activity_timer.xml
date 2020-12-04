@@ -79,15 +79,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/rateshow"
+                    android:id="@+id/rateShow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="15dp"
-                    android:text="Time Rate (%)"
+                    android:text="@string/time_rate"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -149,7 +150,7 @@
                 android:id="@+id/speedShow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time@100%"
+                android:text="@string/time_100"
 
                 android:textSize="16sp" />
 
