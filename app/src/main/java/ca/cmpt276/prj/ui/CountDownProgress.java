@@ -1,26 +1,15 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
-import android.graphics.Shader;
-import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 
 import ca.cmpt276.prj.R;
 
@@ -29,7 +18,7 @@ public class CountDownProgress extends View {
     private static final int DEFAULT_CIRCLE_SOLIDE_COLOR = Color.parseColor("#FFFFFF");
     private static final int DEFAULT_CIRCLE_STROKE_COLOR = Color.parseColor("#D1D1D1");
     private static final int DEFAULT_CIRCLE_STROKE_WIDTH = 5;
-    private static final int DEFAULT_CIRCLE_RADIUS =100;
+    private static final int DEFAULT_CIRCLE_RADIUS = 100;
 
     private static final int PROGRESS_COLOR = Color.parseColor("#F76E6B");
     private static final int PROGRESS_WIDTH = 5;
@@ -74,18 +63,17 @@ public class CountDownProgress extends View {
     private long countdownTime;
 
 
-    private Path mPath;
-
 
     private float extraDistance = 0.7F;
+    private boolean isStart = false;
 
 
     public CountDownProgress(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public CountDownProgress(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -93,9 +81,9 @@ public class CountDownProgress extends View {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CountDownProgress);
         int indexCount = typedArray.getIndexCount();
-        for(int i=0;i<indexCount;i++){
+        for (int i = 0; i < indexCount; i++) {
             int attr = typedArray.getIndex(i);
-            switch (attr){
+            switch (attr) {
                 case R.styleable.CountDownProgress_default_circle_solide_color:
                     defaultCircleSolideColor = typedArray.getColor(attr, defaultCircleSolideColor);
                     break;
@@ -182,12 +170,12 @@ public class CountDownProgress extends View {
         int widthSize;
         int heightSize;
         int strokeWidth = Math.max(defaultCircleStrokeWidth, progressWidth);
-        if(widthMode != MeasureSpec.EXACTLY){
-            widthSize = getPaddingLeft() + defaultCircleRadius*2 + strokeWidth + getPaddingRight();
+        if (widthMode != MeasureSpec.EXACTLY) {
+            widthSize = getPaddingLeft() + defaultCircleRadius * 2 + strokeWidth + getPaddingRight();
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
         }
-        if(heightMode != MeasureSpec.EXACTLY){
-            heightSize = getPaddingTop() + defaultCircleRadius*2 + strokeWidth + getPaddingBottom();
+        if (heightMode != MeasureSpec.EXACTLY) {
+            heightSize = getPaddingTop() + defaultCircleRadius * 2 + strokeWidth + getPaddingBottom();
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
         }
 
@@ -201,166 +189,68 @@ public class CountDownProgress extends View {
         canvas.save();
         canvas.translate(getPaddingLeft(), getPaddingTop());
 
-        canvas.drawCircle(defaultCircleRadius,defaultCircleRadius,defaultCircleRadius,defaultCriclePaint);
+        canvas.drawCircle(defaultCircleRadius, defaultCircleRadius, defaultCircleRadius, defaultCriclePaint);
 
-        canvas.drawArc(new RectF(0,0,defaultCircleRadius*2,defaultCircleRadius*2),mStartSweepValue, 360*currentAngle,false,progressPaint);
+        canvas.drawArc(new RectF(0, 0, defaultCircleRadius * 2, defaultCircleRadius * 2), mStartSweepValue, 360 * currentAngle, false, progressPaint);
 
 
-        float currentDegreeFlag = 360*currentAngle + extraDistance;
-        float smallCircleX = 0,smallCircleY = 0;
+        float currentDegreeFlag = 360 * currentAngle + extraDistance;
+        float smallCircleX = 0, smallCircleY = 0;
         float hudu = (float) Math.abs(Math.PI * currentDegreeFlag / 180);
         smallCircleX = (float) Math.abs(Math.sin(hudu) * defaultCircleRadius + defaultCircleRadius);
-        smallCircleY = (float) Math.abs(defaultCircleRadius -Math.cos(hudu) * defaultCircleRadius);
+        smallCircleY = (float) Math.abs(defaultCircleRadius - Math.cos(hudu) * defaultCircleRadius);
         canvas.drawCircle(smallCircleX, smallCircleY, smallCircleRadius, smallCirclePaint);
-        canvas.drawCircle(smallCircleX, smallCircleY, smallCircleRadius - smallCircleStrokeWidth, smallCircleSolidePaint);//画小圆的实心
+        canvas.drawCircle(smallCircleX, smallCircleY, smallCircleRadius - smallCircleStrokeWidth, smallCircleSolidePaint);
 
         canvas.restore();
 
     }
 
-    protected int dp2px(int dpVal)
-    {
+    protected int dp2px(int dpVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 dpVal, getResources().getDisplayMetrics());
     }
 
-    protected int sp2px(int spVal)
-    {
+    protected int sp2px(int spVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                 spVal, getResources().getDisplayMetrics());
 
     }
 
 
-    public void setCountdownTime(long countdownTime){
+    public void setCountdownTime(long countdownTime) {
         this.countdownTime = countdownTime;
     }
 
-    public void startCountDownTime(){
+    public void startCountDownTime() {
+        isStart = true;
         setClickable(false);
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 1.0f);
-        animator.setDuration(countdownTime+1000);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.setRepeatCount(0);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                currentAngle = (float) animation.getAnimatedValue();
-            }
-        });
-        animator.start();
-//        animator.addListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//
-//                if(countdownTime > 0){
-//                    setClickable(true);
-//                }else{
-//                    setClickable(false);
-//                }
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animation) {
-//            }
-//        });
-        countdownMethod();
-    }
-
-    public void stopCountDownTime(){
-        setClickable(false);
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 1.0f);
-
-        animator.setDuration(countdownTime+1000);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.setRepeatCount(0);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                currentAngle = (float) animation.getAnimatedValue();
-            }
-        });
-        animator.pause();
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-                if(countdownTime > 0){
-                    setClickable(true);
-                }else{
-                    setClickable(false);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
-
-
-
-        countdownMethod();
-    }
-
-    private void countdownMethod(){
-        new CountDownTimer(countdownTime+1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                //         Log.e("time",countdownTime+"");
-                countdownTime = countdownTime-1000;
-                Log.e("time",countdownTime+"");
-                invalidate();
-            }
-            @Override
-            public void onFinish() {
-
-                smallCirclePaint.setColor(getResources().getColor(android.R.color.transparent));
-                smallCircleSolidePaint.setColor(getResources().getColor(android.R.color.transparent));
-                invalidate();
-            }
-        }.start();
-    }
-
-    public void setTime(long countDownTime){
-        this.countdownTime=countDownTime;
+        currentAngle = 0;
         postInvalidate();
     }
 
-    public long getTime(){
-        return countdownTime;
+    public boolean isStart() {
+        return isStart;
     }
 
-//    public interface OnCountdownFinishListener{
-//        void countdownFinished();
-//    }
+    public void setStart(boolean start) {
+        isStart = start;
+    }
 
-//    public enum Status{
-//        End,
-//        Starting
-//    }
-//    //设置Status的set/get方法
-//    public Status getStatus(){
-//        return mStatus;
-//    }
-//    public void setStatus(Status status){
-//        this.mStatus = status;
-//        invalidate();
-//    }
+    public void stopCountDownTime() {
+        isStart = false;
+        setClickable(false);
+        currentAngle = 0;
+        postInvalidate();
+    }
+
+
+    public void updateProgress(float progress) {
+        currentAngle = progress;
+        postInvalidate();
+    }
+
+
+
 }
 

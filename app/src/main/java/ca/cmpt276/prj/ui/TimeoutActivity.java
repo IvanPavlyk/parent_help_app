@@ -15,6 +15,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.utils.CountdownUtils;
 
 /**
  * TimeoutActivity responsible for the screen that lets user to start the timer for
@@ -57,7 +59,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private CountDownProgress countDownProgress;
     private int progress;
 
-
+    Button pause;
+    private CountdownUtils mCountdownUtils = CountdownUtils.instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +73,13 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
+        pause = findViewById(R.id.pause);
         findViewById(R.id.start).setOnClickListener(this);
-        findViewById(R.id.pause).setOnClickListener(this);
+        pause.setOnClickListener(this);
         findViewById(R.id.cancel).setOnClickListener(this);
-        timeShow = findViewById(R.id.show);
 
+        timeShow = findViewById(R.id.show);
+        countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
         setupDurationSpinner();
 
         mp =MediaPlayer.create(TimeoutActivity.this,R.raw.sound);
@@ -83,31 +88,40 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-    }
-
-
-
-
-    private void getTime() {
-        timerTask = new TimerTask() {
+        mCountdownUtils.setOnCountdownListener(new CountdownUtils.OnCountdownListener() {
             @Override
-            public void run() {
-                if (curTime == 0) {
-                    curTime = minute;
-                } else {
-                    curTime -= 1000;
-                }
-                Message message = new Message();
-                message.what = mes;
-                message.obj = curTime;
-                handler.sendMessage(message);
-                if(curTime==0){
-                    pushNotification();
+            public void updateTime(long duration, long curTime) {
+                timeShow.setText(timeConvert(curTime));
+                float progress = ((float) (duration - curTime)) / duration;
+                countDownProgress.updateProgress(progress);
+            }
+
+            @Override
+            public void onFinish() {
+                pushNotification();
+                mp.start();
+                Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
+
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
                 }
             }
-        };
-        timer = new Timer();
+        });
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCountdownUtils.isPause()) {
+            pause.setText("Resume");
+        } else {
+            pause.setText("Pause");
+        }
+    }
+
+
 
     private void pushNotification() {
         createNotificationChannel();
@@ -195,17 +209,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    public void destroyTimer() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-        if (timerTask != null) {
-            timerTask.cancel();
-            timerTask = null;
-        }
-    }
-
 
     // start,cancel,pause,resume
     @Override
@@ -236,9 +239,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                         timeSpeed = 0.5;
                         break;
                     case "300":
-                        timeSpeed=1/3;
+                        timeSpeed=0.33;
                     case "400":
-                        timeSpeed=1/4;
+                        timeSpeed=0.25;
                     default:
                        timeSpeed=1.00;
                         break;
@@ -250,7 +253,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 Spinner spinner = findViewById(R.id.timeDuration);
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
-                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+
                 switch (s) {
                     case "1":
                         minute = 60 * 1000;
@@ -277,36 +280,22 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                         break;
                 }
 
-                destroyTimer();
-                getTime();
-                isPause = false;
-                timer.schedule(timerTask, 0, (long) (1000*timeSpeed));
 
-//                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
+                mCountdownUtils.setDuration(minute,timeSpeed);
+                mCountdownUtils.startCountdown();
+
                 countDownProgress.setCountdownTime(minute);
-
-
-
                 countDownProgress.startCountDownTime();
-
 
                 break;
             case R.id.cancel:
                 if(mp.isPlaying()){
                     mp.pause();
                 }
-                if (curTime == 0) {
-                    break;
-                }
-                timeShow.setText(timeConvert(0));
-                curTime = 0;
-                isPause = false;
-                timer.cancel();
-                countDownProgress = (CountDownProgress) findViewById(R.id.countdownProgress);
-                countDownProgress.setCountdownTime(0*1000);
 
-                countDownProgress.startCountDownTime();
-
+                mCountdownUtils.stopCountdown();
+                countDownProgress.stopCountDownTime();
+                timeShow.setText("00:00:00");
 
                 break;
             case R.id.pause:
@@ -314,13 +303,16 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                     mp.pause();
                 }
 
-                if (curTime == 0) {
-                    break;
-                }
-
-                if (!isPause) {
-                    isPause = true;
-                    timer.cancel();
+                if (mCountdownUtils.isStart()) {
+                    if (mCountdownUtils.isPause()) {
+                        mCountdownUtils.resumeCountdown();
+                        pause.setText("Pause");
+                    } else {
+                        mCountdownUtils.pauseCountdown();
+                        pause.setText("Resume");
+                    }
+                } else {
+                    Toast.makeText(this, "Please start countdown first", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -331,29 +323,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == mes) {
-                long sRecLen = (long) msg.obj;
-                timeShow.setText(timeConvert(sRecLen));
-                if (sRecLen <= 0) {
-                    mp.start();
-                    Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
-
-                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
-                    }
-
-                    timer.cancel();
-                    curTime = 0;
-                }
-            }
-        }
-    };
 
     @Override
     protected void onDestroy() {

@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.CountDownProgress"></activity>
+        <activity android:name=".utils.CountdownUtils"></activity>
+        <activity android:name=".ui.CountDownProgress" />
         <activity android:name=".ui.HelpActivity" />
         <activity android:name=".ui.ChooseNextFlipActivity" />
         <activity
