@@ -105,6 +105,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onFinish() {
+                timeShow.setText("00:00:00");
                 pushNotification();
                 mp.start();
                 Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
@@ -247,7 +248,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putInt("Position",spinner1.getSelectedItemPosition());
 
-        editor.commit();
+        editor.apply();
 
         speedShow.setText("Time@"+info+"%");
         mCountdownUtils.setInterval((int)(timeSpeed*1000));
