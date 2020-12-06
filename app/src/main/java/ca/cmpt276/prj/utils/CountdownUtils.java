@@ -4,7 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
-//Module for countdown
+/**
+ * CountdownUtils is a tool for counting down to assist in the realization of some functions of TimeoutActivity
+ **/
+
+
 public enum CountdownUtils {
     instance;
     private int interval = 1000;

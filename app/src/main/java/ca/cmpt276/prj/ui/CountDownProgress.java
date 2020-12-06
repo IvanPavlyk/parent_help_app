@@ -13,6 +13,11 @@ import android.view.View;
 
 import ca.cmpt276.prj.R;
 
+/**
+ * CountDownProgress is used to show a graphical view of time counting down
+ * so that the child is able to see how much time is left.
+ * So as to help TimeoutActivity realize related function.
+ **/
 public class CountDownProgress extends View {
 
     private static final int DEFAULT_CIRCLE_SOLIDE_COLOR = Color.parseColor("#FFFFFF");
@@ -28,8 +33,6 @@ public class CountDownProgress extends View {
     private static final int SMALL_CIRCLE_STROKE_WIDTH = 2;
     private static final int SMALL_CIRCLE_RADIUS = 6;
 
-    private static final int TEXT_COLOR = Color.parseColor("#F76E6B");
-    private static final int TEXT_SIZE = 40;
 
     private int defaultCircleSolideColor = DEFAULT_CIRCLE_SOLIDE_COLOR;
     private int defaultCircleStrokeColor = DEFAULT_CIRCLE_STROKE_COLOR;
@@ -44,8 +47,7 @@ public class CountDownProgress extends View {
     private int smallCircleStrokeWidth = dp2px(SMALL_CIRCLE_STROKE_WIDTH);
     private int smallCircleRadius = dp2px(SMALL_CIRCLE_RADIUS);
 
-    private int textColor = TEXT_COLOR;
-    private int textSize = sp2px();
+
 
 
     private Paint defaultCirclePaint;
@@ -55,9 +57,6 @@ public class CountDownProgress extends View {
 
 
     private float currentAngle;
-
-
-    private boolean isStart = false;
 
 
     public CountDownProgress(Context context) {
@@ -106,12 +105,6 @@ public class CountDownProgress extends View {
                 case R.styleable.CountDownProgress_small_circle_radius:
                     smallCircleRadius = (int) typedArray.getDimension(attr, smallCircleRadius);
                     break;
-                case R.styleable.CountDownProgress_text_color:
-                    textColor = typedArray.getColor(attr, textColor);
-                    break;
-                case R.styleable.CountDownProgress_text_size:
-                    textSize = (int) typedArray.getDimension(attr, textSize);
-                    break;
             }
         }
         typedArray.recycle();
@@ -150,8 +143,6 @@ public class CountDownProgress extends View {
         textPaint.setAntiAlias(true);
         textPaint.setDither(true);
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(textColor);
-        textPaint.setTextSize(textSize);
     }
 
 
@@ -190,10 +181,9 @@ public class CountDownProgress extends View {
 
         float extraDistance = 0.7F;
         float currentDegreeFlag = 360 * currentAngle + extraDistance;
-        float smallCircleX = 0, smallCircleY = 0;
         float radian = (float) Math.abs(Math.PI * currentDegreeFlag / 180);
-        smallCircleX = (float) Math.abs(Math.sin(radian) * defaultCircleRadius + defaultCircleRadius);
-        smallCircleY = (float) Math.abs(defaultCircleRadius - Math.cos(radian) * defaultCircleRadius);
+        float smallCircleX = (float) Math.abs(Math.sin(radian) * defaultCircleRadius + defaultCircleRadius);
+        float smallCircleY = (float) Math.abs(defaultCircleRadius - Math.cos(radian) * defaultCircleRadius);
         canvas.drawCircle(smallCircleX, smallCircleY, smallCircleRadius, smallCirclePaint);
         canvas.drawCircle(smallCircleX, smallCircleY, smallCircleRadius - smallCircleStrokeWidth, smallCircleSolidePaint);
 
@@ -206,26 +196,14 @@ public class CountDownProgress extends View {
                 dpVal, getResources().getDisplayMetrics());
     }
 
-    protected int sp2px() {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                CountDownProgress.TEXT_SIZE, getResources().getDisplayMetrics());
-
-    }
-
-
-    public void setCountdownTime(long countdownTime) {
-
-    }
 
     public void startCountDownTime() {
-        isStart = true;
         setClickable(false);
         currentAngle = 0;
         postInvalidate();
     }
 
     public void stopCountDownTime() {
-        isStart = false;
         setClickable(false);
         currentAngle = 0;
         postInvalidate();

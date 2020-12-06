@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +30,7 @@ import ca.cmpt276.prj.utils.CountdownUtils;
 
 /**
  * TimeoutActivity responsible for the screen that lets user to start the timer for
- * the preloaded durations and also custom durations, works even when app is closed
+ * the preloaded durations and also custom durations and time rate work even when app is closed
  * and phone used for other activities
  */
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,7 +39,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private final String[] timeRate = {"100","25", "50", "75",  "200", "300", "400"};
     private double timeSpeed;
 
-    private static final int mes = 0;
     @SuppressLint("StaticFieldLeak")
     private static TextView timeShow;
     @SuppressLint("StaticFieldLeak")
@@ -61,7 +58,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setTitle("Timeout Timer");
+            bar.setTitle(R.string.Timeout);
         }
 
 
@@ -81,8 +78,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
         setupSpinner();
 
-        SharedPreferences sharedPreferences=getSharedPreferences("save",Context.MODE_PRIVATE);
-        int position=sharedPreferences.getInt("Position",0);
+        SharedPreferences sharedPreferences=getSharedPreferences(getString(R.string.save),Context.MODE_PRIVATE);
+        int position=sharedPreferences.getInt(getString(R.string.Position),0);
         dealInterval();
         spinner1.setSelection(position);
 
@@ -127,8 +124,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     private void pushNotification() {
         createNotificationChannel();
-        String CHANNEL_ID="CHANNEL_ID";
-        Uri sound=Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound);
+        String CHANNEL_ID=getString(R.string.CHANNEL);
+        Uri sound=Uri.parse(getString(R.string.android) + getPackageName() + getString(R.string.slash) + R.raw.sound);
 
         Intent intent = new Intent(this,TimeoutActivity.class);
 
@@ -153,10 +150,10 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            CharSequence name="Channel Name";
-            String description="Channel Description";
+            CharSequence name=getString(R.string.channelName);
+            String description=getString(R.string.channelDesc);
             int importance=NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel=new NotificationChannel("CHANNEL_ID",name,importance);
+            NotificationChannel channel=new NotificationChannel(getString(R.string.channelid),name,importance);
             channel.setDescription(description);
             NotificationManager notificationManager=getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);;
@@ -283,9 +280,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         int minute;
         switch (view.getId()) {
             case R.id.start:
-//                if(mp.isPlaying()){
-//                    mp.pause();
-//                }
 
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, duration);
                 String s = spinner.getSelectedItem().toString();
@@ -319,15 +313,10 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 mCountdownUtils.setDuration(minute,timeSpeed);
                 mCountdownUtils.startCountdown();
 
-                countDownProgress.setCountdownTime(minute);
                 countDownProgress.startCountDownTime();
 
                 break;
             case R.id.cancel:
-//                if(mp.isPlaying()){
-//                    mp.pause();
-//                }
-
                 mCountdownUtils.stopCountdown();
                 countDownProgress.stopCountDownTime();
                 timeShow.setText("00:00:00");
@@ -335,10 +324,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.pause:
-//                if(mp.isPlaying()){
-//                    mp.pause();
-//                }
-
                 if (mCountdownUtils.isStart()) {
                     if (mCountdownUtils.isPause()) {
                         mCountdownUtils.resumeCountdown();

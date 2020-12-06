@@ -115,6 +115,15 @@
     <string name="PracticalParent">Practical Parent</string>
     <string name="Timeup">Time up</string>
     <string name="stopalarm">Time Up! Please click here to stop alarm</string>
+    <string name="Timeout">Timeout Timer</string>
+    <string name="save">save</string>
+    <string name="Position">Position</string>
+    <string name="CHANNEL">CHANNEL_ID</string>
+    <string name="android">android.resource://</string>
+    <string name="slash">/</string>
+    <string name="channelName">Channel Name</string>
+    <string name="channelDesc">Channel Description</string>
+    <string name="channelid">CHANNEL_ID</string>
     <string-array name="spinner_items">
         <item>1</item>
         <item>2</item>
