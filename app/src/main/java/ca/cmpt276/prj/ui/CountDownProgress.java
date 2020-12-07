@@ -20,17 +20,17 @@ import ca.cmpt276.prj.R;
  **/
 public class CountDownProgress extends View {
 
-    private static final int DEFAULT_CIRCLE_SOLIDE_COLOR = Color.parseColor("#FFFFFF");
-    private static final int DEFAULT_CIRCLE_STROKE_COLOR = Color.parseColor("#D1D1D1");
+    private static final int DEFAULT_CIRCLE_SOLIDE_COLOR = Color.parseColor("red");
+    private static final int DEFAULT_CIRCLE_STROKE_COLOR = Color.parseColor("white");
     private static final int DEFAULT_CIRCLE_STROKE_WIDTH = 5;
     private static final int DEFAULT_CIRCLE_RADIUS = 100;
 
-    private static final int PROGRESS_COLOR = Color.parseColor("#F76E6B");
+    private static final int PROGRESS_COLOR = Color.parseColor("red");
     private static final int PROGRESS_WIDTH = 5;
 
-    private static final int SMALL_CIRCLE_SOLIDE_COLOR = Color.parseColor("#FFFFFF");
-    private static final int SMALL_CIRCLE_STROKE_COLOR = Color.parseColor("#F76E6B");
-    private static final int SMALL_CIRCLE_STROKE_WIDTH = 2;
+    private static final int SMALL_CIRCLE_SOLIDE_COLOR = Color.parseColor("red");
+    private static final int SMALL_CIRCLE_STROKE_COLOR = Color.parseColor("grey");
+    private static final int SMALL_CIRCLE_STROKE_WIDTH = 3;
     private static final int SMALL_CIRCLE_RADIUS = 6;
 
 
@@ -72,7 +72,8 @@ public class CountDownProgress extends View {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CountDownProgress);
         int indexCount = typedArray.getIndexCount();
-        for (int i = 0; i < indexCount; i++) {
+        int i=0;
+        while(i<indexCount){
             int attr = typedArray.getIndex(i);
             switch (attr) {
                 case R.styleable.CountDownProgress_default_circle_solide_color:
@@ -106,6 +107,7 @@ public class CountDownProgress extends View {
                     smallCircleRadius = (int) typedArray.getDimension(attr, smallCircleRadius);
                     break;
             }
+            i++;
         }
         typedArray.recycle();
         setPaint();
@@ -139,10 +141,6 @@ public class CountDownProgress extends View {
         smallCircleSolidePaint.setStyle(Paint.Style.FILL);
         smallCircleSolidePaint.setColor(smallCircleSolideColor);
 
-        Paint textPaint = new Paint();
-        textPaint.setAntiAlias(true);
-        textPaint.setDither(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
 
