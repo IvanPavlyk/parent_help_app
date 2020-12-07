@@ -171,6 +171,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     task.advanceTurn();
+                    list_view_build();
                 }
             });
 

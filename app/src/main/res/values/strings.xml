@@ -106,7 +106,7 @@
     <string name="New_Task_Dialog_Alert">New task_dialog added</string>
     <string name="Task_Dialog_Title">Task</string>
     <string name="OK">OK</string>
-    <string name="Name_Text_Front">\"It\'s \"</string>
+    <string name="Name_Text_Front">Its</string>
     <string name="Name_Text_Back">\'s turn</string>
     <string name="timeShow">00:00:00</string>
     <string name="Resume">Resume</string>
@@ -142,6 +142,12 @@
     <string name="activity_for_result_text_editchildportrait">Select portrait</string>
     <string name="toast_camera_fail_text_editchildportrait">Camera not available</string>
     <string name="toast_fail_insert_text_editchildportrait">Couldn\'t insert image</string>
+    <string name="bar_text_add_task">Task Details</string>
+    <string name="bar_text_next_flip">Choose next flipper</string>
+    <string name="toast_success_next_flip_text_coin_flip">Successfully selected child that will flip next</string>
+    <string name="bar_text_delete_task">Select one task_dialog you want to delete.</string>
+    <string name="bar_text_edit_task">Edit The task_dialog you chose.</string>
+    <string name="bar_text_help">Help Screen</string>
     <string-array name="spinner_items">
         <item>1</item>
         <item>2</item>

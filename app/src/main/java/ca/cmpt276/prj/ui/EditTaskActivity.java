@@ -30,7 +30,7 @@ public class EditTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_one);
         ActionBar actionbar1 = getSupportActionBar();
         Objects.requireNonNull(actionbar1).setDisplayHomeAsUpEnabled(true);
-        actionbar1.setTitle("Edit The task_dialog you chose.");
+        actionbar1.setTitle(R.string.bar_text_edit_task);
 
         Intent intent = getIntent();
         Task temp = Manager.getInstance().getTask(intent.getIntExtra("index", 0));

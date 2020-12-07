@@ -27,7 +27,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         ActionBar actionBar=getSupportActionBar();
         assert actionBar != null;
-        actionBar.setTitle("Task Details");
+        actionBar.setTitle(R.string.bar_text_add_task);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 

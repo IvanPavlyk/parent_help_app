@@ -29,7 +29,7 @@ public class DeleteTaskActivity extends AppCompatActivity {
 
         showEditView();
         ActionBar actionbar = getSupportActionBar();
-        Objects.requireNonNull(actionbar).setTitle("Select one task_dialog you want to delete.");
+        Objects.requireNonNull(actionbar).setTitle(R.string.bar_text_delete_task);
         actionbar.setDisplayHomeAsUpEnabled(true);
     }
 

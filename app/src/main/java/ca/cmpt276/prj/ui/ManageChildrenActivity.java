@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Base64;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -68,6 +69,9 @@ public class ManageChildrenActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context){
         return new Intent(context, ManageChildrenActivity.class);
+    }
+
+    private void setActionBarListener(){
     }
 
     private class MyListAdapter extends ArrayAdapter<Child>{
@@ -184,5 +188,14 @@ public class ManageChildrenActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         MainActivity.saveInstanceStatic(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            MainActivity.saveInstanceStatic(this);
+            finish();
+        }
+        return true;
     }
 }

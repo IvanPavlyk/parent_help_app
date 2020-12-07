@@ -35,7 +35,7 @@ public class ChooseNextFlipActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         if(bar != null){
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setTitle("Choose next flipper");
+            bar.setTitle(R.string.bar_text_next_flip);
         }
         manager = Manager.getInstance();
         setContentView(R.layout.activity_choose_next_flip);

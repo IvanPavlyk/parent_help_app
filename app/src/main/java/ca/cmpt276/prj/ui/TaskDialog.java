@@ -63,7 +63,7 @@ public class TaskDialog extends AppCompatDialogFragment {
         String task_description = bundle.getString("description", "Default Description");
 
         TextView task_holder_name_view = view.findViewById(R.id.Dialog_Task_Holder_Name);
-        task_holder_name_view.setText(getString(R.string.Name_Text_Front)+ child_name +getString(R.string.Name_Text_Back));
+        task_holder_name_view.setText(getString(R.string.Name_Text_Front)+ " " + child_name +getString(R.string.Name_Text_Back));
         TextView task_name_view = view.findViewById(R.id.Dialog_Task_Name);
         task_name_view.setText(task_name);
         TextView task_description_view = view.findViewById(R.id.Dialog_Task_Description);

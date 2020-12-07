@@ -26,6 +26,8 @@ import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Manager;
 
+import static ca.cmpt276.prj.R.string.toast_success_next_flip_text_coin_flip;
+
 /**
  * Coin Flip activity, child calls heads or tails
  * and the coin flips, displaying result of flip
@@ -169,7 +171,7 @@ public class CoinFlipActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String returnString = Objects.requireNonNull(data).getStringExtra("SELECTION");
                 if(Objects.requireNonNull(returnString).equals("CHILD")){
-                    Toast.makeText(CoinFlipActivity.this, "Successfully selected child that will flip next", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CoinFlipActivity.this, toast_success_next_flip_text_coin_flip, Toast.LENGTH_SHORT).show();
                     unhideButtons();
                     checkForChild();
                 }
