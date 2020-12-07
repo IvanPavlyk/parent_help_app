@@ -124,6 +124,24 @@
     <string name="channelName">Channel Name</string>
     <string name="channelDesc">Channel Description</string>
     <string name="channelid">CHANNEL_ID</string>
+    <string name="done_text_timeout">done</string>
+    <string name="start_countdown_text_timeout">Please start countdown first</string>
+    <string name="startup_timer_text_timeout">00:00:00</string>
+    <string name="pause_text_timeout">Pause</string>
+    <string name="resume_text_timeout">Resume</string>
+    <string name="add_child_text_addactivity">Add a child</string>
+    <string name="added_success_text_addactivity">Added child successfully</string>
+    <string name="input_valid_name_text_addactivity">Please input valid name!</string>
+    <string name="select_portrait_text_addactivity">Select portrait</string>
+    <string name="camera_not_available_text_addactivity">Camera not available</string>
+    <string name="couldnot_insert_text_addactivity">Couldn\'t insert image</string>
+    <string name="bar_title_text_managechildren">Manage Children</string>
+    <string name="alert_dialog_text_managechildren">Edit the selected name:</string>
+    <string name="bar_title_text_editchildportrait">Edit a portrait</string>
+    <string name="toast_success_add_text_editchildportrait">Edited the portrait successfully</string>
+    <string name="activity_for_result_text_editchildportrait">Select portrait</string>
+    <string name="toast_camera_fail_text_editchildportrait">Camera not available</string>
+    <string name="toast_fail_insert_text_editchildportrait">Couldn\'t insert image</string>
     <string-array name="spinner_items">
         <item>1</item>
         <item>2</item>

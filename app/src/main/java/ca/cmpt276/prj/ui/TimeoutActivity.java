@@ -28,6 +28,9 @@ import androidx.core.app.NotificationCompat;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.utils.CountdownUtils;
 
+import static ca.cmpt276.prj.R.string.done_text_timeout;
+import static ca.cmpt276.prj.R.string.start_countdown_text_timeout;
+
 /**
  * TimeoutActivity responsible for the screen that lets user to start the timer for
  * the preloaded durations and also custom durations and time rate work even when app is closed
@@ -97,7 +100,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             public void onFinish() {
                 timeShow.setText(R.string.timeShow);
                 pushNotification();
-                Toast.makeText(TimeoutActivity.this, "done", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TimeoutActivity.this, done_text_timeout, Toast.LENGTH_SHORT).show();
 
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -319,7 +322,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.cancel:
                 mCountdownUtils.stopCountdown();
                 countDownProgress.stopCountDownTime();
-                timeShow.setText("00:00:00");
+                timeShow.setText(R.string.startup_timer_text_timeout);
 
 
                 break;
@@ -327,13 +330,13 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 if (mCountdownUtils.isStart()) {
                     if (mCountdownUtils.isPause()) {
                         mCountdownUtils.resumeCountdown();
-                        pause.setText("Pause");
+                        pause.setText(R.string.pause_text_timeout);
                     } else {
                         mCountdownUtils.pauseCountdown();
-                        pause.setText("Resume");
+                        pause.setText(R.string.resume_text_timeout);
                     }
                 } else {
-                    Toast.makeText(this, "Please start countdown first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, start_countdown_text_timeout, Toast.LENGTH_SHORT).show();
                 }
 
                 break;

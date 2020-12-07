@@ -43,7 +43,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setTitle("Manage Children");
+            bar.setTitle(R.string.bar_title_text_managechildren);
         }
         setContentView(R.layout.activity_manage_children);
         manager = Manager.getInstance();
@@ -109,7 +109,7 @@ public class ManageChildrenActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Edit the selected name:");
+                    builder.setTitle(R.string.alert_dialog_text_managechildren);
                     final EditText input = new EditText(getContext());
 
                     input.setInputType(InputType.TYPE_CLASS_TEXT);

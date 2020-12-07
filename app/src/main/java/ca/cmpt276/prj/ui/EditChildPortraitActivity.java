@@ -25,6 +25,8 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Manager;
 
+import static ca.cmpt276.prj.R.string.toast_success_add_text_editchildportrait;
+
 /**
  * EditChildrenActivity is booted from the ManageChildrenActivity when user presses the portrait on the list view item
  * Lets user edit the portrait of the given child
@@ -53,7 +55,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setTitle("Edit a portrait");
+            bar.setTitle(R.string.bar_title_text_editchildportrait);
         }
         Bundle bundle = getIntent().getExtras();
         position = Objects.requireNonNull(bundle).getInt("PositionChild");
@@ -81,7 +83,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Bitmap bitmap = ((BitmapDrawable)imageViewChildPortrait.getDrawable()).getBitmap();
                 game.getChild(position).setPortrait(AddChildActivity.bitmapToString(bitmap));
-                Toast.makeText(EditChildPortraitActivity.this, "Edited the portrait successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditChildPortraitActivity.this, toast_success_add_text_editchildportrait, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -90,7 +92,7 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select portrait"), GALLERY_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.activity_for_result_text_editchildportrait)), GALLERY_REQUEST);
     }
 
     public void takePictureFromCamera(){
@@ -98,7 +100,9 @@ public class EditChildPortraitActivity extends AppCompatActivity {
         if(intent.resolveActivity(getPackageManager()) != null){
             startActivityForResult(intent, CAMERA_REQUEST);
         }
-        else Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(this, R.string.toast_camera_fail_text_editchildportrait, Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -119,7 +123,9 @@ public class EditChildPortraitActivity extends AppCompatActivity {
             Bitmap image  = (Bitmap) Objects.requireNonNull(extras).get("data");
             imageViewChildPortrait.setImageBitmap(image);
         }
-        else Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(this, R.string.toast_fail_insert_text_editchildportrait, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initializeResources() {

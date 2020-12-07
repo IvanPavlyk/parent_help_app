@@ -30,6 +30,11 @@ import ca.cmpt276.prj.model.Child;
 import ca.cmpt276.prj.model.CoinSide;
 import ca.cmpt276.prj.model.Manager;
 
+import static ca.cmpt276.prj.R.string.added_success_text_addactivity;
+import static ca.cmpt276.prj.R.string.camera_not_available_text_addactivity;
+import static ca.cmpt276.prj.R.string.couldnot_insert_text_addactivity;
+import static ca.cmpt276.prj.R.string.input_valid_name_text_addactivity;
+
 /**
  * AddChildActivity class that is booted from the ManageChildrenActivity
  * Lets user to addTask a child (name and portrait), when no image used - default is used
@@ -57,7 +62,7 @@ public class AddChildActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setTitle("Add a child");
+            bar.setTitle(R.string.add_child_text_addactivity);
         }
         setContentView(R.layout.activity_add_child);
         initializeResources();
@@ -93,10 +98,10 @@ public class AddChildActivity extends AppCompatActivity {
                 if(editTextChildName.getText().toString().length() > 0) {
                     Bitmap bitmap = ((BitmapDrawable)imageViewChildPortrait.getDrawable()).getBitmap();
                     game.appendChild(new Child(editTextChildName.getText().toString(), CoinSide.HEAD, bitmapToString(bitmap)));
-                    Toast.makeText(AddChildActivity.this, "Added child successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddChildActivity.this, added_success_text_addactivity, Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(AddChildActivity.this, "Please input valid name!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddChildActivity.this, input_valid_name_text_addactivity, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -113,7 +118,7 @@ public class AddChildActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select portrait"), GALLERY_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_portrait_text_addactivity)), GALLERY_REQUEST);
     }
 
     public void takePictureFromCamera(){
@@ -122,7 +127,7 @@ public class AddChildActivity extends AppCompatActivity {
             startActivityForResult(intent, CAMERA_REQUEST);
         }
         else{
-            Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, camera_not_available_text_addactivity, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -144,7 +149,7 @@ public class AddChildActivity extends AppCompatActivity {
             imageViewChildPortrait.setImageBitmap(image);
         }
         else{
-            Toast.makeText(this, "Couldn't insert image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, couldnot_insert_text_addactivity, Toast.LENGTH_SHORT).show();
         }
     }
 

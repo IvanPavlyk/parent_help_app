@@ -327,4 +327,10 @@ public class TakeBreathActivity extends AppCompatActivity {
             streamID = soundPool.play(exhalingSound, 1,1,1,1,1);
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        soundPool.stop(streamID);
+    }
 }
